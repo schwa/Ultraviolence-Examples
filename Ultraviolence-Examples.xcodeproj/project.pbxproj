@@ -65,6 +65,11 @@
 			path = "Ultraviolence-Examples";
 			sourceTree = "<group>";
 		};
+		458B57A22D9DB77F008ADACC /* ci_scripts */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = ci_scripts;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +87,7 @@
 		455C18FC2CD483FC009A25A6 = {
 			isa = PBXGroup;
 			children = (
+				458B57A22D9DB77F008ADACC /* ci_scripts */,
 				45D6606D2D8377EA00CD91F5 /* xcconfig */,
 				455C19072CD483FC009A25A6 /* Ultraviolence-Examples */,
 				451A02482D7F62A200909A2F /* Packages */,
