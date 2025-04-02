@@ -7,7 +7,7 @@
       "location" : "https://github.com/schwa/MetalCompilerPlugin",
       "state" : {
         "branch" : "jwight/develop",
-        "revision" : "dd95e1ebf2a8fb502645754511953fa956385f01"
+        "revision" : "72b94d29eaadab0d51b5fcf4aeafa96c51a5232c"
       }
     },
     {
@@ -52,7 +52,7 @@
       "location" : "https://github.com/schwa/Ultraviolence",
       "state" : {
         "branch" : "main",
-        "revision" : "5b4c7d76472fe25bfb28903064d45a5cbc59f7f4"
+        "revision" : "30dfdde33a843fcafdef11946edb3162dfd1808a"
       }
     }
   ],
