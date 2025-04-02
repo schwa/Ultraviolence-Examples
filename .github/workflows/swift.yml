@@ -20,7 +20,6 @@ jobs:
       - run: swift test --package-path Packages/UltraviolenceExamples -v
   xcode-build:
     env:
-      XCODE_PROJECT_PATH: "Ultraviolence-Examples.xcodeproj"
       XCODE_SCHEME: "UltraviolenceExamples"
       XCODE_CONFIGURATION: "Release"
     runs-on: macos-15 # macos-latest
@@ -31,7 +30,4 @@ jobs:
         - uses: actions/checkout@v3
           with:
             submodules: true
-        - run: xcodebuild -project "${{ env.XCODE_PROJECT_PATH }}" -scheme "${{ env.XCODE_SCHEME }}" -destination "generic/platform=macOS" -skipPackagePluginValidation build ARCHS=arm64 ONLY_ACTIVE_ARCH=NO CODE_SIGNING_ALLOWED=NO -configuration "${{ env.XCODE_CONFIGURATION }}"
-        # TODO: #71 Disable iOS builds on GitHub Actions because iOS SDK does not seem to be installed.
-        # - run: xcodebuild -project "${{ env.XCODE_PROJECT_PATH }}" -scheme "${{ env.XCODE_SCHEME }}" -destination "generic/platform=iOS" -skipPackagePluginValidation build CODE_SIGNING_ALLOWED=NO
-        # - run: xcodebuild -project "${{ env.XCODE_PROJECT_PATH }}" -scheme "${{ env.XCODE_SCHEME }}" -destination "platform=iOS Simulator,name=iPhone 16 Plus" -skipPackagePluginValidation build CODE_SIGNING_ALLOWED=NO
+        - run: xcodebuild -scheme "${{ env.XCODE_SCHEME }}" -destination "generic/platform=macOS" -skipPackagePluginValidation build ARCHS=arm64 ONLY_ACTIVE_ARCH=NO CODE_SIGNING_ALLOWED=NO -configuration "${{ env.XCODE_CONFIGURATION }}"
