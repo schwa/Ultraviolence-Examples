@@ -15,10 +15,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "455C19042CD483FC009A25A6"
-               BuildableName = "UltraviolenceDemo.app"
-               BlueprintName = "UltraviolenceDemo"
-               ReferencedContainer = "container:UltraviolenceDemo.xcodeproj">
+               BlueprintIdentifier = "45E0A1112D9DAF2D0091ED9E"
+               BuildableName = "Ultraviolence-Examples.app"
+               BlueprintName = "Ultraviolence-Examples"
+               ReferencedContainer = "container:Ultraviolence-Examples.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -59,10 +59,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "455C19042CD483FC009A25A6"
-            BuildableName = "UltraviolenceDemo.app"
-            BlueprintName = "UltraviolenceDemo"
-            ReferencedContainer = "container:UltraviolenceDemo.xcodeproj">
+            BlueprintIdentifier = "45E0A1112D9DAF2D0091ED9E"
+            BuildableName = "Ultraviolence-Examples.app"
+            BlueprintName = "Ultraviolence-Examples"
+            ReferencedContainer = "container:Ultraviolence-Examples.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <EnvironmentVariables>
@@ -83,10 +83,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "455C19042CD483FC009A25A6"
-            BuildableName = "UltraviolenceDemo.app"
-            BlueprintName = "UltraviolenceDemo"
-            ReferencedContainer = "container:UltraviolenceDemo.xcodeproj">
+            BlueprintIdentifier = "45E0A1112D9DAF2D0091ED9E"
+            BuildableName = "Ultraviolence-Examples.app"
+            BlueprintName = "Ultraviolence-Examples"
+            ReferencedContainer = "container:Ultraviolence-Examples.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

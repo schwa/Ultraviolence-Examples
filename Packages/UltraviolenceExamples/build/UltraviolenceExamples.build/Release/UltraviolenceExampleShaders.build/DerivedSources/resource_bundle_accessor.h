@@ -1,0 +1,9 @@
+#import <Foundation/Foundation.h>
+
+__BEGIN_DECLS
+
+NSBundle* UltraviolenceExamples_UltraviolenceExampleShaders_SWIFTPM_MODULE_BUNDLE(void);
+
+#define SWIFTPM_MODULE_BUNDLE UltraviolenceExamples_UltraviolenceExampleShaders_SWIFTPM_MODULE_BUNDLE()
+
+__END_DECLS

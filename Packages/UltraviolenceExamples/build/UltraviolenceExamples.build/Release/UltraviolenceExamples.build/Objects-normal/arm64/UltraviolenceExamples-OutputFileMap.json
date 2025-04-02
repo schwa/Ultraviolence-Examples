@@ -1,0 +1,350 @@
+{
+  "" : {
+    "const-values" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/UltraviolenceExamples-master.swiftconstvalues",
+    "dependencies" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/UltraviolenceExamples-master.d",
+    "diagnostics" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/UltraviolenceExamples-master.dia",
+    "emit-module-dependencies" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/UltraviolenceExamples-master-emit-module.d",
+    "emit-module-diagnostics" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/UltraviolenceExamples-master-emit-module.dia",
+    "swift-dependencies" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/UltraviolenceExamples-master.swiftdeps"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/Demos/BlinnPhongDemo/BlinnPhongDemoView.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/BlinnPhongDemoView.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/BlinnPhongDemoView.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/BlinnPhongDemoView.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/Demos/BlinnPhongDemo/ShadowMapRenderPass.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/ShadowMapRenderPass.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/ShadowMapRenderPass.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/ShadowMapRenderPass.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/Demos/BouncingTeapots/BouncingTeapots.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/BouncingTeapots.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/BouncingTeapots.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/BouncingTeapots.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/Demos/BouncingTeapots/TeapotSimulation.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/TeapotSimulation.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/TeapotSimulation.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/TeapotSimulation.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/Demos/ComputeDemoView.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/ComputeDemoView.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/ComputeDemoView.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/ComputeDemoView.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/Demos/DemoView.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/DemoView.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/DemoView.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/DemoView.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/Demos/GridShaderDemoView.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/GridShaderDemoView.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/GridShaderDemoView.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/GridShaderDemoView.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/Demos/LUT/BillboardRenderPipeline.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/BillboardRenderPipeline.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/BillboardRenderPipeline.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/BillboardRenderPipeline.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/Demos/LUT/CubeReader.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/CubeReader.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/CubeReader.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/CubeReader.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/Demos/LUT/LUT-Support.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/LUT-Support.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/LUT-Support.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/LUT-Support.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/Demos/LUT/LUTComputePipeline.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/LUTComputePipeline.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/LUTComputePipeline.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/LUTComputePipeline.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/Demos/LUT/LUTDemoView.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/LUTDemoView.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/LUTDemoView.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/LUTDemoView.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/Demos/MetalFXDemoView.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/MetalFXDemoView.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/MetalFXDemoView.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/MetalFXDemoView.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/Demos/MixedDemoView.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/MixedDemoView.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/MixedDemoView.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/MixedDemoView.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/Demos/OffscreenDemoView.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/OffscreenDemoView.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/OffscreenDemoView.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/OffscreenDemoView.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/Demos/SkyboxDemoView.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/SkyboxDemoView.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/SkyboxDemoView.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/SkyboxDemoView.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/Demos/StencilDemoView.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/StencilDemoView.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/StencilDemoView.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/StencilDemoView.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/Demos/TextureView.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/TextureView.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/TextureView.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/TextureView.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/Demos/TriangleDemoView.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/TriangleDemoView.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/TriangleDemoView.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/TriangleDemoView.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/ExampleElements/Example.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/Example.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/Example.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/Example.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/ExampleElements/MemcpyComputeDemo.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/MemcpyComputeDemo.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/MemcpyComputeDemo.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/MemcpyComputeDemo.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/ExampleElements/MixedExample.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/MixedExample.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/MixedExample.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/MixedExample.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/ExampleElements/RedTriangle.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/RedTriangle.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/RedTriangle.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/RedTriangle.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/ExampleElements/RedTriangleInline.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/RedTriangleInline.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/RedTriangleInline.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/RedTriangleInline.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/ExampleElements/TeapotDemo.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/TeapotDemo.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/TeapotDemo.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/TeapotDemo.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/ExampleElements/Texture2DSpecifier.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/Texture2DSpecifier.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/Texture2DSpecifier.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/Texture2DSpecifier.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/ExampleElements/TraditionalRedTriangle.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/TraditionalRedTriangle.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/TraditionalRedTriangle.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/TraditionalRedTriangle.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/GaussianSplatSupport/GaussianSplatDemoView.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/GaussianSplatDemoView.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/GaussianSplatDemoView.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/GaussianSplatDemoView.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/GaussianSplatSupport/GaussianSplatRenderPipeline.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/GaussianSplatRenderPipeline.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/GaussianSplatRenderPipeline.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/GaussianSplatRenderPipeline.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/GaussianSplatSupport/Sorting/AsyncSortManager.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/AsyncSortManager.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/AsyncSortManager.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/AsyncSortManager.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/GaussianSplatSupport/Sorting/CPURadixSort.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/CPURadixSort.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/CPURadixSort.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/CPURadixSort.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/GaussianSplatSupport/Sorting/CPUSplatRadixSorter.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/CPUSplatRadixSorter.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/CPUSplatRadixSorter.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/CPUSplatRadixSorter.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/GaussianSplatSupport/Splats/Antimatter15Splat.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/Antimatter15Splat.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/Antimatter15Splat.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/Antimatter15Splat.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/GaussianSplatSupport/Splats/GPUSplat.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/GPUSplat.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/GPUSplat.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/GPUSplat.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/GaussianSplatSupport/Splats/GenericSplat.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/GenericSplat.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/GenericSplat.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/GenericSplat.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/GaussianSplatSupport/Splats/SortableSplatProtocol.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/SortableSplatProtocol.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/SortableSplatProtocol.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/SortableSplatProtocol.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/GaussianSplatSupport/Splats/SplatCloud.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/SplatCloud.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/SplatCloud.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/SplatCloud.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/GaussianSplatSupport/Splats/Splats+Transferable.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/Splats+Transferable.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/Splats+Transferable.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/Splats+Transferable.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/GaussianSplatSupport/SuperDownloadWidget.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/SuperDownloadWidget.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/SuperDownloadWidget.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/SuperDownloadWidget.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/GaussianSplatSupport/SuperFilePickerModifier.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/SuperFilePickerModifier.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/SuperFilePickerModifier.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/SuperFilePickerModifier.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/Interaction/ArcBall.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/ArcBall.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/ArcBall.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/ArcBall.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/Interaction/CameraControllerModifier.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/CameraControllerModifier.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/CameraControllerModifier.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/CameraControllerModifier.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/Interaction/DraggableValueViewModifier.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/DraggableValueViewModifier.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/DraggableValueViewModifier.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/DraggableValueViewModifier.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/Interaction/GameControllerModifier.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/GameControllerModifier.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/GameControllerModifier.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/GameControllerModifier.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/Interaction/RTSControllerModifier.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/RTSControllerModifier.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/RTSControllerModifier.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/RTSControllerModifier.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/Interaction/SlidersOverlayCameraController.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/SlidersOverlayCameraController.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/SlidersOverlayCameraController.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/SlidersOverlayCameraController.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/Interaction/TurntableCameraController.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/TurntableCameraController.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/TurntableCameraController.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/TurntableCameraController.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/Interaction/WorldView.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/WorldView.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/WorldView.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/WorldView.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/ReuseableElements/BlinnPhongShader+Support.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/BlinnPhongShader+Support.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/BlinnPhongShader+Support.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/BlinnPhongShader+Support.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/ReuseableElements/BlinnPhongShader.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/BlinnPhongShader.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/BlinnPhongShader.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/BlinnPhongShader.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/ReuseableElements/CheckerboardKernel.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/CheckerboardKernel.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/CheckerboardKernel.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/CheckerboardKernel.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/ReuseableElements/CircleGridKernel.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/CircleGridKernel.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/CircleGridKernel.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/CircleGridKernel.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/ReuseableElements/DepthShader.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/DepthShader.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/DepthShader.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/DepthShader.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/ReuseableElements/EdgeDetectionKernel.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/EdgeDetectionKernel.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/EdgeDetectionKernel.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/EdgeDetectionKernel.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/ReuseableElements/FlatShader.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/FlatShader.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/FlatShader.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/FlatShader.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/ReuseableElements/LUT.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/LUT.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/LUT.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/LUT.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/ReuseableElements/LambertianShader.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/LambertianShader.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/LambertianShader.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/LambertianShader.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/Support/AngleF.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/AngleF.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/AngleF.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/AngleF.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/Support/CaseStyle.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/CaseStyle.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/CaseStyle.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/CaseStyle.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/Support/Composite.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/Composite.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/Composite.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/Composite.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/Support/Logging.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/Logging.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/Logging.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/Logging.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/Support/Once.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/Once.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/Once.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/Once.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/Support/Projection.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/Projection.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/Projection.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/Projection.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/Support/SIMDSupport.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/SIMDSupport.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/SIMDSupport.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/SIMDSupport.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/Support/Support.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/Support.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/Support.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/Support.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/Support/TimingFunction.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/TimingFunction.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/TimingFunction.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/TimingFunction.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/Support/Transforms.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/Transforms.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/Transforms.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/Transforms.o"
+  },
+  "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExamples/Support/TypedMTLBuffer.swift" : {
+    "index-unit-output-path" : "/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/TypedMTLBuffer.o",
+    "llvm-bc" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/TypedMTLBuffer.bc",
+    "object" : "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/build/UltraviolenceExamples.build/Release/UltraviolenceExamples.build/Objects-normal/arm64/TypedMTLBuffer.o"
+  }
+}

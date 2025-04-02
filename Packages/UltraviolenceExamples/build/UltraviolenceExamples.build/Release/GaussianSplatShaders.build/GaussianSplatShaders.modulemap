@@ -1,0 +1,4 @@
+module GaussianSplatShaders {
+umbrella header "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/GaussianSplatShaders/include/GaussianSplatShaders.h"
+export *
+}

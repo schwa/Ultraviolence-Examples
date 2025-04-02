@@ -1,7 +1,7 @@
 import SwiftUI
 
 @main
-struct UltraviolenceDemoApp: App {
+struct UltraviolenceExamplesApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()

@@ -1,0 +1,4 @@
+module UltraviolenceExampleShaders {
+umbrella header "/Users/schwa/Shared/Projects/Ultraviolence-Examples/Packages/UltraviolenceExamples/Sources/UltraviolenceExampleShaders/include/UltraviolenceExampleShaders.h"
+export *
+}
