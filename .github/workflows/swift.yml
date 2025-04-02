@@ -1,0 +1,38 @@
+# This workflow will build a Swift project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-swift
+
+name: Swift
+env:
+    XCODE_VERSION: "latest-stable"
+on:
+  push:
+  pull_request:
+jobs:
+  swift-build:
+    runs-on: macos-15 # macos-latest
+    steps:
+      - uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: ${{ env.XCODE_VERSION }}
+      - uses: actions/checkout@v3
+      - name: Trust plugins
+        run: defaults write com.apple.dt.Xcode IDESkipPackagePluginFingerprintValidation -bool YES
+      - run: swift build -v
+      - run: swift test -v
+  xcode-build:
+    env:
+      XCODE_PROJECT_PATH: "Ultraviolence-Examples.xcodeproj"
+      XCODE_SCHEME: "UltraviolenceExamples"
+      XCODE_CONFIGURATION: "Release"
+    runs-on: macos-15 # macos-latest
+    steps:
+        - uses: maxim-lobanov/setup-xcode@v1
+          with:
+            xcode-version: ${{ env.XCODE_VERSION }}
+        - uses: actions/checkout@v3
+          with:
+            submodules: true
+        - run: xcodebuild -project "${{ env.XCODE_PROJECT_PATH }}" -scheme "${{ env.XCODE_SCHEME }}" -destination "generic/platform=macOS" -skipPackagePluginValidation build ARCHS=arm64 ONLY_ACTIVE_ARCH=NO CODE_SIGNING_ALLOWED=NO -configuration "${{ env.XCODE_CONFIGURATION }}"
+        # TODO: #71 Disable iOS builds on GitHub Actions because iOS SDK does not seem to be installed.
+        # - run: xcodebuild -project "${{ env.XCODE_PROJECT_PATH }}" -scheme "${{ env.XCODE_SCHEME }}" -destination "generic/platform=iOS" -skipPackagePluginValidation build CODE_SIGNING_ALLOWED=NO
+        # - run: xcodebuild -project "${{ env.XCODE_PROJECT_PATH }}" -scheme "${{ env.XCODE_SCHEME }}" -destination "platform=iOS Simulator,name=iPhone 16 Plus" -skipPackagePluginValidation build CODE_SIGNING_ALLOWED=NO
