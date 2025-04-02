@@ -1,4 +1,4 @@
-#if os(macOS) && !arch(x86_64)
+#if os(iOS) || (os(macOS) && !arch(x86_64))
 import Foundation
 import GaussianSplatShaders
 import Metal
@@ -87,4 +87,4 @@ public struct GaussianSplatRenderPipeline: Element {
         }
     }
 }
-#endif // os(macOS) && !arch(x86_64)
+#endif // os(iOS) || (os(macOS) && !arch(x86_64))

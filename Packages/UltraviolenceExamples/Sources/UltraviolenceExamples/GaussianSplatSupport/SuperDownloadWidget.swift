@@ -1,4 +1,4 @@
-#if os(macOS) && !arch(x86_64)
+#if os(iOS) || (os(macOS) && !arch(x86_64))
 import SwiftUI
 
 internal struct SuperDownloadWidget <Label>: View where Label: View {
@@ -72,6 +72,11 @@ internal struct SuperDownloadWidget <Label>: View where Label: View {
                                 }
                             }
                         }
+                        #if os(iOS)
+                        Button("Done") {
+                            isPopoverPresented = false
+                        }
+                        #endif
                     }
                 }
                 .frame(minWidth: 320, minHeight: 240)
@@ -151,4 +156,4 @@ extension UserDefaults {
         set(urls.map(\.absoluteString), forKey: key)
     }
 }
-#endif // os(macOS) && !arch(x86_64)
+#endif // os(iOS) || (os(macOS) && !arch(x86_64))

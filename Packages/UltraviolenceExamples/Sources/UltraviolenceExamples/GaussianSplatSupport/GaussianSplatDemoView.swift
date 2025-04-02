@@ -1,4 +1,4 @@
-#if os(macOS) && !arch(x86_64)
+#if os(iOS) || (os(macOS) && !arch(x86_64))
 import GaussianSplatShaders
 internal import os
 import SwiftUI
@@ -157,4 +157,4 @@ extension EnvironmentValues {
     @Entry
     var superdownloadWidgetBookmarks: [URL] = []
 }
-#endif // os(macOS) && !arch(x86_64)
+#endif // os(iOS) || (os(macOS) && !arch(x86_64))
