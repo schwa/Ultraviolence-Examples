@@ -1,4 +1,0 @@
-module UltraviolenceExamples {
-header "UltraviolenceExamples-Swift.h"
-export *
-}

@@ -5,27 +5,31 @@ struct ContentView: View {
     @State
     private var page: Page?
 
+    private var splatsOnly = true
+
     var body: some View {
         NavigationSplitView {
             List(selection: $page) {
 #if os(iOS) || (os(iOS) || (os(macOS) && !arch(x86_64)))
                 row(for: GaussianSplatDemoView.self)
 #endif // os(iOS) || (os(macOS) && !arch(x86_64))
-                row(for: BlinnPhongDemoView.self)
-                row(for: GridShaderDemoView.self)
-                row(for: SkyboxDemoView.self)
-                row(for: MixedDemoView.self)
-                row(for: TriangleDemoView.self)
-                #if canImport(AppKit)
-                row(for: OffscreenDemoView.self)
-                #endif
-                row(for: ComputeDemoView.self)
-                row(for: BouncingTeapotsDemoView.self)
-                row(for: StencilDemoView.self)
-                row(for: LUTDemoView.self)
-                #if canImport(MetalFX)
-                row(for: MetalFXDemoView.self)
-                #endif
+                if !splatsOnly {
+                    row(for: BlinnPhongDemoView.self)
+                    row(for: GridShaderDemoView.self)
+                    row(for: SkyboxDemoView.self)
+                    row(for: MixedDemoView.self)
+                    row(for: TriangleDemoView.self)
+#if canImport(AppKit)
+                    row(for: OffscreenDemoView.self)
+#endif
+                    row(for: ComputeDemoView.self)
+                    row(for: BouncingTeapotsDemoView.self)
+                    row(for: StencilDemoView.self)
+                    row(for: LUTDemoView.self)
+#if canImport(MetalFX)
+                    row(for: MetalFXDemoView.self)
+#endif
+                }
             }
         } detail: {
             if let page {

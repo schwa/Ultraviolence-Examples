@@ -20,6 +20,16 @@ internal struct SuperFilePickerModifier <T>: ViewModifier where T: Transferable 
                 Button("Open…") {
                     isFileImporterPresented = true
                 }
+                Menu("Open in Bundle") {
+                    ForEach(findAll(), id: \.self) { url in
+                        Button(url.lastPathComponent) {
+                            Task {
+                                let items = try await T(importing: url, contentType: nil)
+                                try callback(.success([items]))
+                            }
+                        }
+                    }
+                }
             }
             .dropDestination(for: T.self) { items, _ in
                 do {
@@ -48,5 +58,15 @@ internal struct SuperFilePickerModifier <T>: ViewModifier where T: Transferable 
                     _ = try? callback(.failure(error))
                 }
             }
+    }
+
+    func findAll() -> [URL] {
+        try! FileManager.default.contentsOfDirectory(at: Bundle.main.resourceURL!, includingPropertiesForKeys: [.contentTypeKey], options: [])
+        .filter { url in
+            guard let contentType = try? url.resourceValues(forKeys: [.contentTypeKey]).contentType else {
+                return false
+            }
+            return T.importedContentTypes().contains { contentType.conforms(to: $0) }
+        }
     }
 }
