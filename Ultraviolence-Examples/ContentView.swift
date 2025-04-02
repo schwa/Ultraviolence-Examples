@@ -5,7 +5,7 @@ struct ContentView: View {
     @State
     private var page: Page?
 
-    private var splatsOnly = true
+    private var splatsOnly = false
 
     var body: some View {
         NavigationSplitView {
