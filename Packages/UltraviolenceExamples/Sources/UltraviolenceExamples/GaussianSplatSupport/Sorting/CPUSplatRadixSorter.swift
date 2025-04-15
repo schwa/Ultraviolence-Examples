@@ -4,13 +4,13 @@ import GaussianSplatShaders
 internal import os
 import simd
 
-private let signposter: OSSignposter? = .init(subsystem: "io.schwa.ultraviolence-examples", category: OSLog.Category.pointsOfInterest)
+private let signposter: OSSignposter = .init(subsystem: "io.schwa.ultraviolence-examples", category: OSLog.Category.pointsOfInterest)
 
 internal class CPUSplatRadixSorter <Splat> where Splat: SortableSplatProtocol {
     private var device: MTLDevice
     private var temporaryIndexedDistances: [IndexedDistance]
     private var capacity: Int
-    private var signpost = signposter?.makeSignpostID()
+    private var signpost = signposter.makeSignpostID()
 
     internal init(device: MTLDevice, capacity: Int) {
         self.device = device

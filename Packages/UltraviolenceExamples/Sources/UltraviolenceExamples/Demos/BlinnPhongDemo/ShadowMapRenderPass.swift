@@ -82,7 +82,7 @@ func cameraMatrixForShadowMap(face: Int, lightPosition: SIMD3<Float>) -> float4x
     return lookAtMatrix(eye: lightPosition, target: target, up: up)
 }
 
-func lookAtMatrix(eye: SIMD3<Float>, target: SIMD3<Float>, up: SIMD3<Float>) -> float4x4 {
+public func lookAtMatrix(eye: SIMD3<Float>, target: SIMD3<Float>, up: SIMD3<Float>) -> float4x4 {
     let forward = normalize(target - eye)
     let right = normalize(cross(forward, up))
     let newUp = cross(right, forward)

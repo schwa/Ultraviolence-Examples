@@ -38,6 +38,21 @@ let package = Package(
             ]
         ),
 
+
+        .executableTarget(
+            name: "UltraviolenceCLI",
+            dependencies: [
+                "Ultraviolence",
+                .product(name: "UltraviolenceSupport", package: "Ultraviolence"),
+                "UltraviolenceExamples",
+            ],
+            resources: [
+                .copy("Teapot.usdz")
+            ],
+        ),
+
+
+
         .target(
             name: "GaussianSplatShaders",
             exclude: [

@@ -8,7 +8,7 @@ import UniformTypeIdentifiers
 
 public enum RedTriangleInline {
     @MainActor
-    static func main() throws -> MTLTexture {
+    public static func main() throws -> MTLTexture {
         let source = """
         #include <metal_stdlib>
         using namespace metal;

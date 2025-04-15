@@ -1,5 +1,5 @@
 {
-  "originHash" : "83566ab3c03dc5d90095c20c6137828bc4a3267112484163aedf460e93de9141",
+  "originHash" : "7ee678992821343f94c5939930639b4acfe7a0f0dd32c1955ba6c4ebd88c5db4",
   "pins" : [
     {
       "identity" : "metalcompilerplugin",
@@ -52,7 +52,7 @@
       "location" : "https://github.com/schwa/Ultraviolence",
       "state" : {
         "branch" : "main",
-        "revision" : "5b4c7d76472fe25bfb28903064d45a5cbc59f7f4"
+        "revision" : "f8a719f81e272f096b99e551467a5ae30e865777"
       }
     }
   ],
