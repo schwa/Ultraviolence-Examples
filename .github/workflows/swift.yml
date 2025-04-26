@@ -17,7 +17,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: Trust plugins
         run: defaults write com.apple.dt.Xcode IDESkipPackagePluginFingerprintValidation -bool YES
-      - run: swift test --package-path Packages/UltraviolenceExamples -v
+      - run: swift test --package-path Packages/UltraviolenceExamples -v      
   xcode-build:
     env:
       XCODE_SCHEME: "UltraviolenceExamples"
@@ -30,4 +30,6 @@ jobs:
         - uses: actions/checkout@v3
           with:
             submodules: true
+        - name: Trust plugins
+          run: defaults write com.apple.dt.Xcode IDESkipPackagePluginFingerprintValidation -bool YES
         - run: xcodebuild -scheme "${{ env.XCODE_SCHEME }}" -destination "generic/platform=macOS" -skipPackagePluginValidation build ARCHS=arm64 ONLY_ACTIVE_ARCH=NO CODE_SIGNING_ALLOWED=NO -configuration "${{ env.XCODE_CONFIGURATION }}"
