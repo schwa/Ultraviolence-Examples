@@ -12,7 +12,7 @@
     static NSBundle *moduleBundle = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        NSString *bundleName = @"Ultraviolence_UltraviolenceExampleShaders";
+        NSString *bundleName = @"UltraviolenceExamples_UltraviolenceExampleShaders";
 
         NSMutableArray<NSURL *> *overrides = [NSMutableArray array];
 
