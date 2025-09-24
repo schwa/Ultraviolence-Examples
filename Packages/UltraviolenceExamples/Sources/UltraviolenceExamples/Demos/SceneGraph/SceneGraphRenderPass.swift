@@ -12,8 +12,9 @@ struct SceneGraphRenderPass: Element {
     var cameraMatrix: simd_float4x4
     var projectionMatrix: simd_float4x4
     var lighting: Lighting
+    var environmentTexture: MTLTexture
 
-    init(sceneGraph: SceneGraph, cameraMatrix: simd_float4x4, projectionMatrix: simd_float4x4) throws {
+    init(sceneGraph: SceneGraph, cameraMatrix: simd_float4x4, projectionMatrix: simd_float4x4, environmentTexture: MTLTexture) throws {
         self.sceneGraph = sceneGraph
         self.cameraMatrix = cameraMatrix
         self.projectionMatrix = projectionMatrix
@@ -32,6 +33,7 @@ struct SceneGraphRenderPass: Element {
         else {
             self.lighting = try .init(ambientLightColor: [1, 1, 1], lights: lights)
         }
+        self.environmentTexture = environmentTexture
     }
 
     var body: some Element {
@@ -85,8 +87,10 @@ struct SceneGraphRenderPass: Element {
                         }
                         .pbrMaterial(material)
                         .pbrUniforms(modelTransform: node.transform, cameraMatrix: cameraMatrix, projectionMatrix: projectionMatrix)
+                        
                     }
                 }
+                .pbrEnvironment(environmentTexture)
                 .lighting(lighting)
             }
             .vertexDescriptor(.default)

@@ -10,6 +10,8 @@ import MetalKit
 import SwiftGLTF
 import UltraviolenceExampleShaders
 import UltraviolenceSupport
+import CoreImage
+import CoreImage.CIFilterBuiltins
 
 // swiftlint:disable discouraged_optional_collection
 
@@ -29,7 +31,7 @@ class GLTGSceneGraphGenerator {
 
     func generateSceneGraph() throws -> SceneGraph {
         let sceneGraph = SceneGraph(root: .init())
-        let scene = try document.scene.map { try $0.resolve(in: document) } ?? document.scenes.first.orThrow(.generic("Document has no default scene and no scenes"))
+        let scene = try document.scene.map { try $0.resolve(in: document) } ?? document.scenes.first!
         try scene.nodes
             .map { try $0.resolve(in: document) }
             .map { try generateSceneGraphNode(from: $0) }
@@ -51,13 +53,13 @@ class GLTGSceneGraphGenerator {
             uvNode.transform = matrix
         }
         if let translation = node.translation {
-            fatalError("Unimplemented")
+            //            fatalError()
         }
         if let rotation = node.rotation {
-            fatalError("Unimplemented")
+            // fatalError()
         }
         if let scale = node.scale {
-            fatalError("Unimplemented")
+            // fatalError()
         }
         try node.children.map { try $0.resolve(in: document) }.map { try generateSceneGraphNode(from: $0) }.forEach { node in
             node.parent = uvNode
@@ -68,7 +70,7 @@ class GLTGSceneGraphGenerator {
 
     func update(node: SceneGraph.Node, from mesh: SwiftGLTF.Mesh) throws {
         // assert(mesh.primitives.count == 1)
-        let primitive = try mesh.primitives.first.orThrow(.generic("Mesh has no primitives"))
+        let primitive = mesh.primitives.first!
 
         let semantics: [SwiftGLTF.Mesh.Primitive.Semantic] = [
             .POSITION,
@@ -135,12 +137,15 @@ class GLTGSceneGraphGenerator {
             uvMaterial.roughness = .color(pbrMetallicRoughness.roughnessFactor)
             if let textureInfo = pbrMetallicRoughness.baseColorTexture {
                 let mtlTexture = try mtlTexture(for: textureInfo)
-                uvMaterial.albedo = .texture2D(mtlTexture)
+                uvMaterial.albedo = .texture2D(mtlTexture.labeled("Albedo"))
             }
             if let textureInfo = pbrMetallicRoughness.metallicRoughnessTexture {
                 let mtlTexture = try mtlTexture(for: textureInfo)
-                uvMaterial.metallic = .texture2D(mtlTexture)
-                uvMaterial.roughness = .texture2D(mtlTexture)
+                
+
+
+                uvMaterial.metallic = .texture2D(mtlTexture.redChannel().labeled("Metallic"))
+                uvMaterial.roughness = .texture2D(mtlTexture.greenChannel().labeled("Roughness"))
             }
         }
 
@@ -151,7 +156,7 @@ class GLTGSceneGraphGenerator {
 extension GLTGSceneGraphGenerator {
     func mtlTexture(for textureInfo: TextureInfo) throws -> MTLTexture {
         let texture = try textureInfo.index.resolve(in: document)
-        let source = try texture.source.orThrow(.generic("Cannot get source for texture")).resolve(in: document)
+        let source = try texture.source!.resolve(in: document)
         let data = try container.data(for: source)
         let image = try CGImage.image(with: data)
         return try textureLoader.newTexture(cgImage: image, options: [:])
@@ -172,9 +177,9 @@ extension Container {
 
 extension CGImage {
     static func image(with data: Data) throws -> CGImage {
-        let source = try CGImageSourceCreateWithData(data as CFData, nil).orThrow(.resourceCreationFailure("Could not create CGImageSource"))
+        let source = CGImageSourceCreateWithData(data as CFData, nil)!
         let image = CGImageSourceCreateImageAtIndex(source, 0, nil)
-        return try image.orThrow(.resourceCreationFailure("Could not create CGImage from data") )
+        return image!
     }
 }
 
@@ -259,5 +264,60 @@ extension SIMD where Scalar == Float {
             return false
         }
         return true
+    }
+}
+
+extension MTLTexture {
+
+    func redChannel() -> MTLTexture {
+        let ciImage = CIImage(mtlTexture: self)
+        let filter = CIFilter.colorMatrix()
+        filter.inputImage = ciImage
+        filter.rVector = CIVector(x: 1, y: 0, z: 0, w: 0)
+        filter.gVector = CIVector(x: 0, y: 0, z: 0, w: 0)
+        filter.bVector = CIVector(x: 0, y: 0, z: 0, w: 0)
+        filter.aVector = CIVector(x: 0, y: 0, z: 0, w: 1)
+
+        let outputImage = filter.outputImage!
+        let device = _MTLCreateSystemDefaultDevice()
+        let context = CIContext(mtlDevice: device)
+        let outputTextDescriptor = MTLTextureDescriptor.texture2DDescriptor(pixelFormat: .r8Unorm, width: self.width, height: self.height, mipmapped: false)
+        outputTextDescriptor.usage = [.shaderRead, .shaderWrite, .renderTarget]
+        let outputTexture = device.makeTexture(descriptor: outputTextDescriptor)!
+
+        let commandQueue = device.makeCommandQueue()!
+        let commandBuffer = commandQueue.makeCommandBuffer()!
+
+        let colorSpace = CGColorSpaceCreateDeviceGray()
+        context.render(outputImage, to: outputTexture, commandBuffer: commandBuffer, bounds: CGRect(x: 0, y: 0, width: self.width, height: self.height), colorSpace: colorSpace)
+        commandBuffer.commit()
+        commandBuffer.waitUntilCompleted()
+        return outputTexture
+    }
+
+    func greenChannel() -> MTLTexture {
+        let ciImage = CIImage(mtlTexture: self)
+        let filter = CIFilter.colorMatrix()
+        filter.inputImage = ciImage
+        filter.rVector = CIVector(x: 0, y: 0, z: 0, w: 0)
+        filter.gVector = CIVector(x: 0, y: 1, z: 0, w: 0)
+        filter.bVector = CIVector(x: 0, y: 0, z: 0, w: 0)
+        filter.aVector = CIVector(x: 0, y: 0, z: 0, w: 1)
+
+        let outputImage = filter.outputImage!
+        let device = _MTLCreateSystemDefaultDevice()
+        let context = CIContext(mtlDevice: device)
+        let outputTextDescriptor = MTLTextureDescriptor.texture2DDescriptor(pixelFormat: .r8Unorm, width: self.width, height: self.height, mipmapped: false)
+        outputTextDescriptor.usage = [.shaderRead, .shaderWrite, .renderTarget]
+        let outputTexture = device.makeTexture(descriptor: outputTextDescriptor)!
+
+        let commandQueue = device.makeCommandQueue()!
+        let commandBuffer = commandQueue.makeCommandBuffer()!
+
+        let colorSpace = CGColorSpaceCreateDeviceGray()
+        context.render(outputImage, to: outputTexture, commandBuffer: commandBuffer, bounds: CGRect(x: 0, y: 0, width: self.width, height: self.height), colorSpace: colorSpace)
+        commandBuffer.commit()
+        commandBuffer.waitUntilCompleted()
+        return outputTexture
     }
 }
