@@ -43,7 +43,7 @@ public struct SceneGraphDemoView: View {
     public var body: some View {
         WorldView(projection: $projection, cameraMatrix: $cameraMatrix, targetMatrix: .constant(nil)) {
             RenderView { _, drawableSize in
-                try SceneGraphRenderPass(sceneGraph: sceneGraph, cameraMatrix: cameraMatrix, projectionMatrix: projection.projectionMatrix(for: drawableSize), environmentTexture: environmentTexture)
+                SceneGraphRenderPass(sceneGraph: sceneGraph, cameraMatrix: cameraMatrix, projectionMatrix: projection.projectionMatrix(for: drawableSize), environmentTexture: environmentTexture)
             }
             .metalDepthStencilPixelFormat(.depth32Float)
             .panel(id: "SceneGraphEditorView", label: "Scene Graph") {
@@ -62,10 +62,10 @@ struct SceneGraphEditorView: View {
     var body: some View {
         List([sceneGraph.root], children: \.listChildren, selection: $selectedNode) { node in
             VStack {
-                Text("Node: \(String(describing: node.label))")
+                Text("Node: \(node.label)")
                 if selectedNode == node.id {
                     LabeledContent("Transform") {
-                        Text("\(String(describing: node.transform))")
+                        Text("\(node.transform)")
                     }
                     LabeledContent("Camera") {
                         Text("\(node.camera != nil ? "Yes" : "No")")

@@ -19,11 +19,10 @@ struct GLTFFilePickerView: View {
     var body: some View {
         NavigationView {
             List(filteredFiles, id: \.self) { fileURL in
-                Button {
+                Button(action: {
                     selectedURL = fileURL
                     isPresented = false
-                }
-                label: {
+                }) {
                     HStack {
                         Image(systemName: fileURL.pathExtension.lowercased() == "glb" ? "cube.fill" : "doc.text.fill")
                             .foregroundColor(.accentColor)
