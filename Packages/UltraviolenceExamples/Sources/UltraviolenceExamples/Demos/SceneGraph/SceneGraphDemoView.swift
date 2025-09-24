@@ -6,6 +6,7 @@ import SwiftUI
 import Ultraviolence
 import UltraviolenceSupport
 import UltraviolenceUI
+import MetalKit
 
 public struct SceneGraphDemoView: View {
     let sceneGraph: SceneGraph
@@ -16,19 +17,33 @@ public struct SceneGraphDemoView: View {
     @State
     private var cameraMatrix = simd_float4x4(translation: [0, 2, 5])
 
+    let environmentTexture: MTLTexture
+
+
     public init() {
         let device = _MTLCreateSystemDefaultDevice()
-        sceneGraph = SceneGraph.demo(device: device)
+        let sceneGraph = SceneGraph.demo(device: device)
+        self.init(sceneGraph: sceneGraph)
     }
 
     internal init(sceneGraph: SceneGraph) {
         self.sceneGraph = sceneGraph
+
+        let device = _MTLCreateSystemDefaultDevice()
+        let textureLoader = MTKTextureLoader(device: device)
+        let envURL = Bundle.module.url(forResource: "IndoorEnvironmentHDRI013_1K-HDR", withExtension: "exr")!
+        environmentTexture = try! textureLoader.newTexture(URL: envURL, options: [
+            .textureUsage: MTLTextureUsage.shaderRead.rawValue,
+            .textureStorageMode: MTLStorageMode.private.rawValue,
+            .generateMipmaps: true,
+            .SRGB: false
+        ])
     }
 
     public var body: some View {
         WorldView(projection: $projection, cameraMatrix: $cameraMatrix, targetMatrix: .constant(nil)) {
             RenderView { _, drawableSize in
-                try SceneGraphRenderPass(sceneGraph: sceneGraph, cameraMatrix: cameraMatrix, projectionMatrix: projection.projectionMatrix(for: drawableSize))
+                try SceneGraphRenderPass(sceneGraph: sceneGraph, cameraMatrix: cameraMatrix, projectionMatrix: projection.projectionMatrix(for: drawableSize), environmentTexture: environmentTexture)
             }
             .metalDepthStencilPixelFormat(.depth32Float)
             .panel(id: "SceneGraphEditorView", label: "Scene Graph") {
