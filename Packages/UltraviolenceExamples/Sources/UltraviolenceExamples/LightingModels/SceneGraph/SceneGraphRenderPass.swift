@@ -14,7 +14,7 @@ struct SceneGraphRenderPass: Element {
     var lighting: Lighting
     var environmentTexture: MTLTexture
 
-    init(sceneGraph: SceneGraph, cameraMatrix: simd_float4x4, projectionMatrix: simd_float4x4, environmentTexture: MTLTexture) throws {
+    init(sceneGraph: SceneGraph, cameraMatrix: simd_float4x4, projectionMatrix: simd_float4x4, environmentTexture: MTLTexture) {
         self.sceneGraph = sceneGraph
         self.cameraMatrix = cameraMatrix
         self.projectionMatrix = projectionMatrix
@@ -28,10 +28,10 @@ struct SceneGraphRenderPass: Element {
             return (node.transform.translation, light)
         }
         if lights.isEmpty {
-            self.lighting = try Lighting.demo()
+            self.lighting = try! Lighting.demo()
         }
         else {
-            self.lighting = try .init(ambientLightColor: [1, 1, 1], lights: lights)
+            self.lighting = try! .init(ambientLightColor: [1, 1, 1], lights: lights)
         }
         self.environmentTexture = environmentTexture
     }
@@ -49,12 +49,12 @@ struct SceneGraphRenderPass: Element {
     @ElementBuilder
     var blinnPhong: some Element {
         get throws {
-            let nodesWithMeshes = sceneGraph.filter { $0.mesh != nil }
+            let nodesWithMeshes = try sceneGraph.filter { $0.mesh != nil }
             let blinnPhongNodes = nodesWithMeshes.filter { node in
                 if case .blinnPhong = node.material { return true }
                 return false
             }
-            try BlinnPhongShader {
+            return try BlinnPhongShader {
                 try ForEach(Array(blinnPhongNodes.enumerated()), id: \.offset) { _, node in
                     if let mesh = node.mesh, case let .blinnPhong(material) = node.material {
                         try Draw { encoder in
@@ -74,7 +74,7 @@ struct SceneGraphRenderPass: Element {
     @ElementBuilder
     var pbr: some Element {
         get throws {
-            let nodesWithMeshes = sceneGraph.filter { $0.mesh != nil }
+            let nodesWithMeshes = try sceneGraph.filter { $0.mesh != nil }
             let pbrNodes = nodesWithMeshes.filter { node in
                 if case .pbr = node.material { return true }
                 return false
@@ -123,7 +123,7 @@ extension SceneGraph {
     func dump() {
         func _dump(_ node: Node, level: Int) {
             let indent = String(repeating: "  ", count: level)
-            print("\(indent)- Node(name: \(String(describing: node.label)), mesh: \(node.mesh != nil ? "yes" : "no"), material: \(node.material != nil ? "\(type(of: node.material!))" : "no"))")
+            print("\(indent)- Node(name: \(node.label), mesh: \(node.mesh != nil ? "yes" : "no"), material: \(node.material != nil ? "\(type(of: node.material!))" : "no"))")
             for child in node.children {
                 _dump(child, level: level + 1)
             }

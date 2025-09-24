@@ -26,9 +26,14 @@ public struct BlinnPhongDemoView: View {
     private var cameraMatrix: simd_float4x4 = .init(translation: [0, 2, 6])
 
     public init() {
-        self.lighting = try! .demo()
-        let device = _MTLCreateSystemDefaultDevice()
-        self.skyboxTexture = try! device.makeTextureCubeFromCrossTexture(texture: try device.makeTexture(name: "Skybox", bundle: .main))
+        do {
+            self.lighting = try! .demo()
+            let device = _MTLCreateSystemDefaultDevice()
+            self.skyboxTexture = try! device.makeTextureCubeFromCrossTexture(texture: try device.makeTexture(name: "Skybox", bundle: .main))
+        }
+        catch {
+            fatalError("\(error)")
+        }
     }
 
     public var body: some View {
@@ -57,8 +62,7 @@ public struct BlinnPhongDemoView: View {
                             }
                             .lighting(lighting)
                         }
-                        // TODO: We should not have to do this if we are using the same mesh for all models.
-                        .vertexDescriptor(models[0].mesh.vertexDescriptor)
+                        .vertexDescriptor(models.first!.mesh.vertexDescriptor)
                         .depthCompare(function: .less, enabled: true)
 
                         try AxisLinesRenderPipeline(mvpMatrix: viewProjectionMatrix, scale: 10_000.0)

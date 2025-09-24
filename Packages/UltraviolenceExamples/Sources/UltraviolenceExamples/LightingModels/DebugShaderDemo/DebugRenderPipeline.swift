@@ -29,9 +29,9 @@ public struct DebugRenderPipeline<Content>: Element where Content: Element {
         self.content = try content()
 
         let shaderBundle = Bundle.ultraviolenceExampleShaders().orFatalError()
-        let shaderLibrary = try ShaderLibrary(bundle: shaderBundle, namespace: "DebugShader")
-        self.vertexShader = try shaderLibrary.vertex_main
-        self.fragmentShader = try shaderLibrary.fragment_main
+        let shaderLibrary = try! ShaderLibrary(bundle: shaderBundle, namespace: "DebugShader")
+        self.vertexShader = try! shaderLibrary.vertex_main
+        self.fragmentShader = try! shaderLibrary.fragment_main
     }
 
     public var body: some Element {
@@ -44,7 +44,7 @@ public struct DebugRenderPipeline<Content>: Element where Content: Element {
                 cameraPosition: cameraPosition
             )
             let debugShadersAmplifiedUniforms = [DebugShadersAmplifiedUniforms(viewProjectionMatrix: viewProjectionMatrix)]
-            try RenderPipeline(label: "DebugRenderPipeline", vertexShader: vertexShader, fragmentShader: fragmentShader) {
+            return try! RenderPipeline(label: "DebugRenderPipeline", vertexShader: vertexShader, fragmentShader: fragmentShader) {
                 content
                     .parameter("uniforms", functionType: .vertex, value: debugShadersUniforms)
                     .parameter("uniforms", functionType: .fragment, value: debugShadersUniforms)
