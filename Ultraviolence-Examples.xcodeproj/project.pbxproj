@@ -7,12 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		45057C6A2E6F661900C379BE /* DemoKit in Frameworks */ = {isa = PBXBuildFile; productRef = 45057C692E6F661900C379BE /* DemoKit */; };
-		4532C3F12E7873F800C561AF /* UltraviolenceSnapshotUI in Frameworks */ = {isa = PBXBuildFile; productRef = 4532C3F02E7873F800C561AF /* UltraviolenceSnapshotUI */; };
-		458D5CBC2E6F668F00BB8979 /* Ultraviolence in Frameworks */ = {isa = PBXBuildFile; productRef = 458D5CBB2E6F668F00BB8979 /* Ultraviolence */; };
-		458D5CBE2E6F668F00BB8979 /* UltraviolenceExamples in Frameworks */ = {isa = PBXBuildFile; productRef = 458D5CBD2E6F668F00BB8979 /* UltraviolenceExamples */; };
-		458D5CC42E6F668F00BB8979 /* UltraviolenceSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 458D5CC32E6F668F00BB8979 /* UltraviolenceSupport */; };
-		45A7372B2E6B64F1000C2B8C /* DemoKit in Frameworks */ = {isa = PBXBuildFile; productRef = 45A7372A2E6B64F1000C2B8C /* DemoKit */; };
+		45870FB02E84401000C9CEDE /* UltraviolenceSnapshotUI in Frameworks */ = {isa = PBXBuildFile; productRef = 45870FAF2E84401000C9CEDE /* UltraviolenceSnapshotUI */; };
+		45CCE6A92E83B057001EF989 /* UltraviolenceExamples in Frameworks */ = {isa = PBXBuildFile; productRef = 45CCE6A82E83B057001EF989 /* UltraviolenceExamples */; };
+		45CCE6AD2E83B0C0001EF989 /* DemoKit in Frameworks */ = {isa = PBXBuildFile; productRef = 45CCE6AC2E83B0C0001EF989 /* DemoKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,6 +46,11 @@
 			path = "Ultraviolence-Examples";
 			sourceTree = "<group>";
 		};
+		45849AD92E83AFB300FCE957 /* Packages */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Packages;
+			sourceTree = "<group>";
+		};
 		458B57A22D9DB77F008ADACC /* ci_scripts */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = ci_scripts;
@@ -61,12 +63,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4532C3F12E7873F800C561AF /* UltraviolenceSnapshotUI in Frameworks */,
-				458D5CC42E6F668F00BB8979 /* UltraviolenceSupport in Frameworks */,
-				458D5CBC2E6F668F00BB8979 /* Ultraviolence in Frameworks */,
-				458D5CBE2E6F668F00BB8979 /* UltraviolenceExamples in Frameworks */,
-				45057C6A2E6F661900C379BE /* DemoKit in Frameworks */,
-				45A7372B2E6B64F1000C2B8C /* DemoKit in Frameworks */,
+				45870FB02E84401000C9CEDE /* UltraviolenceSnapshotUI in Frameworks */,
+				45CCE6AD2E83B0C0001EF989 /* DemoKit in Frameworks */,
+				45CCE6A92E83B057001EF989 /* UltraviolenceExamples in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -76,9 +75,11 @@
 		455C18FC2CD483FC009A25A6 = {
 			isa = PBXGroup;
 			children = (
+				45849AD92E83AFB300FCE957 /* Packages */,
 				458B57A22D9DB77F008ADACC /* ci_scripts */,
 				45D6606D2D8377EA00CD91F5 /* xcconfig */,
 				455C19072CD483FC009A25A6 /* Ultraviolence-Examples */,
+				456F352F2E83A2FA002AC651 /* Frameworks */,
 				455C19062CD483FC009A25A6 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -89,6 +90,13 @@
 				45E0A1122D9DAF2D0091ED9E /* Ultraviolence-Examples.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		456F352F2E83A2FA002AC651 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		45D6606D2D8377EA00CD91F5 /* xcconfig */ = {
@@ -123,12 +131,9 @@
 			);
 			name = "Ultraviolence-Examples";
 			packageProductDependencies = (
-				45A7372A2E6B64F1000C2B8C /* DemoKit */,
-				45057C692E6F661900C379BE /* DemoKit */,
-				458D5CBB2E6F668F00BB8979 /* Ultraviolence */,
-				458D5CBD2E6F668F00BB8979 /* UltraviolenceExamples */,
-				458D5CC32E6F668F00BB8979 /* UltraviolenceSupport */,
-				4532C3F02E7873F800C561AF /* UltraviolenceSnapshotUI */,
+				45CCE6A82E83B057001EF989 /* UltraviolenceExamples */,
+				45CCE6AC2E83B0C0001EF989 /* DemoKit */,
+				45870FAF2E84401000C9CEDE /* UltraviolenceSnapshotUI */,
 			);
 			productName = UltraviolenceExamples;
 			productReference = 45E0A1122D9DAF2D0091ED9E /* Ultraviolence-Examples.app */;
@@ -161,7 +166,7 @@
 			packageReferences = (
 				450B4C822D7FCAEB0051CFE4 /* XCRemoteSwiftPackageReference "swift-async-algorithms" */,
 				45057C682E6F661900C379BE /* XCRemoteSwiftPackageReference "DemoKit" */,
-				455FDDCF2E6F66D3006B905A /* XCLocalSwiftPackageReference "../../Ultraviolence" */,
+				45870FAE2E84401000C9CEDE /* XCRemoteSwiftPackageReference "Ultraviolence" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 455C19062CD483FC009A25A6 /* Products */;
@@ -200,7 +205,8 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd ..\nif [ -x \"/opt/homebrew/bin/swiftlint\" ]; then\n  echo \"Running SwiftLint...\"\n  /opt/homebrew/bin/swiftlint\nelif which swiftlint >/dev/null 2>&1; then\n  echo \"Running SwiftLint from PATH...\"\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed. Get it from https://github.com/realm/SwiftLint\"\nfi\n";
+			shellScript = "if [ -x \"/opt/homebrew/bin/swiftlint\" ]; then\n  echo \"Running SwiftLint...\"\n  /opt/homebrew/bin/swiftlint\nelif which swiftlint >/dev/null 2>&1; then\n  echo \"Running SwiftLint from PATH...\"\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed. Get it from https://github.com/realm/SwiftLint\"\nfi\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -307,13 +313,6 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCLocalSwiftPackageReference section */
-		455FDDCF2E6F66D3006B905A /* XCLocalSwiftPackageReference "../../Ultraviolence" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = ../../Ultraviolence;
-		};
-/* End XCLocalSwiftPackageReference section */
-
 /* Begin XCRemoteSwiftPackageReference section */
 		45057C682E6F661900C379BE /* XCRemoteSwiftPackageReference "DemoKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
@@ -331,41 +330,34 @@
 				minimumVersion = 1.0.3;
 			};
 		};
+		45870FAE2E84401000C9CEDE /* XCRemoteSwiftPackageReference "Ultraviolence" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/schwa/Ultraviolence";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		45057C692E6F661900C379BE /* DemoKit */ = {
+		45870FAF2E84401000C9CEDE /* UltraviolenceSnapshotUI */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 45057C682E6F661900C379BE /* XCRemoteSwiftPackageReference "DemoKit" */;
-			productName = DemoKit;
-		};
-		4532C3F02E7873F800C561AF /* UltraviolenceSnapshotUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 455FDDCF2E6F66D3006B905A /* XCLocalSwiftPackageReference "../../Ultraviolence" */;
+			package = 45870FAE2E84401000C9CEDE /* XCRemoteSwiftPackageReference "Ultraviolence" */;
 			productName = UltraviolenceSnapshotUI;
-		};
-		458D5CBB2E6F668F00BB8979 /* Ultraviolence */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 45057C682E6F661900C379BE /* XCRemoteSwiftPackageReference "DemoKit" */;
-			productName = Ultraviolence;
-		};
-		458D5CBD2E6F668F00BB8979 /* UltraviolenceExamples */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 45057C682E6F661900C379BE /* XCRemoteSwiftPackageReference "DemoKit" */;
-			productName = UltraviolenceExamples;
-		};
-		458D5CC32E6F668F00BB8979 /* UltraviolenceSupport */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 45057C682E6F661900C379BE /* XCRemoteSwiftPackageReference "DemoKit" */;
-			productName = UltraviolenceSupport;
-		};
-		45A7372A2E6B64F1000C2B8C /* DemoKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = DemoKit;
 		};
 		45C0EEDD2D9DB10A0076D9DF /* UltraviolenceExamples */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = UltraviolenceExamples;
+		};
+		45CCE6A82E83B057001EF989 /* UltraviolenceExamples */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = UltraviolenceExamples;
+		};
+		45CCE6AC2E83B0C0001EF989 /* DemoKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 45057C682E6F661900C379BE /* XCRemoteSwiftPackageReference "DemoKit" */;
+			productName = DemoKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
