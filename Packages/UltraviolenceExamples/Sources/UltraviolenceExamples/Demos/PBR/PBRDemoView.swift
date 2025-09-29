@@ -25,7 +25,7 @@ public struct PBRDemoView: View {
 
     public init() {
         teapot = MTKMesh.teapot(options: [.generateTangentBasis, .generateTextureCoordinatesIfMissing, .useSimpleTextureCoordinates])
-        let device = MTLCreateSystemDefaultDevice()!
+        let device = _MTLCreateSystemDefaultDevice()
         let textureLoader = MTKTextureLoader(device: device)
         let envURL = Bundle.module.url(forResource: "IndoorEnvironmentHDRI013_1K-HDR", withExtension: "exr")!
         environmentTexture = try! textureLoader.newTexture(URL: envURL, options: [

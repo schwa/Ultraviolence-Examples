@@ -35,7 +35,7 @@ public struct WireframeDemoView: View {
                 let mvpMatrix = projectionMatrix * viewMatrix * modelMatrix
 
                 try RenderPass {
-                    GridShader(projectionMatrix: projectionMatrix, cameraMatrix: cameraMatrix)
+                    try GridShader(projectionMatrix: projectionMatrix, cameraMatrix: cameraMatrix)
                     try AxisLinesRenderPipeline(mvpMatrix: projectionMatrix * viewMatrix, scale: 10_000.0)
                     try WireframeRenderPipeline(mvpMatrix: mvpMatrix, wireframeColor: wireframeColor, mesh: teapotMesh)
                 }

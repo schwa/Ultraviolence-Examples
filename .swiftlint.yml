@@ -13,7 +13,7 @@ type_name:
   allowed_symbols:
     - _
 only_rules:
-#  - accessibility_label_for_image # 5 violations
+  - accessibility_label_for_image
   - accessibility_trait_for_button
   - anonymous_argument_in_multiline_closure
   - array_init
@@ -21,7 +21,7 @@ only_rules:
   - attribute_name_spacing
 #  - attributes # 136 violations
   - balanced_xctest_lifecycle
-#  - blanket_disable_command # 2 violations
+#  - blanket_disable_command
   - block_based_kvo
   - capture_variable
   - class_delegate_protocol
@@ -50,7 +50,7 @@ only_rules:
   - deployment_target
   - direct_return
   - discarded_notification_center_observer
-#  - discouraged_assert # 1 violations
+# - discouraged_assert
   - discouraged_direct_init
 #  - discouraged_none_name # 1 violations
   - discouraged_object_literal
@@ -89,21 +89,22 @@ only_rules:
   - flatmap_over_map_reduce
   - for_where
   - force_cast # 1 violations
-  - force_try # 13 violations
-  - force_unwrapping # 25 violations
+#  - force_try # 13 violations
+#  - force_unwrapping # 25 violations
 #  - function_body_length # 3 violations
 #  - function_default_parameter_at_end # 21 violations
+  - function_name_whitespace
   - function_parameter_count
   - generic_type_name
   - ibinspectable_in_extension
-#  - identical_operands # 4 violations
+  - identical_operands # 4 violations
 #  - identifier_name # 120 violations
   - implicit_getter
   - implicit_optional_initialization
   - implicit_return
   - implicitly_unwrapped_optional
   - inclusive_language
-#  - indentation_width # 6 violations
+  - indentation_width # 6 violations
   - invalid_swiftlint_command
   - is_disjoint
   - joined_default_parameter
@@ -114,7 +115,7 @@ only_rules:
   - legacy_constant
   - legacy_constructor
   - legacy_hashing
-#  - legacy_multiple # 1 violations
+  - legacy_multiple
   - legacy_nsgeometry_functions
   - legacy_objc_type
   - legacy_random
@@ -132,7 +133,7 @@ only_rules:
   - multiline_literal_brackets
   - multiline_parameters
   - multiline_parameters_brackets
-#  - multiple_closures_with_trailing_closure # 1 violations
+  - multiple_closures_with_trailing_closure # 1 violations
 #  - nesting # 3 violations
   - nimble_operator
 #  - no_empty_block # 4 violations
@@ -153,13 +154,12 @@ only_rules:
 #  - one_declaration_per_file # 61 violations
   - opening_brace
   - operator_usage_whitespace
-#  - operator_whitespace # 1 violations
   - optional_data_string_conversion
   - optional_enum_case_matching
   - orphaned_doc_comment
   - overridden_super_call
   - override_in_extension
-#  - pattern_matching_keywords # 16 violations
+  - pattern_matching_keywords # 16 violations
   - period_spacing
   - prefer_condition_list # 1 violations (fixable)
   - prefer_key_path
@@ -243,14 +243,14 @@ only_rules:
   - unused_enumerated
   - unused_import
   - unused_optional_binding
-#  - unused_parameter # 43 violations (fixable)
+#  - unused_parameter
   - unused_setter_value
   - valid_ibinspectable
   - vertical_parameter_alignment
   - vertical_parameter_alignment_on_call
   - vertical_whitespace
-#  - vertical_whitespace_between_cases # 84 violations (fixable)
-  - vertical_whitespace_closing_braces # 1 violations (fixable)
+#  - vertical_whitespace_between_cases
+  - vertical_whitespace_closing_braces
   - vertical_whitespace_opening_braces
   - void_function_in_ternary
   - void_return

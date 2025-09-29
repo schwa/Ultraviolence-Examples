@@ -127,7 +127,7 @@ public struct ParticleEffectsDemoView: View {
     }
 
     private func initializeParticles() {
-        let device = MTLCreateSystemDefaultDevice()!
+        let device = _MTLCreateSystemDefaultDevice()
 
         // Initialize all particles as dead (life = 0)
         var particles: [Particle] = []
@@ -206,9 +206,9 @@ private struct ParticleUpdateCompute: Element {
 
     var body: some Element {
         get throws {
-            let device = MTLCreateSystemDefaultDevice()!
+            let device = _MTLCreateSystemDefaultDevice()
             let bundle = Bundle.ultraviolenceExampleShaders()!
-            let library = try! device.makeDefaultLibrary(bundle: bundle)
+            let library = try device.makeDefaultLibrary(bundle: bundle)
             let updateFunction = library.makeFunction(name: "updateParticles")!
 
             let uniforms = ParticleUniforms(
@@ -261,9 +261,9 @@ private struct ParticleRenderPipeline: Element {
 
     var body: some Element {
         get throws {
-            let device = MTLCreateSystemDefaultDevice()!
+            let device = _MTLCreateSystemDefaultDevice()
             let bundle = Bundle.ultraviolenceExampleShaders()!
-            let library = try! device.makeDefaultLibrary(bundle: bundle)
+            let library = try device.makeDefaultLibrary(bundle: bundle)
 
             let vertexFunction = library.makeFunction(name: "particleEffectsVertex")!
             let fragmentFunction = library.makeFunction(name: "particleEffectsFragment")!

@@ -28,7 +28,8 @@ public struct GLTFDemoView: View {
     public var body: some View {
         VStack {
             HStack {
-                DownloadButton(url: URL(string: "https://github.com/KhronosGroup/glTF-Sample-Assets/archive/refs/heads/main.zip")!, destinationName: "GLTFDownloads") { path in
+                let url = URL(string: "https://github.com/KhronosGroup/glTF-Sample-Assets/archive/refs/heads/main.zip").orFatalError()
+                DownloadButton(url: url, destinationName: "GLTFDownloads") { path in
                     downloadedPath = path
                     loadAvailableFiles(from: path)
                 }
@@ -43,7 +44,7 @@ public struct GLTFDemoView: View {
             .padding(.horizontal)
 
             CachingImportButton(url: $url, identifier: "GLTFDemo", allowedContentTypes: [.gltf, .glb])
-            Text("\(url)")
+            Text("\(String(describing: url))")
             if let document {
                 Text("\(document.scenes.count) scene(s)")
                 Text("\(document.meshes.count) mesh(s)")
@@ -107,6 +108,6 @@ public struct GLTFDemoView: View {
 }
 
 extension UTType {
-    static let gltf = UTType(filenameExtension: "gltf")!
-    static let glb = UTType(filenameExtension: "glb")!
+    static let gltf = UTType(filenameExtension: "gltf").orFatalError()
+    static let glb = UTType(filenameExtension: "glb").orFatalError()
 }

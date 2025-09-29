@@ -85,7 +85,7 @@ public struct ColorAdjustDemoView: View {
 
         let textureLoader = MTKTextureLoader(device: device)
 
-        let url = Bundle.module.url(forResource: "DSC_2595", withExtension: "JPG")!
+        let url = Bundle.module.url(forResource: "DSC_2595", withExtension: "JPG").orFatalError()
 
         sourceTexture = try! textureLoader.newTexture(URL: url, options: [
             .textureUsage: MTLTextureUsage([.shaderRead, .shaderWrite]).rawValue,
@@ -94,7 +94,7 @@ public struct ColorAdjustDemoView: View {
 
         let adjustedDescriptor = MTLTextureDescriptor.texture2DDescriptor(pixelFormat: .rgba8Unorm, width: sourceTexture.width, height: sourceTexture.height, mipmapped: false)
         adjustedDescriptor.usage = [.shaderRead, .shaderWrite]
-        adjustedTexture = device.makeTexture(descriptor: adjustedDescriptor)!
+        adjustedTexture = device.makeTexture(descriptor: adjustedDescriptor).orFatalError()
         shaderLibrary = try! ShaderLibrary(bundle: .ultraviolenceExampleShaders().orFatalError(), namespace: "ColorAdjust")
     }
 
@@ -126,7 +126,7 @@ public struct ColorAdjustDemoView: View {
     public var body: some View {
         RenderView { _, _ in
             try ComputePass(label: "ColorAdjust") {
-                colorAdjustComputePipeline
+                try colorAdjustComputePipeline
             }
             try RenderPass {
                 try TextureBillboardPipeline(specifier: .texture2D(adjustedTexture))
@@ -143,29 +143,31 @@ public struct ColorAdjustDemoView: View {
 
     @ElementBuilder
     var colorAdjustComputePipeline: some Element {
-        let colorAdjustFunction = try! shaderLibrary.function(named: selectedFunction.functionName, type: VisibleFunction.self)
+        get throws {
+            let colorAdjustFunction = try shaderLibrary.function(named: selectedFunction.functionName, type: VisibleFunction.self)
 
-        switch selectedFunction {
-        case .multiply:
-            try! ColorAdjustComputePipeline(inputSpecifier: .texture2D(sourceTexture, nil), inputParameters: multiplyValue, outputTexture: adjustedTexture, colorAdjustFunction: colorAdjustFunction)
-        case .gamma:
-            try! ColorAdjustComputePipeline(inputSpecifier: .texture2D(sourceTexture, nil), inputParameters: gammaValue, outputTexture: adjustedTexture, colorAdjustFunction: colorAdjustFunction)
-        case .matrix:
-            try! ColorAdjustComputePipeline(inputSpecifier: .texture2D(sourceTexture, nil), inputParameters: matrixValues, outputTexture: adjustedTexture, colorAdjustFunction: colorAdjustFunction)
-        case .brightnessContrast:
-            try! ColorAdjustComputePipeline(inputSpecifier: .texture2D(sourceTexture, nil), inputParameters: brightnessContrastValues, outputTexture: adjustedTexture, colorAdjustFunction: colorAdjustFunction)
-        case .hsvAdjust:
-            try! ColorAdjustComputePipeline(inputSpecifier: .texture2D(sourceTexture, nil), inputParameters: hsvValues, outputTexture: adjustedTexture, colorAdjustFunction: colorAdjustFunction)
-        case .colorBalance:
-            try! ColorAdjustComputePipeline(inputSpecifier: .texture2D(sourceTexture, nil), inputParameters: colorBalanceValues, outputTexture: adjustedTexture, colorAdjustFunction: colorAdjustFunction)
-        case .levels:
-            try! ColorAdjustComputePipeline(inputSpecifier: .texture2D(sourceTexture, nil), inputParameters: levelsValues, outputTexture: adjustedTexture, colorAdjustFunction: colorAdjustFunction)
-        case .temperatureTint:
-            try! ColorAdjustComputePipeline(inputSpecifier: .texture2D(sourceTexture, nil), inputParameters: temperatureTintValues, outputTexture: adjustedTexture, colorAdjustFunction: colorAdjustFunction)
-        case .threshold:
-            try! ColorAdjustComputePipeline(inputSpecifier: .texture2D(sourceTexture, nil), inputParameters: thresholdValues, outputTexture: adjustedTexture, colorAdjustFunction: colorAdjustFunction)
-        case .vignette:
-            try! ColorAdjustComputePipeline(inputSpecifier: .texture2D(sourceTexture, nil), inputParameters: vignetteValues, outputTexture: adjustedTexture, colorAdjustFunction: colorAdjustFunction)
+            switch selectedFunction {
+            case .multiply:
+                try ColorAdjustComputePipeline(inputSpecifier: .texture2D(sourceTexture, nil), inputParameters: multiplyValue, outputTexture: adjustedTexture, colorAdjustFunction: colorAdjustFunction)
+            case .gamma:
+                try ColorAdjustComputePipeline(inputSpecifier: .texture2D(sourceTexture, nil), inputParameters: gammaValue, outputTexture: adjustedTexture, colorAdjustFunction: colorAdjustFunction)
+            case .matrix:
+                try ColorAdjustComputePipeline(inputSpecifier: .texture2D(sourceTexture, nil), inputParameters: matrixValues, outputTexture: adjustedTexture, colorAdjustFunction: colorAdjustFunction)
+            case .brightnessContrast:
+                try ColorAdjustComputePipeline(inputSpecifier: .texture2D(sourceTexture, nil), inputParameters: brightnessContrastValues, outputTexture: adjustedTexture, colorAdjustFunction: colorAdjustFunction)
+            case .hsvAdjust:
+                try ColorAdjustComputePipeline(inputSpecifier: .texture2D(sourceTexture, nil), inputParameters: hsvValues, outputTexture: adjustedTexture, colorAdjustFunction: colorAdjustFunction)
+            case .colorBalance:
+                try ColorAdjustComputePipeline(inputSpecifier: .texture2D(sourceTexture, nil), inputParameters: colorBalanceValues, outputTexture: adjustedTexture, colorAdjustFunction: colorAdjustFunction)
+            case .levels:
+                try ColorAdjustComputePipeline(inputSpecifier: .texture2D(sourceTexture, nil), inputParameters: levelsValues, outputTexture: adjustedTexture, colorAdjustFunction: colorAdjustFunction)
+            case .temperatureTint:
+                try ColorAdjustComputePipeline(inputSpecifier: .texture2D(sourceTexture, nil), inputParameters: temperatureTintValues, outputTexture: adjustedTexture, colorAdjustFunction: colorAdjustFunction)
+            case .threshold:
+                try ColorAdjustComputePipeline(inputSpecifier: .texture2D(sourceTexture, nil), inputParameters: thresholdValues, outputTexture: adjustedTexture, colorAdjustFunction: colorAdjustFunction)
+            case .vignette:
+                try ColorAdjustComputePipeline(inputSpecifier: .texture2D(sourceTexture, nil), inputParameters: vignetteValues, outputTexture: adjustedTexture, colorAdjustFunction: colorAdjustFunction)
+            }
         }
     }
 
@@ -351,8 +353,8 @@ public struct ColorAdjustDemoView: View {
                                 ForEach(0..<4) { col in
                                     let binding = Binding(get: { matrixValues[col][row] }, set: { matrixValues[col][row] = Float($0) })
                                     TextField("", value: binding, format: .number.precision(.fractionLength(2)))
-                                    .frame(width: 60)
-                                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                                        .frame(width: 60)
+                                        .textFieldStyle(RoundedBorderTextFieldStyle())
                                 }
                             }
                         }

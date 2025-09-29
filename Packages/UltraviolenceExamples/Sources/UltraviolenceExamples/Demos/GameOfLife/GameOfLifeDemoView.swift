@@ -17,7 +17,10 @@ public struct GameOfLifeDemoView: View {
 
         .overlay(alignment: .bottom) {
             HStack {
-                Button(action: { isRunning.toggle() }) {
+                Button {
+                    isRunning.toggle()
+                }
+                label: {
                     Image(systemName: isRunning ? "pause.fill" : "play.fill")
                 }
 

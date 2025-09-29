@@ -29,7 +29,7 @@ class GLTGSceneGraphGenerator {
 
     func generateSceneGraph() throws -> SceneGraph {
         let sceneGraph = SceneGraph(root: .init())
-        let scene = try document.scene.map { try $0.resolve(in: document) } ?? document.scenes.first!
+        let scene = try document.scene.map { try $0.resolve(in: document) } ?? document.scenes.first.orThrow(.generic("Document has no default scene and no scenes"))
         try scene.nodes
             .map { try $0.resolve(in: document) }
             .map { try generateSceneGraphNode(from: $0) }
@@ -51,13 +51,13 @@ class GLTGSceneGraphGenerator {
             uvNode.transform = matrix
         }
         if let translation = node.translation {
-            //            fatalError()
+            fatalError("Unimplemented")
         }
         if let rotation = node.rotation {
-            // fatalError()
+            fatalError("Unimplemented")
         }
         if let scale = node.scale {
-            // fatalError()
+            fatalError("Unimplemented")
         }
         try node.children.map { try $0.resolve(in: document) }.map { try generateSceneGraphNode(from: $0) }.forEach { node in
             node.parent = uvNode
@@ -68,7 +68,7 @@ class GLTGSceneGraphGenerator {
 
     func update(node: SceneGraph.Node, from mesh: SwiftGLTF.Mesh) throws {
         // assert(mesh.primitives.count == 1)
-        let primitive = mesh.primitives.first!
+        let primitive = try mesh.primitives.first.orThrow(.generic("Mesh has no primitives"))
 
         let semantics: [SwiftGLTF.Mesh.Primitive.Semantic] = [
             .POSITION,
@@ -151,7 +151,7 @@ class GLTGSceneGraphGenerator {
 extension GLTGSceneGraphGenerator {
     func mtlTexture(for textureInfo: TextureInfo) throws -> MTLTexture {
         let texture = try textureInfo.index.resolve(in: document)
-        let source = try texture.source!.resolve(in: document)
+        let source = try texture.source.orThrow(.generic("Cannot get source for texture")).resolve(in: document)
         let data = try container.data(for: source)
         let image = try CGImage.image(with: data)
         return try textureLoader.newTexture(cgImage: image, options: [:])
@@ -172,9 +172,9 @@ extension Container {
 
 extension CGImage {
     static func image(with data: Data) throws -> CGImage {
-        let source = CGImageSourceCreateWithData(data as CFData, nil)!
+        let source = try CGImageSourceCreateWithData(data as CFData, nil).orThrow(.resourceCreationFailure("Could not create CGImageSource"))
         let image = CGImageSourceCreateImageAtIndex(source, 0, nil)
-        return image!
+        return try image.orThrow(.resourceCreationFailure("Could not create CGImage from data") )
     }
 }
 

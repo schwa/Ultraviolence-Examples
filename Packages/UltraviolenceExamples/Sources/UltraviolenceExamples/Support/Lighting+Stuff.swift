@@ -48,7 +48,6 @@ struct LightingVisualizer: Element {
             try FlatShader(textureSpecifier: .color([1, 1, 1])) {
                 ForEach(Array(0 ..< lighting.count), id: \.self) { index in
                     let lightPosition = lighting.lightPositions[SIMD3<Float>.self, index]
-                    let light = lighting.lights[Light.self, index]
                     let transforms = Transforms(modelMatrix: .init(translation: lightPosition), cameraMatrix: cameraMatrix, projectionMatrix: projectionMatrix)
 
                     Draw { encoder in

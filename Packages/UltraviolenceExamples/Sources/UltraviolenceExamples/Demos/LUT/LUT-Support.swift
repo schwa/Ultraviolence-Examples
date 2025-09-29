@@ -3,7 +3,7 @@ import Ultraviolence
 
 /// Create a 3D LUT texture from a 2D LUT texture. The 2D LUT texture is expected to be a 512x512 texture and the output 3D LUT texture will be 64x64x64.
 @MainActor
-func create3DLUT(device: MTLDevice, from lut2DTexture: MTLTexture) throws -> MTLTexture? {
+func create3DLUT(device: MTLDevice, from lut2DTexture: MTLTexture) throws -> MTLTexture {
     let source = """
     #include <metal_stdlib>
     using namespace metal;
@@ -28,7 +28,7 @@ func create3DLUT(device: MTLDevice, from lut2DTexture: MTLTexture) throws -> MTL
     descriptor.height = size.height
     descriptor.depth = size.depth
     descriptor.usage = [.shaderRead, .shaderWrite]
-    let texture3D = device.makeTexture(descriptor: descriptor)!
+    let texture3D = try device.makeTexture(descriptor: descriptor).orThrow(.resourceCreationFailure("3D LUT texture"))
     let pass = try ComputePass(label: "create3DLUT") {
         try ComputePipeline(label: "create3DLUT", computeKernel: .init(source: source)) {
             let threadsPerThreadgroup = MTLSize(width: 16, height: 8, depth: 8)

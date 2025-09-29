@@ -61,7 +61,7 @@ public struct VCRDistortionPipeline: Element {
                 try ComputeDispatch(threadsPerGrid: threadsPerGrid, threadsPerThreadgroup: threadsPerThreadgroup)
                     .parameter("inputTexture", texture: inputTexture)
                     .parameter("outputTexture", texture: outputTexture)
-                    .parameter("noiseTexture", texture: noiseTexture!)
+                    .parameter("noiseTexture", texture: noiseTexture.orFatalError("Noise texture should be initialized"))
                     .parameter("params", value: parameters)
                     .parameter("frameUniforms", value: frameUniforms)
             }
@@ -77,7 +77,7 @@ public struct VCRDistortionPipeline: Element {
         )
         descriptor.usage = [.shaderRead]
 
-        let texture = device.makeTexture(descriptor: descriptor)!
+        let texture = device.makeTexture(descriptor: descriptor).orFatalError("Failed to create noise texture")
         texture.label = "VCR Noise Texture"
 
         // Generate random noise

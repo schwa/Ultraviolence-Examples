@@ -72,7 +72,7 @@ public struct GradientTextureGenerator {
         let fraction = scaledT - Float(index)
 
         if index >= colors.count - 1 {
-            return colors.last!
+            return colors.last.orFatalError("Colors array should not be empty")
         }
 
         let color1 = colors[index]

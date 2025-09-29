@@ -77,11 +77,12 @@ extension CubeReader {
         outputDescriptor.usage = [.shaderRead, .shaderWrite]
         let outputTexture = try device._makeTexture(descriptor: outputDescriptor)
         outputTexture.label = "Output Texture (\(title))"
-        pixels.withUnsafeBytes { buffer in
+        try pixels.withUnsafeBytes { buffer in
+            let baseAddress = try buffer.baseAddress.orThrow(.generic("Failed to get base address of pixel buffer"))
             let region = MTLRegionMake3D(0, 0, 0, outputTexture.width, outputTexture.height, outputTexture.depth)
             let bytesPerRow = outputTexture.width * MemoryLayout<SIMD4<Float>>.size
             let bytesPerImage = bytesPerRow * outputTexture.height
-            outputTexture.replace(region: region, mipmapLevel: 0, slice: 0, withBytes: buffer.baseAddress!, bytesPerRow: bytesPerRow, bytesPerImage: bytesPerImage)
+            outputTexture.replace(region: region, mipmapLevel: 0, slice: 0, withBytes: baseAddress, bytesPerRow: bytesPerRow, bytesPerImage: bytesPerImage)
         }
         return outputTexture
     }

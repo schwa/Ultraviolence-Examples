@@ -73,16 +73,16 @@ public extension ColorSource {
     func toArgumentBuffer() -> ColorSourceArgumentBuffer {
         var result = ColorSourceArgumentBuffer()
         switch self {
-        case .texture2D(let texture, let sampler):
+        case let .texture2D(texture, sampler):
             result.source = .texture2D
             result.texture2D = texture.gpuResourceID
             result.sampler = sampler.map(\.gpuResourceID) ?? .init()
-        case .textureCube(let texture, let sampler, let slice):
+        case let .textureCube(texture, sampler, slice):
             result.source = .textureCube
             result.textureCube = texture.gpuResourceID
             result.sampler = sampler.map(\.gpuResourceID) ?? .init()
             result.slice = UInt32(slice)
-        case .depth2D(let texture, let sampler):
+        case let .depth2D(texture, sampler):
             result.source = .depth2D
             result.depth2D = texture.gpuResourceID
             result.sampler = sampler.map(\.gpuResourceID) ?? .init()
