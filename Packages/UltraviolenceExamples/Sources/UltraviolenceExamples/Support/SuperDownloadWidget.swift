@@ -42,7 +42,7 @@ internal struct SuperDownloadWidget <Label>: View where Label: View {
                             Task {
                                 let url = url
                                 self.url = nil
-                                try! await download(url: url!)
+                                try await download(url: url.orFatalError("URL should not be nil"))
                             }
                         }
                         .disabled(url == nil)
@@ -51,7 +51,7 @@ internal struct SuperDownloadWidget <Label>: View where Label: View {
                                 ForEach(bookmarks, id: \.self) { url in
                                     Button(url.lastPathComponent) {
                                         Task {
-                                            try! await download(url: url)
+                                            try await download(url: url)
                                         }
                                     }
                                     #if os(macOS)
@@ -128,7 +128,7 @@ extension FileManager {
 
 extension UserDefaults {
     func urls(forKey key: String) -> [URL] {
-        (object(forKey: key) as? [String] ?? []).map { URL(string: $0)! }
+        (object(forKey: key) as? [String] ?? []).compactMap { URL(string: $0) }
     }
 
     func set(_ urls: [URL], forKey key: String) {

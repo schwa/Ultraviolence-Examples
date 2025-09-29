@@ -25,10 +25,10 @@ public struct ARKitDemoView: View {
 
     public init() {
         teapot = try! MTKMesh.teapot(options: [.generateTangentBasis, .generateTextureCoordinatesIfMissing, .useSimpleTextureCoordinates])
-        let device = MTLCreateSystemDefaultDevice()!
+        let device = _MTLCreateSystemDefaultDevice()
         let textureLoader = MTKTextureLoader(device: device)
-        let envURL = Bundle.module.url(forResource: "IndoorEnvironmentHDRI013_1K-HDR", withExtension: "exr")!
-        environmentTexture = try! textureLoader.newTexture(URL: envURL, options: [
+        let envURL = Bundle.module.url(forResource: "IndoorEnvironmentHDRI013_1K-HDR", withExtension: "exr").orFatalError("Missing environment texture resource")
+        environmentTexture = try textureLoader.newTexture(URL: envURL, options: [
             .textureUsage: MTLTextureUsage.shaderRead.rawValue,
             .textureStorageMode: MTLStorageMode.private.rawValue,
             .generateMipmaps: true,

@@ -84,7 +84,7 @@ public struct PointCloudDemoView: View {
     }
 
     private func generatePointCloud() {
-        let device = MTLCreateSystemDefaultDevice()!
+        let device = _MTLCreateSystemDefaultDevice()
 
         // Generate points on/in a torus
         var points: [PointVertex] = []
@@ -177,12 +177,12 @@ private struct PointCloudRenderPipeline: Element {
 
     var body: some Element {
         get throws {
-            let device = MTLCreateSystemDefaultDevice()!
-            let bundle = Bundle.ultraviolenceExampleShaders()!
-            let library = try! device.makeDefaultLibrary(bundle: bundle)
+            let device = _MTLCreateSystemDefaultDevice()
+            let bundle = Bundle.ultraviolenceExampleShaders().orFatalError("Failed to load shader bundle")
+            let library = try device.makeDefaultLibrary(bundle: bundle)
 
-            let vertexFunction = library.makeFunction(name: "pointCloudVertex")!
-            let fragmentFunction = library.makeFunction(name: "pointCloudFragment")!
+            let vertexFunction = library.makeFunction(name: "pointCloudVertex").orFatalError("Failed to find pointCloudVertex function")
+            let fragmentFunction = library.makeFunction(name: "pointCloudFragment").orFatalError("Failed to find pointCloudFragment function")
 
             try RenderPipeline(
                 vertexShader: VertexShader(vertexFunction),

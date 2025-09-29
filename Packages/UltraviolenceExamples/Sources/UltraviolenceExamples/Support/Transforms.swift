@@ -3,8 +3,8 @@ import Ultraviolence
 import UltraviolenceExampleShaders
 import UltraviolenceSupport
 
-// TODO: Deprecate Transforms and use what we do in blinnphong/pbr instead
-@available(*, deprecated, message: "Transforms should be deprecated.")
+// TODO: Deprecate Transforms and use what we do in blinnphong/pbr instead [FILE ME]
+// @available(*, deprecated, message: "Transforms should be deprecated.")
 public typealias Transforms = UltraviolenceExampleShaders.Transforms
 
 public extension Transforms {

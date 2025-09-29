@@ -291,7 +291,7 @@ public struct TrivialMeshDemoView: View {
                     try RenderPass {
                         try SkyboxRenderPipeline(projectionMatrix: projectionMatrix, cameraMatrix: cameraMatrix, texture: skyboxTexture)
 
-                        GridShader(projectionMatrix: projectionMatrix, cameraMatrix: cameraMatrix)
+                        try GridShader(projectionMatrix: projectionMatrix, cameraMatrix: cameraMatrix)
 
                         try BlinnPhongShader {
                             try ForEach(models) { model in

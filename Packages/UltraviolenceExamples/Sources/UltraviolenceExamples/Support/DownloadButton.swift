@@ -73,7 +73,7 @@ public struct DownloadButton: View {
 
         do {
             // Get caches directory
-            let cachesDirectory = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
+            let cachesDirectory = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first.orFatalError("Caches directory should exist")
             let downloadDirectory = cachesDirectory.appendingPathComponent(destinationName)
             try FileManager.default.createDirectory(at: downloadDirectory, withIntermediateDirectories: true)
 
@@ -113,7 +113,7 @@ public struct DownloadButton: View {
     }
 
     private func checkIfAlreadyDownloaded() {
-        let cachesDirectory = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
+        let cachesDirectory = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first.orFatalError("Caches directory should exist")
         let downloadDirectory = cachesDirectory.appendingPathComponent(destinationName)
         let unzipDestination = downloadDirectory.appendingPathComponent("unzipped")
 

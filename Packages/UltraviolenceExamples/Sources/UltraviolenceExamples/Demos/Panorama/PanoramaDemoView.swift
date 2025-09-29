@@ -46,7 +46,7 @@ public struct PanoramaDemoView: View {
 
                             // Apply gamma correction using ColorAdjustComputePipeline
                             try ComputePass(label: "GammaCorrection") {
-                                ColorAdjustComputePipeline.gammaAdjustPipeline(inputSpecifier: .texture2D(intermediateTexture), inputParameters: 2.2, outputTexture: outputTexture)
+                                try ColorAdjustComputePipeline.gammaAdjustPipeline(inputSpecifier: .texture2D(intermediateTexture), inputParameters: 2.2, outputTexture: outputTexture)
                             }
 
                             // Render gamma-corrected result to screen

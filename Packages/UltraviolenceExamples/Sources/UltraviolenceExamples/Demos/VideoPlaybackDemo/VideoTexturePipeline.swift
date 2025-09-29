@@ -38,7 +38,10 @@ public class VideoTexturePipeline: ObservableObject {
         ]
 
         videoOutput = AVPlayerItemVideoOutput(pixelBufferAttributes: outputSettings)
-        playerItem?.add(videoOutput!)
+        guard let videoOutput else {
+            fatalError("Failed to create video output")
+        }
+        playerItem?.add(videoOutput)
 
         // Set up looping
         player?.actionAtItemEnd = .none
@@ -77,8 +80,9 @@ public class VideoTexturePipeline: ObservableObject {
     }
 
     private func updateFrame() {
-        guard let videoOutput,
-              let player else { return }
+        guard let videoOutput, let player else {
+            return
+        }
 
         let currentTime = player.currentTime()
 
@@ -89,8 +93,7 @@ public class VideoTexturePipeline: ObservableObject {
         }
 
         // Get the current video frame
-        guard videoOutput.hasNewPixelBuffer(forItemTime: currentTime),
-              let pixelBuffer = videoOutput.copyPixelBuffer(forItemTime: currentTime, itemTimeForDisplay: nil) else {
+        guard videoOutput.hasNewPixelBuffer(forItemTime: currentTime), let pixelBuffer = videoOutput.copyPixelBuffer(forItemTime: currentTime, itemTimeForDisplay: nil) else {
             return
         }
 
@@ -99,9 +102,12 @@ public class VideoTexturePipeline: ObservableObject {
         let height = CVPixelBufferGetHeight(pixelBuffer)
 
         var cvTexture: CVMetalTexture?
+        guard let textureCache else {
+            fatalError("Texture cache not initialized")
+        }
         let status = CVMetalTextureCacheCreateTextureFromImage(
             nil,
-            textureCache!,
+            textureCache,
             pixelBuffer,
             nil,
             .bgra8Unorm,
@@ -111,9 +117,7 @@ public class VideoTexturePipeline: ObservableObject {
             &cvTexture
         )
 
-        guard status == kCVReturnSuccess,
-              let cvTexture,
-              let texture = CVMetalTextureGetTexture(cvTexture) else {
+        guard status == kCVReturnSuccess, let cvTexture, let texture = CVMetalTextureGetTexture(cvTexture) else {
             return
         }
 

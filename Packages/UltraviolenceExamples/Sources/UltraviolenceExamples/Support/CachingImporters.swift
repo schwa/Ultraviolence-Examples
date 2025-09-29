@@ -1,4 +1,5 @@
 import SwiftUI
+import UltraviolenceSupport
 import UniformTypeIdentifiers
 
 struct CachingImportButton: View {
@@ -87,7 +88,7 @@ struct CachingImportHelper {
 
     @discardableResult
     private func ensureCachesDirectory() throws -> URL {
-        let cachesDirectory = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
+        let cachesDirectory = try FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first.orThrow(UltraviolenceError.generic("Could not resolve caches directory"))
         var isDirectory: ObjCBool = false
         let exists = FileManager.default.fileExists(atPath: cachesDirectory.path, isDirectory: &isDirectory)
         if !(exists && isDirectory.boolValue) {

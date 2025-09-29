@@ -113,7 +113,7 @@ public struct LUTDemoView: View {
                 .origin: MTKTextureLoader.Origin.topLeft.rawValue,
                 .SRGB: true
             ])
-            return try create3DLUT(device: device, from: lutTexture2D)!
+            return try create3DLUT(device: device, from: lutTexture2D)
 
         default:
             throw UltraviolenceError.validationError("Unsupported LUT file format: .\(url.pathExtension)")

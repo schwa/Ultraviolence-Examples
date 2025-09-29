@@ -1,9 +1,10 @@
 import Foundation
 import MikkTSpace
+import UltraviolenceSupport
 
 extension SMikkTSpaceContext {
     var mesh: TrivialMesh {
-        m_pUserData!.assumingMemoryBound(to: TrivialMesh.self).pointee
+        m_pUserData.orFatalError("No user data.").assumingMemoryBound(to: TrivialMesh.self).pointee
     }
 }
 
@@ -47,34 +48,50 @@ extension TrivialMesh {
         let result = withUnsafeMutablePointer(to: &copy) { mesh in
             var interface = SMikkTSpaceInterface()
             interface.m_getNumFaces = { context in
-                let mesh = context!.pointee.mesh
+                guard let context else {
+                    fatalError("Context should not be nil in tangent generation callback")
+                }
+                let mesh = context.pointee.mesh
                 return Int32(mesh.indices.count / 3)
             }
             interface.m_getNumVerticesOfFace = { _, _ in
                 3
             }
             interface.m_getPosition = { context, positionOut, face, vert in
-                let mesh = context!.pointee.mesh
+                guard let context else {
+                    fatalError("Context should not be nil in tangent generation callback")
+                }
+                let mesh = context.pointee.mesh
                 let index = Int(mesh.indices[Int(face) * 3 + Int(vert)])
                 let position = mesh.positions[index]
-                positionOut![0] = position.x
-                positionOut![1] = position.y
-                positionOut![2] = position.z
+                positionOut?[0] = position.x
+                positionOut?[1] = position.y
+                positionOut?[2] = position.z
             }
             interface.m_getNormal = { context, positionOut, face, vert in
-                let mesh = context!.pointee.mesh
+                guard let context else {
+                    fatalError("Context should not be nil in tangent generation callback")
+                }
+                let mesh = context.pointee.mesh
                 let index = Int(mesh.indices[Int(face) * 3 + Int(vert)])
-                let normal = mesh.normals![index]
-                positionOut![0] = normal.x
-                positionOut![1] = normal.y
-                positionOut![2] = normal.z
+                guard let normal = mesh.normals?[index] else {
+                    fatalError("Normals array should exist and contain normal at index \(index) for tangent generation")
+                }
+                positionOut?[0] = normal.x
+                positionOut?[1] = normal.y
+                positionOut?[2] = normal.z
             }
             interface.m_getTexCoord = { context, positionOut, face, vert in
-                let mesh = context!.pointee.mesh
+                guard let context else {
+                    fatalError("Context should not be nil in tangent generation callback")
+                }
+                let mesh = context.pointee.mesh
                 let index = Int(mesh.indices[Int(face) * 3 + Int(vert)])
-                let textureCoordinates = mesh.textureCoordinates![index]
-                positionOut![0] = textureCoordinates.x
-                positionOut![1] = textureCoordinates.y
+                guard let textureCoordinates = mesh.textureCoordinates?[index] else {
+                    fatalError("Texture coordinates array should exist and contain coordinate at index \(index) for tangent generation")
+                }
+                positionOut?[0] = textureCoordinates.x
+                positionOut?[1] = textureCoordinates.y
             }
             //            interface.m_setTSpaceBasic = { context, fvTangent, fSign, face, vert in
             //                let meshPointer = context!.pointee.m_pUserData!.assumingMemoryBound(to: TrivialMesh.self)
@@ -85,13 +102,23 @@ extension TrivialMesh {
             //            }
 
             interface.m_setTSpace = { context, fvTangent, fvBiTangent, _, _, _, face, vert in
-                let meshPointer = context!.pointee.m_pUserData!.assumingMemoryBound(to: TrivialMesh.self)
+                guard let context else {
+                    fatalError("Context should not be nil in tangent generation callback")
+                }
+                guard let userData = context.pointee.m_pUserData else {
+                    fatalError("No user data")
+                }
+                let meshPointer = userData.assumingMemoryBound(to: TrivialMesh.self)
                 let mesh = meshPointer.pointee
                 let index = Int(mesh.indices[Int(face) * 3 + Int(vert)])
-                let tangent = SIMD3<Float>(fvTangent![0], fvTangent![1], fvTangent![2])
-                meshPointer.pointee.tangents![index] = tangent
-                let bitangents = SIMD3<Float>(fvBiTangent![0], fvBiTangent![1], fvBiTangent![2])
-                meshPointer.pointee.bitangents![index] = bitangents
+                if let fvTangent {
+                    let tangent = SIMD3<Float>(fvTangent[0], fvTangent[1], fvTangent[2])
+                    meshPointer.pointee.tangents?[index] = tangent
+                }
+                if let fvBiTangent {
+                    let bitangents = SIMD3<Float>(fvBiTangent[0], fvBiTangent[1], fvBiTangent[2])
+                    meshPointer.pointee.bitangents?[index] = bitangents
+                }
             }
 
             var context = SMikkTSpaceContext()

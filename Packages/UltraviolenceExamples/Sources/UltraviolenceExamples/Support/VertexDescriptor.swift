@@ -117,8 +117,9 @@ extension VertexDescriptor {
 
         // Convert attributes
         for index in 0..<31 { // Metal supports up to 31 vertex attributes
-            guard let mtlAttribute = mtlVertexDescriptor.attributes[index],
-                  mtlAttribute.format != .invalid else { continue }
+            guard let mtlAttribute = mtlVertexDescriptor.attributes[index], mtlAttribute.format != .invalid else {
+                continue
+            }
 
             let attribute = Attribute(
                 label: nil,
@@ -132,8 +133,9 @@ extension VertexDescriptor {
 
         // Convert layouts
         for bufferIndex in 0..<31 { // Metal supports up to 31 vertex buffer layouts
-            guard let mtlLayout = mtlVertexDescriptor.layouts[bufferIndex],
-                  mtlLayout.stride > 0 else { continue }
+            guard let mtlLayout = mtlVertexDescriptor.layouts[bufferIndex], mtlLayout.stride > 0 else {
+                continue
+            }
 
             let layout = Layout(
                 bufferIndex: bufferIndex,

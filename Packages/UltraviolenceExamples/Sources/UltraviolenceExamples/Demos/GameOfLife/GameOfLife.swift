@@ -97,8 +97,7 @@ public struct GameOfLife: Element {
     }
 
     private func setupTexturesIfNeeded() {
-        guard textureA == nil || textureB == nil,
-              let device = self.device else {
+        guard textureA == nil || textureB == nil, let device = self.device else {
             return
         }
 
@@ -116,9 +115,7 @@ public struct GameOfLife: Element {
     }
 
     private func initializeGridIfNeeded() {
-        guard let device = self.device,
-              let textureA = self.textureA,
-              let textureB = self.textureB else {
+        guard let device = self.device, let textureA = self.textureA, let textureB = self.textureB else {
             return
         }
 
