@@ -20,6 +20,7 @@ public struct DebugShadersDemoView: View {
     let teapot = MTKMesh.teapot(options: [.generateTangentBasis, .generateTextureCoordinatesIfMissing, .useSimpleTextureCoordinates])
 
     public init() {
+        // This line intentionally left blank.
     }
 
     public var body: some View {

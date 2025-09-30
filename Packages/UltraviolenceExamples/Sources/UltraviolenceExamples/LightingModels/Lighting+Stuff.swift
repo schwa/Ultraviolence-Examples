@@ -5,7 +5,7 @@ import Ultraviolence
 import UltraviolenceExampleShaders
 import UltraviolenceSupport
 
-struct LightingAnimator {
+enum LightingAnimator {
     static func run(date: Date, lighting: inout Lighting) {
         let date = date.timeIntervalSinceReferenceDate
         let angle = LinearTimingFunction().value(time: date, period: 1, in: 0 ... 2 * .pi)

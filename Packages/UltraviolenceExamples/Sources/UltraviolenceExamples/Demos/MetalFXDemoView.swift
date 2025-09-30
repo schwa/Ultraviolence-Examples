@@ -90,6 +90,7 @@ public struct MetalFXDemoView: View {
             .frame(width: 48, height: 48)
             .padding(4)
             .opacity(0.66)
+            .accessibilityLabel(name)
     }
 
     @ViewBuilder

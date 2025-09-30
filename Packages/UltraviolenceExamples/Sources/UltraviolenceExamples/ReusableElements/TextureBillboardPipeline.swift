@@ -53,7 +53,7 @@ struct TextureBillboardPipeline: Element {
         assert(device.supportsFeatureSet(.iOS_GPUFamily4_v1)) // For argument buffers tier. TODO: Look this up.
         #endif
         assert(device.argumentBuffersSupport == .tier2)
-        let shaderBundle = Bundle.ultraviolenceExampleShaders().orFatalError()
+        let shaderBundle = Bundle.ultraviolenceExampleShaders().orFatalError("Failed to load ultraviolence example shaders bundle")
         let shaderLibrary = try ShaderLibrary(bundle: shaderBundle, namespace: "TextureBillboard")
         self.vertexShader = try shaderLibrary.vertex_main
         self.fragmentShader = try shaderLibrary.fragment_main
@@ -100,7 +100,7 @@ struct TextureBillboardPipeline: Element {
 
 extension TextureBillboardPipeline {
     init(specifierA: ColorSource, specifierB: ColorSource, positions: Quad = .clip, textureCoordinates: Quad = .unit, colorTransformFunctionName: String) throws {
-        let shaderBundle = Bundle.ultraviolenceExampleShaders().orFatalError()
+        let shaderBundle = Bundle.ultraviolenceExampleShaders().orFatalError("Failed to load ultraviolence example shaders bundle")
         let shaderLibrary = try ShaderLibrary(bundle: shaderBundle, namespace: "TextureBillboard")
         let colorTransform = try shaderLibrary.function(named: colorTransformFunctionName, type: VisibleFunction.self)
         try self.init(specifierA: specifierA, specifierB: specifierB, positions: positions, textureCoordinates: textureCoordinates, colorTransform: colorTransform)

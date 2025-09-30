@@ -19,7 +19,7 @@ struct GridShader: Element {
     init(projectionMatrix: simd_float4x4, cameraMatrix: simd_float4x4) throws {
         self.projectionMatrix = projectionMatrix
         self.cameraMatrix = cameraMatrix
-        let shaderBundle = Bundle.ultraviolenceExampleShaders().orFatalError()
+        let shaderBundle = Bundle.ultraviolenceExampleShaders().orFatalError("Failed to load ultraviolence example shaders bundle")
         let shaderLibrary = try ShaderLibrary(bundle: shaderBundle, namespace: "GridShader")
         vertexShader = try shaderLibrary.vertex_main
         fragmentShader = try shaderLibrary.fragment_main

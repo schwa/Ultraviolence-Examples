@@ -135,6 +135,7 @@ class ARKitDemoViewModel: NSObject {
     }
 
     func start() {
+        // This line intentionally left blank.
     }
 }
 
@@ -183,7 +184,9 @@ extension ARKitDemoViewModel: ARSessionDelegate {
             return
         }
         // ARKit provides YCbCr format with two planes
-        guard CVPixelBufferGetPlaneCount(pixelBuffer) >= 2 else { return }
+        guard CVPixelBufferGetPlaneCount(pixelBuffer) >= 2 else {
+            return
+        }
 
         // Create Y texture (luminance) from plane 0
         let widthY = CVPixelBufferGetWidthOfPlane(pixelBuffer, 0)

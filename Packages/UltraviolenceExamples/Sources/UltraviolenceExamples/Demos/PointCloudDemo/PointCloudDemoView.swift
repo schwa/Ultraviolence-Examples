@@ -22,7 +22,9 @@ public struct PointCloudDemoView: View {
     @State private var pointBuffer: MTLBuffer?
     @State private var vertexCount: Int = 0
 
-    public init() {}
+    public init() {
+        // This line intentionally left blank.
+    }
 
     public var body: some View {
         WorldView(projection: $projection, cameraMatrix: $cameraMatrix, targetMatrix: .constant(nil)) {

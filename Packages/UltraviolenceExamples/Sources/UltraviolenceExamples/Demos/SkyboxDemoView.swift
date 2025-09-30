@@ -43,6 +43,7 @@ public struct SkyboxDemoView: View {
         let testView = ZStack {
             Image("Skybox")
                 .resizable()
+                .accessibilityHidden(true)
 
             Grid(horizontalSpacing: 0, verticalSpacing: 0) {
                 GridRow {
@@ -100,7 +101,7 @@ struct SkyboxRenderPipeline: Element {
         self.projectionMatrix = projectionMatrix
         self.cameraMatrix = cameraMatrix
         self.texture = texture
-        let shaderBundle = Bundle.ultraviolenceExampleShaders().orFatalError()
+        let shaderBundle = Bundle.ultraviolenceExampleShaders().orFatalError("Failed to load ultraviolence example shaders bundle")
         let shaderLibrary = try ShaderLibrary(bundle: shaderBundle, namespace: "SkyboxShader")
         vertexShader = try shaderLibrary.vertex_main
         fragmentShader = try shaderLibrary.fragment_main

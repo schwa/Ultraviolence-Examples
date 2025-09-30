@@ -40,9 +40,13 @@ internal struct SuperDownloadWidget <Label>: View where Label: View {
                         TextField("URL", value: $url, format: .url)
                         Button("Download") {
                             Task {
-                                let url = url
-                                self.url = nil
-                                try await download(url: url.orFatalError("URL should not be nil"))
+                                do {
+                                    let url = url
+                                    self.url = nil
+                                    try await download(url: url.orFatalError("URL should not be nil"))
+                                } catch {
+                                    print("Download failed: \(error)")
+                                }
                             }
                         }
                         .disabled(url == nil)
@@ -51,7 +55,11 @@ internal struct SuperDownloadWidget <Label>: View where Label: View {
                                 ForEach(bookmarks, id: \.self) { url in
                                     Button(url.lastPathComponent) {
                                         Task {
-                                            try await download(url: url)
+                                            do {
+                                                try await download(url: url)
+                                            } catch {
+                                                print("Download failed: \(error)")
+                                            }
                                         }
                                     }
                                     #if os(macOS)
@@ -119,7 +127,7 @@ extension SuperDownloadWidget where Label == Text {
 extension FileManager {
     var applicationSpecificCachesDirectory: URL {
         get throws {
-            let url = urls(for: .cachesDirectory, in: .userDomainMask).first.orFatalError().appendingPathComponent(Bundle.main.bundleIdentifier ?? "com.ultraviolence.cache")
+            let url = urls(for: .cachesDirectory, in: .userDomainMask).first.orFatalError("Failed to get caches directory").appendingPathComponent(Bundle.main.bundleIdentifier ?? "com.ultraviolence.cache")
             try createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)
             return url
         }

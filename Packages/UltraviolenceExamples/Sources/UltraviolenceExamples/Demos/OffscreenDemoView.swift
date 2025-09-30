@@ -16,6 +16,7 @@ public struct OffscreenDemoView: View {
             if case let .success(image) = result {
                 Image(nsImage: NSImage(cgImage: image, size: .zero))
                     .resizable()
+                    .accessibilityHidden(true)
             }
         }
         .aspectRatio(1, contentMode: .fit)

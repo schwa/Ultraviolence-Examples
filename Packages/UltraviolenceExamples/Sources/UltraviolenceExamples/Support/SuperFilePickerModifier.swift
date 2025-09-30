@@ -24,8 +24,12 @@ internal struct SuperFilePickerModifier <T>: ViewModifier where T: Transferable 
                     ForEach(findAll(), id: \.self) { url in
                         Button(url.lastPathComponent) {
                             Task {
-                                let items = try await T(importing: url, contentType: nil)
-                                try callback(.success([items]))
+                                do {
+                                    let items = try await T(importing: url, contentType: nil)
+                                    try callback(.success([items]))
+                                } catch {
+                                    print("Import failed: \(error)")
+                                }
                             }
                         }
                     }

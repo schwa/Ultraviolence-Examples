@@ -24,6 +24,7 @@ public struct WireframeDemoView: View {
     let teapotMesh = MTKMesh.teapot().relabeled("wireframe-teapot")
 
     public init() {
+        // This line intentionally left blank.
     }
 
     public var body: some View {

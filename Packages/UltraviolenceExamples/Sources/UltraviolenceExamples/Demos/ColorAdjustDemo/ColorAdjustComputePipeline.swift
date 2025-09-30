@@ -15,7 +15,7 @@ public struct ColorAdjustComputePipeline <T>: Element {
         self.inputSpecifier = inputSpecifier
         self.inputParameters = inputParameters
         self.outputTexture = outputTexture
-        let shaderLibrary = try ShaderLibrary(bundle: .ultraviolenceExampleShaders().orFatalError(), namespace: "ColorAdjust")
+        let shaderLibrary = try ShaderLibrary(bundle: .ultraviolenceExampleShaders().orFatalError("Failed to load ultraviolence example shaders bundle"), namespace: "ColorAdjust")
         self.kernel = try shaderLibrary.colorAdjust
 
         let mapTextureCoordinateFunction = try mapTextureCoordinateFunction ?? shaderLibrary.function(named: "mapTextureCoordinateIdentity", type: VisibleFunction.self)
@@ -42,7 +42,7 @@ public struct ColorAdjustComputePipeline <T>: Element {
 
 extension ColorAdjustComputePipeline where T == Float {
     static func gammaAdjustPipeline(inputSpecifier: ColorSource, inputParameters: Float, outputTexture: MTLTexture) throws -> Self {
-        let shaderLibrary = try ShaderLibrary(bundle: .ultraviolenceExampleShaders().orFatalError(), namespace: "ColorAdjust")
+        let shaderLibrary = try ShaderLibrary(bundle: .ultraviolenceExampleShaders().orFatalError("Failed to load ultraviolence example shaders bundle"), namespace: "ColorAdjust")
         let colorAdjustFunction = try shaderLibrary.function(named: "gamma", type: VisibleFunction.self)
         return try ColorAdjustComputePipeline(inputSpecifier: inputSpecifier, inputParameters: inputParameters, outputTexture: outputTexture, colorAdjustFunction: colorAdjustFunction)
     }

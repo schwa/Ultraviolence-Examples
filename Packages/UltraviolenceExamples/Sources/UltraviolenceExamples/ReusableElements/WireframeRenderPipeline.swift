@@ -11,7 +11,7 @@ struct WireframeRenderPipeline: Element {
     var mesh: MTKMesh
 
     init(mvpMatrix: float4x4, wireframeColor: SIMD4<Float>, mesh: MTKMesh) throws {
-        let shaderBundle = Bundle.ultraviolenceExampleShaders().orFatalError()
+        let shaderBundle = Bundle.ultraviolenceExampleShaders().orFatalError("Failed to load ultraviolence example shaders bundle")
         let shaderLibrary = try ShaderLibrary(bundle: shaderBundle, namespace: "WireframeShader")
         self.vertexShader = try shaderLibrary.vertex_main
         self.fragmentShader = try shaderLibrary.fragment_main

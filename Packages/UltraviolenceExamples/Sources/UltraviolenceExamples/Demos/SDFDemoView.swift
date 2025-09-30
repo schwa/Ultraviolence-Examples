@@ -76,7 +76,7 @@ struct SDFRenderPipeline: Element {
         self.cameraMatrix = cameraMatrix
         self.drawableSize = drawableSize
         self.showDepth = showDepth
-        let shaderBundle = Bundle.ultraviolenceExampleShaders().orFatalError()
+        let shaderBundle = Bundle.ultraviolenceExampleShaders().orFatalError("Failed to load ultraviolence example shaders bundle")
         let shaderLibrary = try ShaderLibrary(bundle: shaderBundle, namespace: "SDFShader")
         vertexShader = try shaderLibrary.vertex_main
         fragmentShader = try shaderLibrary.fragment_main

@@ -23,6 +23,7 @@ public struct GLTFDemoView: View {
     private var availableFiles: [URL] = []
 
     public init() {
+        // This line intentionally left blank.
     }
 
     public var body: some View {
@@ -54,7 +55,9 @@ public struct GLTFDemoView: View {
         }
         .onChange(of: url, initial: true) {
             do {
-                guard let url else { return }
+                guard let url else {
+                    return
+                }
                 let container = try Container(url: url)
                 document = container.document
                 sceneGraph = try GLTGSceneGraphGenerator(container: container).generateSceneGraph()
