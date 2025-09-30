@@ -1,12 +1,12 @@
 import GeometryLite3D
 import Metal
+import MetalKit
 import Panels
 import simd
 import SwiftUI
 import Ultraviolence
 import UltraviolenceSupport
 import UltraviolenceUI
-import MetalKit
 
 public struct SceneGraphDemoView: View {
     let sceneGraph: SceneGraph
@@ -18,7 +18,6 @@ public struct SceneGraphDemoView: View {
     private var cameraMatrix = simd_float4x4(translation: [0, 2, 5])
 
     let environmentTexture: MTLTexture
-
 
     public init() {
         let device = _MTLCreateSystemDefaultDevice()

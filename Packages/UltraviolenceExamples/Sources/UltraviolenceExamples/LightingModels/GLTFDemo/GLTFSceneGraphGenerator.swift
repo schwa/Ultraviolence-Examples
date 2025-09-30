@@ -4,14 +4,13 @@ import AppKit
 import UIKit
 #endif
 import CoreImage
+import CoreImage.CIFilterBuiltins
 import Foundation
 import GeometryLite3D
 import MetalKit
 import SwiftGLTF
 import UltraviolenceExampleShaders
 import UltraviolenceSupport
-import CoreImage
-import CoreImage.CIFilterBuiltins
 
 // swiftlint:disable discouraged_optional_collection
 
@@ -141,8 +140,6 @@ class GLTGSceneGraphGenerator {
             }
             if let textureInfo = pbrMetallicRoughness.metallicRoughnessTexture {
                 let mtlTexture = try mtlTexture(for: textureInfo)
-                
-
 
                 uvMaterial.metallic = .texture2D(mtlTexture.redChannel().labeled("Metallic"))
                 uvMaterial.roughness = .texture2D(mtlTexture.greenChannel().labeled("Roughness"))
@@ -268,7 +265,6 @@ extension SIMD where Scalar == Float {
 }
 
 extension MTLTexture {
-
     func redChannel() -> MTLTexture {
         let ciImage = CIImage(mtlTexture: self)
         let filter = CIFilter.colorMatrix()
