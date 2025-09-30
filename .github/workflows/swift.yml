@@ -42,7 +42,7 @@ jobs:
     xcode-build-26:
         env:
             XCODE_VERSION: "latest-stable"
-            XCODE_PROJECT: "Ultraviolence-Examples/Ultraviolence-Examples.xcodeproj"
+            XCODE_PROJECT: "Ultraviolence-Examples.xcodeproj"
             XCODE_SCHEME: "Ultraviolence-Examples"
             XCODE_CONFIGURATION: "Release"
         runs-on: macos-15 # macos-latest
