@@ -122,7 +122,6 @@ struct SimpleStitchedFunctionGraph {
         let node = MTLFunctionStitchingFunctionNode(name: function.name, arguments: inputs, controlDependencies: [])
         let graph = MTLFunctionStitchingGraph(functionName: name, nodes: [node], outputNode: node, attributes: [])
         let stitchedLibraryDescriptor = MTLStitchedLibraryDescriptor(functions: [function], functionGraphs: [graph])
-        print(stitchedLibraryDescriptor)
         let stitchedLibrary = try device.makeLibrary(stitchedDescriptor: stitchedLibraryDescriptor)
         stitchedFunctions = [
             try stitchedLibrary.makeFunction(name: name).orThrow(.resourceCreationFailure("Failed to create stitched function"))
