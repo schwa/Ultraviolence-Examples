@@ -1,5 +1,5 @@
 {
-  "originHash" : "1f8272bb61101fe5502226a1b3f2fbedbdfaafd1ebdd0e44ca0d765c1e821272",
+  "originHash" : "687caac901bafbbc712dc0701b6d81e175765994f98d9e4a5788244080df6e6e",
   "pins" : [
     {
       "identity" : "demokit",
@@ -79,7 +79,7 @@
       "location" : "https://github.com/schwa/Ultraviolence",
       "state" : {
         "branch" : "main",
-        "revision" : "e232f943bfdaaf24fa08f9a167d7587666b2c1ee"
+        "revision" : "7a73300dcc7aac007e8f982cfd88e88a8e10887b"
       }
     },
     {
