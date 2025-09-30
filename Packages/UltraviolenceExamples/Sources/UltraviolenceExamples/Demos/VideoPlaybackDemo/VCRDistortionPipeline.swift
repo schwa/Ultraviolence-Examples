@@ -29,7 +29,9 @@ public struct VCRParameters {
     public var noiseAmount: Float = 0.5
     public var chromaticAberration: Float = 0.7
 
-    public init() {}
+    public init() {
+        // This line intentionally left blank.
+    }
 }
 
 public struct VCRDistortionPipeline: Element {
@@ -49,7 +51,7 @@ public struct VCRDistortionPipeline: Element {
 
     public var body: some Element {
         get throws {
-            let shaderBundle = Bundle.ultraviolenceExampleShaders().orFatalError()
+            let shaderBundle = Bundle.ultraviolenceExampleShaders().orFatalError("Failed to load ultraviolence example shaders bundle")
             let shaderLibrary = try ShaderLibrary(bundle: shaderBundle, namespace: "VCRDistortion")
 
             let width = outputTexture.width

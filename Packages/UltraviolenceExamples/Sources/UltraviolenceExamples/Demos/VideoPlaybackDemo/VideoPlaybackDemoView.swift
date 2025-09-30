@@ -31,6 +31,7 @@ public struct VideoPlaybackDemoView: View {
     private var distortedTexture: MTLTexture?
 
     public init() {
+        // This line intentionally left blank.
     }
 
     public var body: some View {
@@ -68,7 +69,9 @@ public struct VideoPlaybackDemoView: View {
                 HStack {
                     Button(action: togglePlayPause) {
                         Image(systemName: isPlaying ? "pause.fill" : "play.fill")
+                            .accessibilityHidden(true)
                     }
+                    .accessibilityLabel(isPlaying ? "Pause" : "Play")
                     .disabled(videoURL == nil)
 
                     Button("Load Video") {

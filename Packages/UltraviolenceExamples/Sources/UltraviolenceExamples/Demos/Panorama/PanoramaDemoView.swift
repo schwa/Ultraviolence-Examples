@@ -25,6 +25,7 @@ public struct PanoramaDemoView: View {
     @State private var outputTexture: MTLTexture?
 
     public init() {
+        // This line intentionally left blank.
     }
 
     public var body: some View {

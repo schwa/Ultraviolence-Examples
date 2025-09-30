@@ -33,7 +33,9 @@ internal extension StringProtocol {
 
         case (.titleCase, .lowerCamelCase):
             let words = self.split(separator: " ").map { $0.lowercased() }
-            guard let firstWord = words.first else { return "" }
+            guard let firstWord = words.first else {
+                return ""
+            }
             let rest = words.dropFirst().map(\.capitalized)
             return ([firstWord] + rest).joined()
 

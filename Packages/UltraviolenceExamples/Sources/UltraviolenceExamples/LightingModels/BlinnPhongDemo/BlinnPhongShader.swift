@@ -12,7 +12,7 @@ public struct BlinnPhongShader<Content>: Element where Content: Element {
     public init(@ElementBuilder content: () throws -> Content) throws {
         let device = _MTLCreateSystemDefaultDevice()
         assert(device.argumentBuffersSupport == .tier2)
-        let shaderBundle = Bundle.ultraviolenceExampleShaders().orFatalError()
+        let shaderBundle = Bundle.ultraviolenceExampleShaders().orFatalError("Failed to load ultraviolence example shaders bundle")
         let shaderLibrary = try ShaderLibrary(bundle: shaderBundle, namespace: "BlinnPhong")
         vertexShader = try shaderLibrary.vertex_main
         fragmentShader = try shaderLibrary.fragment_main

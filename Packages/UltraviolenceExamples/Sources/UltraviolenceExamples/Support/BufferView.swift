@@ -49,7 +49,9 @@ extension MTLBuffer {
         set {
             precondition(newValue.count == range.count, "New value count must match range count")
             let pointer = contents().advanced(by: view.offset + range.lowerBound * view.stride)
-            guard let baseAddress = newValue.baseAddress else { return }
+            guard let baseAddress = newValue.baseAddress else {
+                return
+            }
             pointer.copyMemory(from: baseAddress, byteCount: newValue.count * view.stride)
         }
     }
@@ -73,7 +75,9 @@ extension MTLBuffer {
         set {
             precondition(newValue.count == range.count, "New value count must match range count")
             let pointer = contents().advanced(by: view.offset + range.lowerBound * view.stride)
-            guard let baseAddress = newValue.baseAddress else { return }
+            guard let baseAddress = newValue.baseAddress else {
+                return
+            }
             pointer.assumingMemoryBound(to: T.self).update(from: baseAddress, count: newValue.count)
         }
     }
@@ -113,7 +117,9 @@ extension MTLBuffer {
             let view = BufferView<T>(count: length / MemoryLayout<T>.stride)
             precondition(newValue.count == range.count, "New value count must match range count")
             let pointer = contents().advanced(by: view.offset + range.lowerBound * view.stride)
-            guard let baseAddress = newValue.baseAddress else { return }
+            guard let baseAddress = newValue.baseAddress else {
+                return
+            }
             pointer.assumingMemoryBound(to: T.self).update(from: baseAddress, count: newValue.count)
         }
     }

@@ -58,7 +58,7 @@ public struct GameOfLife: Element {
                 initialized = true
             }
 
-            let shaderBundle = Bundle.ultraviolenceExampleShaders().orFatalError()
+            let shaderBundle = Bundle.ultraviolenceExampleShaders().orFatalError("Failed to load ultraviolence example shaders bundle")
             let shaderLibrary = try ShaderLibrary(bundle: shaderBundle, namespace: "GameOfLifeShader")
 
             return try Group {
@@ -89,11 +89,11 @@ public struct GameOfLife: Element {
     }
 
     private var currentTexture: MTLTexture {
-        currentTextureIsA ? textureA.orFatalError() : textureB.orFatalError()
+        currentTextureIsA ? textureA.orFatalError("Missing texture A") : textureB.orFatalError("Missing texture B")
     }
 
     private var nextTexture: MTLTexture {
-        currentTextureIsA ? textureB.orFatalError() : textureA.orFatalError()
+        currentTextureIsA ? textureB.orFatalError("Missing texture B") : textureA.orFatalError("Missing texture A")
     }
 
     private func setupTexturesIfNeeded() {
@@ -119,7 +119,7 @@ public struct GameOfLife: Element {
             return
         }
 
-        let shaderBundle = Bundle.ultraviolenceExampleShaders().orFatalError()
+        let shaderBundle = Bundle.ultraviolenceExampleShaders().orFatalError("Failed to load ultraviolence example shaders bundle")
         guard let shaderLibrary = try? ShaderLibrary(bundle: shaderBundle, namespace: "GameOfLifeShader") else {
             return
         }
@@ -153,9 +153,9 @@ public struct GameOfLife: Element {
 
         // Initialize both textures
         for texture in [textureA, textureB] {
-            let commandQueue = device.makeCommandQueue().orFatalError()
-            let commandBuffer = commandQueue.makeCommandBuffer().orFatalError()
-            let computeEncoder = commandBuffer.makeComputeCommandEncoder().orFatalError()
+            let commandQueue = device.makeCommandQueue().orFatalError("Failed to create command queue")
+            let commandBuffer = commandQueue.makeCommandBuffer().orFatalError("Failed to create command buffer")
+            let computeEncoder = commandBuffer.makeComputeCommandEncoder().orFatalError("Failed to create compute encoder")
 
             guard let pipelineState = try? device.makeComputePipelineState(function: initKernel.function) else { continue }
             computeEncoder.setComputePipelineState(pipelineState)

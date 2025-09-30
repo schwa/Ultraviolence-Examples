@@ -33,8 +33,8 @@ extension Lighting {
         LightingArgumentBuffer(
             ambientLightColor: ambientLightColor,
             lightCount: Int32(count),
-            lights: lights.gpuAddressAsUnsafeMutablePointer(type: Light.self).orFatalError(),
-            lightPositions: lightPositions.gpuAddressAsUnsafeMutablePointer(type: SIMD3<Float>.self).orFatalError()
+            lights: lights.gpuAddressAsUnsafeMutablePointer(type: Light.self).orFatalError("Failed to get GPU address for lights buffer"),
+            lightPositions: lightPositions.gpuAddressAsUnsafeMutablePointer(type: SIMD3<Float>.self).orFatalError("Failed to get GPU address for lightPositions buffer")
         )
     }
 }

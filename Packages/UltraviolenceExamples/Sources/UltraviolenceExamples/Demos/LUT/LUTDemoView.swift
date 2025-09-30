@@ -40,12 +40,12 @@ public struct LUTDemoView: View {
         do {
             let device = _MTLCreateSystemDefaultDevice()
             let textureLoader = MTKTextureLoader(device: device)
-            let inputTextureURL = Bundle.module.url(forResource: "DSC_2595", withExtension: "JPG").orFatalError()
+            let inputTextureURL = Bundle.module.url(forResource: "DSC_2595", withExtension: "JPG").orFatalError("Failed to find DSC_2595.JPG resource")
             let sourceTexture = try textureLoader.newTexture(URL: inputTextureURL, options: [
                 .textureUsage: MTLTextureUsage([.shaderRead, .shaderWrite]).rawValue,
                 .SRGB: true
             ])
-            let resourceURL = Bundle.module.resourceURL.orFatalError()
+            let resourceURL = Bundle.module.resourceURL.orFatalError("Failed to get module resource URL")
             let lutTextureURL = resourceURL.appendingPathComponent("Samples/Blue Bias.png").assertFileExists()
             self._lutURL = .init(initialValue: lutTextureURL)
             let lutTexture = try Self.make3DLUTTexture(from: lutTextureURL)
@@ -77,7 +77,7 @@ public struct LUTDemoView: View {
         .overlay(alignment: .bottom) {
             VStack {
                 Picker("LUT", selection: $lutURL) {
-                    let resourceURL = Bundle.module.resourceURL.orFatalError()
+                    let resourceURL = Bundle.module.resourceURL.orFatalError("Failed to get module resource URL")
                     ForEach(builtInLUTNames, id: \.self) { name in
                         let url = resourceURL.appendingPathComponent("Samples/\(name)").assertFileExists()
                         Text(name).tag(url)

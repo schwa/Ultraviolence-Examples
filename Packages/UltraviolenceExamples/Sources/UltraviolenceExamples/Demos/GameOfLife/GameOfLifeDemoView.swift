@@ -22,7 +22,9 @@ public struct GameOfLifeDemoView: View {
                 }
                 label: {
                     Image(systemName: isRunning ? "pause.fill" : "play.fill")
+                        .accessibilityHidden(true)
                 }
+                .accessibilityLabel(isRunning ? "Pause" : "Play")
 
                 Menu("Fill") {
                     Button("Glider") {

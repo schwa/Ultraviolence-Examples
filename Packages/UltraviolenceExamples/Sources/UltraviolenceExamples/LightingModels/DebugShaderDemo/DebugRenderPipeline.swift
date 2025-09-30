@@ -28,7 +28,7 @@ public struct DebugRenderPipeline<Content>: Element where Content: Element {
 
         self.content = try content()
 
-        let shaderBundle = Bundle.ultraviolenceExampleShaders().orFatalError()
+        let shaderBundle = Bundle.ultraviolenceExampleShaders().orFatalError("Failed to load ultraviolence example shaders bundle")
         let shaderLibrary = try! ShaderLibrary(bundle: shaderBundle, namespace: "DebugShader")
         self.vertexShader = try! shaderLibrary.vertex_main
         self.fragmentShader = try! shaderLibrary.fragment_main

@@ -29,7 +29,7 @@ public struct ColorRemapComputePipeline: Element {
     public var body: some Element {
         get throws {
             let shaderLibrary = try ShaderLibrary(
-                bundle: .ultraviolenceExampleShaders().orFatalError(),
+                bundle: .ultraviolenceExampleShaders().orFatalError("Failed to load ultraviolence example shaders bundle"),
                 namespace: "ColorRemap"
             )
 

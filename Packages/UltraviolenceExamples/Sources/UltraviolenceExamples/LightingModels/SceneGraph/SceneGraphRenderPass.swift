@@ -51,7 +51,9 @@ struct SceneGraphRenderPass: Element {
         get throws {
             let nodesWithMeshes = try sceneGraph.filter { $0.mesh != nil }
             let blinnPhongNodes = nodesWithMeshes.filter { node in
-                if case .blinnPhong = node.material { return true }
+                if case .blinnPhong = node.material {
+                    return true
+                }
                 return false
             }
             return try BlinnPhongShader {
@@ -76,7 +78,9 @@ struct SceneGraphRenderPass: Element {
         get throws {
             let nodesWithMeshes = try sceneGraph.filter { $0.mesh != nil }
             let pbrNodes = nodesWithMeshes.filter { node in
-                if case .pbr = node.material { return true }
+                if case .pbr = node.material {
+                    return true
+                }
                 return false
             }
             try PBRShader {

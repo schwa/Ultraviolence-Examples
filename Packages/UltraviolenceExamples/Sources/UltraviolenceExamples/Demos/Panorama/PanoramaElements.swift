@@ -26,7 +26,7 @@ struct PanoramaElement: Element {
         self.panoramaTexture = panoramaTexture
         self.mesh = mesh
         self.showUV = showUV
-        let shaderBundle = Bundle.ultraviolenceExampleShaders().orFatalError()
+        let shaderBundle = Bundle.ultraviolenceExampleShaders().orFatalError("Failed to load ultraviolence example shaders bundle")
         let shaderLibrary = try ShaderLibrary(bundle: shaderBundle, namespace: "Panorama")
         vertexShader = try shaderLibrary.vertex_main
         fragmentShader = try shaderLibrary.fragment_main
@@ -58,7 +58,7 @@ struct PanoramaMinimapElement: Element {
 
     init(panoramaTexture: MTLTexture) throws {
         self.panoramaTexture = panoramaTexture
-        let shaderBundle = Bundle.ultraviolenceExampleShaders().orFatalError()
+        let shaderBundle = Bundle.ultraviolenceExampleShaders().orFatalError("Failed to load ultraviolence example shaders bundle")
         let shaderLibrary = try ShaderLibrary(bundle: shaderBundle, namespace: "Panorama")
         vertexShader = try shaderLibrary.minimap_vertex
         fragmentShader = try shaderLibrary.minimap_fragment

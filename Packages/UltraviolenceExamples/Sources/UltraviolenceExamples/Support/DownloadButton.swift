@@ -28,6 +28,7 @@ public struct DownloadButton: View {
                 HStack {
                     Image(systemName: "checkmark.circle.fill")
                         .foregroundColor(.green)
+                        .accessibilityHidden(true)
                     Text("Downloaded")
                         .foregroundColor(.secondary)
                 }

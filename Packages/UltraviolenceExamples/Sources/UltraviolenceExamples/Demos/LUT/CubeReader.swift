@@ -15,7 +15,7 @@ struct CubeReader {
         let string = try String(contentsOf: url, encoding: .utf8)
         let lines = string.split(whereSeparator: \.isNewline)
         var title: Substring?
-        var is3D: Bool?
+        var is3D = false
         var count: Int?
         var values: [SIMD3<Float>] = []
 
@@ -33,7 +33,7 @@ struct CubeReader {
             if title == nil, let match = try titleRegex.firstMatch(in: String(trimmedLine)) {
                 title = match.output.1
             }
-            else if is3D == nil, let match = try lut3DSizeRegex.firstMatch(in: String(trimmedLine)) {
+            else if !is3D, let match = try lut3DSizeRegex.firstMatch(in: String(trimmedLine)) {
                 is3D = true
                 count = try Int(match.output.1).orThrow(.generic("Failed to parse LUT_3D_SIZE value"))
             }
@@ -49,7 +49,7 @@ struct CubeReader {
             }
         }
 
-        guard let is3D, is3D == true, let count else {
+        guard is3D, let count else {
             throw UltraviolenceError.configurationError("Missing or invalid LUT_3D_SIZE declaration in .cube file")
         }
 

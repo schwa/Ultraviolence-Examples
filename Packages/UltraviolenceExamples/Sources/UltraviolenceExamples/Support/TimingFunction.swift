@@ -103,7 +103,9 @@ internal struct CubicBezier {
         let d = p0x - x
 
         // Solve for t using Cardano's method
-        guard let t = solveCubic(a: a, b: b, c: c, d: d) else { return nil }
+        guard let t = solveCubic(a: a, b: b, c: c, d: d) else {
+            return nil
+        }
 
         // Evaluate Bézier y at the found t
         return cubicBezier(t: t, p0: p0y, p1: p1y, p2: p2y, p3: p3y)
@@ -111,7 +113,9 @@ internal struct CubicBezier {
 
     // Solves the cubic equation at^3 + bt^2 + ct + d = 0 using Cardano's formula
     private func solveCubic(a: Double, b: Double, c: Double, d: Double) -> Double? {
-        if abs(a) < 1e-8 { return solveQuadratic(b: b, c: c, d: d) }
+        if abs(a) < 1e-8 {
+            return solveQuadratic(b: b, c: c, d: d)
+        }
 
         let A = b / a
         let B = c / a
@@ -143,10 +147,14 @@ internal struct CubicBezier {
 
     // Fallback: Solve quadratic equation bt^2 + ct + d = 0
     private func solveQuadratic(b: Double, c: Double, d: Double) -> Double? {
-        if abs(b) < 1e-8 { return (abs(c) < 1e-8) ? nil : -d / c }
+        if abs(b) < 1e-8 {
+            return (abs(c) < 1e-8) ? nil : -d / c
+        }
 
         let discriminant = c * c - 4 * b * d
-        if discriminant < 0 { return nil }
+        if discriminant < 0 {
+            return nil
+        }
 
         let sqrtD = sqrt(discriminant)
         let t1 = (-c + sqrtD) / (2 * b)

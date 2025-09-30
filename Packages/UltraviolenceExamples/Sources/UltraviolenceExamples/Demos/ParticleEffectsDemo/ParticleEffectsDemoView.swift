@@ -32,7 +32,9 @@ public struct ParticleEffectsDemoView: View {
         case magicPortal = "Magic Portal"
     }
 
-    public init() {}
+    public init() {
+        // This line intentionally left blank.
+    }
 
     public var body: some View {
         WorldView(projection: $projection, cameraMatrix: $cameraMatrix, targetMatrix: .constant(nil)) {

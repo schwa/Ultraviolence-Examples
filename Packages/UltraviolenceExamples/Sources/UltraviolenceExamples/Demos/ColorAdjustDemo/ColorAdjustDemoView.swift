@@ -85,7 +85,7 @@ public struct ColorAdjustDemoView: View {
 
         let textureLoader = MTKTextureLoader(device: device)
 
-        let url = Bundle.module.url(forResource: "DSC_2595", withExtension: "JPG").orFatalError()
+        let url = Bundle.module.url(forResource: "DSC_2595", withExtension: "JPG").orFatalError("Failed to find DSC_2595.JPG resource")
 
         sourceTexture = try! textureLoader.newTexture(URL: url, options: [
             .textureUsage: MTLTextureUsage([.shaderRead, .shaderWrite]).rawValue,
@@ -94,8 +94,8 @@ public struct ColorAdjustDemoView: View {
 
         let adjustedDescriptor = MTLTextureDescriptor.texture2DDescriptor(pixelFormat: .rgba8Unorm, width: sourceTexture.width, height: sourceTexture.height, mipmapped: false)
         adjustedDescriptor.usage = [.shaderRead, .shaderWrite]
-        adjustedTexture = device.makeTexture(descriptor: adjustedDescriptor).orFatalError()
-        shaderLibrary = try! ShaderLibrary(bundle: .ultraviolenceExampleShaders().orFatalError(), namespace: "ColorAdjust")
+        adjustedTexture = device.makeTexture(descriptor: adjustedDescriptor).orFatalError("Failed to create adjusted texture")
+        shaderLibrary = try! ShaderLibrary(bundle: .ultraviolenceExampleShaders().orFatalError("Failed to load ultraviolence example shaders bundle"), namespace: "ColorAdjust")
     }
 
     var currentParameter: Any {

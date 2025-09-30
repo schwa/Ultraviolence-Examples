@@ -14,7 +14,7 @@ public struct PBRShader<Content>: Element where Content: Element {
     var content: Content
 
     public init(@ElementBuilder content: () throws -> Content) throws {
-        let shaderBundle = Bundle.ultraviolenceExampleShaders().orFatalError()
+        let shaderBundle = Bundle.ultraviolenceExampleShaders().orFatalError("Failed to load ultraviolence example shaders bundle")
         let shaderLibrary = try ShaderLibrary(bundle: shaderBundle, namespace: "PBR")
         self.vertexShader = try shaderLibrary.vertex_main
         self.fragmentShader = try shaderLibrary.fragment_main
