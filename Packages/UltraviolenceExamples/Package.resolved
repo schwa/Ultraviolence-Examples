@@ -1,5 +1,5 @@
 {
-  "originHash" : "d6ed5da596b2de9a384df8c63e864e502cbb5d5b86555ea9b3e8d012371b36cc",
+  "originHash" : "487d55f8d917d62102d1021afb73d417002b9a4164d30c0db5a090443ae0485f",
   "pins" : [
     {
       "identity" : "geometrylite3d",
@@ -53,6 +53,15 @@
       "state" : {
         "branch" : "main",
         "revision" : "4160ed7e89b7cfcccf5ff7a0cbfd5b055fada771"
+      }
+    },
+    {
+      "identity" : "ultraviolence",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/schwa/Ultraviolence",
+      "state" : {
+        "branch" : "main",
+        "revision" : "3a2c38b84b2deb71f87c62b128deec5ffdb89533"
       }
     },
     {
