@@ -91,7 +91,6 @@ struct SceneGraphRenderPass: Element {
                         }
                         .pbrMaterial(material)
                         .pbrUniforms(modelTransform: node.transform, cameraMatrix: cameraMatrix, projectionMatrix: projectionMatrix)
-                        
                     }
                 }
                 .pbrEnvironment(environmentTexture)

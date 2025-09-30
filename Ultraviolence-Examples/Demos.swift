@@ -6,6 +6,7 @@ import UltraviolenceExamples
     var demos: [any DemoView.Type] = [
         EmptyView.self,
         BlinnPhongDemoView.self,
+        HitTestDemoView.self,
         SkyboxDemoView.self,
         TriangleDemoView.self,
         ComputeDemoView.self,
@@ -96,6 +97,12 @@ extension BouncingTeapotsDemoView: @retroactive DemoView {
 extension BlinnPhongDemoView: @retroactive DemoView {
     public static var metadata: DemoMetadata {
         DemoMetadata(name: "Blinn-Phong Lighting", description: "3D lighting demonstration using the Blinn-Phong shading model with animated lights", group: "Basic", keywords: ["lighting", "multipass", "animated"])
+    }
+}
+
+extension HitTestDemoView: @retroactive DemoView {
+    public static var metadata: DemoMetadata {
+        DemoMetadata(name: "Hit Test Demo", description: "Teapot rendering with hit test pipeline that outputs geometry ID, instance ID, triangle ID, depth, and barycentric coordinates", group: "Complex", keywords: ["hit-test", "picking", "multipass"])
     }
 }
 

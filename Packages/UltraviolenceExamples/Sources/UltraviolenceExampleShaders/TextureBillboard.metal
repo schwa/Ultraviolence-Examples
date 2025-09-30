@@ -76,4 +76,40 @@ namespace TextureBillboard {
         return colorA.bgra;
     }
 
+    [[stitchable]] float4
+    colorTransformHitTestVisualize(float4 colorA, float4 colorB, float2 textureCoordinate, constant void *parameters) {
+        // For integer IDs (geometry, instance, triangle), multiply by a large factor to make visible
+        // Assuming IDs are in the red channel as int32 values normalized to [0,1]
+        float value = colorA.r;
+
+        // If the value is negative (no hit), show as black
+        if (value < 0) {
+            return float4(0, 0, 0, 1);
+        }
+
+        // For small integer values, create a color gradient
+        // Multiply by a large factor and use different color channels
+        float scaled = value * 1000.0; // Scale up small values
+
+        // Create a color based on the scaled value
+        float3 color = float3(
+            fract(scaled * 1.0),        // Red channel
+            fract(scaled * 7.0),         // Green channel
+            fract(scaled * 13.0)         // Blue channel
+        );
+
+        return float4(color, 1.0);
+    }
+
+    [[stitchable]] float4
+    colorTransformDepthVisualize(float4 colorA, float4 colorB, float2 textureCoordinate, constant void *parameters) {
+        // For depth values, invert and scale for better visualization
+        float depth = colorA.r;
+
+        // Invert depth (near = white, far = black) and apply gamma for better visualization
+        float visualized = pow(1.0 - depth, 2.2);
+
+        return float4(visualized, visualized, visualized, 1.0);
+    }
+
 } // namespace TextureBillboard
