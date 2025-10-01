@@ -41,3 +41,9 @@ push: build test
 format:
     swiftlint --fix --format --quiet
     fd --extension metal --extension h --exec clang-format -i {}
+
+update-deps:
+    rm Packages/UltraviolenceExamples/Package.resolved
+    rm Ultraviolence-Examples.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
+    cd Packages/UltraviolenceExamples; swift package update
+    xcodebuild -resolvePackageDependencies
