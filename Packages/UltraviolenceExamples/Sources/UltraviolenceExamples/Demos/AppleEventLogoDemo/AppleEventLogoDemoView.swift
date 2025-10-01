@@ -50,7 +50,10 @@ public struct AppleEventLogoDemoView: View {
     private var size: CGSize = .zero
 
     @State
-    private var shaderLibrary = try! ShaderLibrary(bundle: .ultraviolenceExampleShaders().orFatalError("Failed to load ultraviolence example shaders bundle"), namespace: "AppleEventLogoShaders")
+    private var shaderLibrary = (try? ShaderLibrary(
+        bundle: .ultraviolenceExampleShaders().orFatalError("Failed to load ultraviolence example shaders bundle"),
+        namespace: "AppleEventLogoShaders"
+    )).orFatalError("Failed to load Apple event shader library")
 
     public init() {
         // This line intentionally left blank.

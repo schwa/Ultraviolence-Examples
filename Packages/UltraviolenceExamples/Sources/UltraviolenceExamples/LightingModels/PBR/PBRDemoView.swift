@@ -27,15 +27,16 @@ public struct PBRDemoView: View {
         teapot = MTKMesh.teapot(options: [.generateTangentBasis, .generateTextureCoordinatesIfMissing, .useSimpleTextureCoordinates])
         let device = _MTLCreateSystemDefaultDevice()
         let textureLoader = MTKTextureLoader(device: device)
-        let envURL = Bundle.module.url(forResource: "IndoorEnvironmentHDRI013_1K-HDR", withExtension: "exr")!
-        environmentTexture = try! textureLoader.newTexture(URL: envURL, options: [
+        let envURL = Bundle.module.url(forResource: "IndoorEnvironmentHDRI013_1K-HDR", withExtension: "exr")
+            .orFatalError("Missing PBR environment texture")
+        environmentTexture = (try? textureLoader.newTexture(URL: envURL, options: [
             .textureUsage: MTLTextureUsage.shaderRead.rawValue,
             .textureStorageMode: MTLStorageMode.private.rawValue,
             .generateMipmaps: true,
             .SRGB: false
-        ])
+        ])).orFatalError("Failed to load PBR environment texture")
 
-        lighting = try! .demo()
+        lighting = (try? Lighting.demo()).orFatalError("Failed to load demo lighting")
     }
 
     public var body: some View {

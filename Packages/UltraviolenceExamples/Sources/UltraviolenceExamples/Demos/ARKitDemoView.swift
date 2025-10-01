@@ -24,16 +24,17 @@ public struct ARKitDemoView: View {
     ]
 
     public init() {
-        teapot = try! MTKMesh.teapot(options: [.generateTangentBasis, .generateTextureCoordinatesIfMissing, .useSimpleTextureCoordinates])
+        teapot = (try? MTKMesh.teapot(options: [.generateTangentBasis, .generateTextureCoordinatesIfMissing, .useSimpleTextureCoordinates]))
+            .orFatalError("Failed to load AR teapot mesh")
         let device = _MTLCreateSystemDefaultDevice()
         let textureLoader = MTKTextureLoader(device: device)
         let envURL = Bundle.module.url(forResource: "IndoorEnvironmentHDRI013_1K-HDR", withExtension: "exr").orFatalError("Missing environment texture resource")
-        environmentTexture = try textureLoader.newTexture(URL: envURL, options: [
+        environmentTexture = (try? textureLoader.newTexture(URL: envURL, options: [
             .textureUsage: MTLTextureUsage.shaderRead.rawValue,
             .textureStorageMode: MTLStorageMode.private.rawValue,
             .generateMipmaps: true,
             .SRGB: false
-        ])
+        ])).orFatalError("Failed to load AR environment texture")
     }
 
     public var body: some View {

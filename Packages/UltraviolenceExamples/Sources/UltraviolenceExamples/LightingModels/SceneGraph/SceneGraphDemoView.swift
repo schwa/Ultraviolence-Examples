@@ -30,13 +30,14 @@ public struct SceneGraphDemoView: View {
 
         let device = _MTLCreateSystemDefaultDevice()
         let textureLoader = MTKTextureLoader(device: device)
-        let envURL = Bundle.module.url(forResource: "IndoorEnvironmentHDRI013_1K-HDR", withExtension: "exr")!
-        environmentTexture = try! textureLoader.newTexture(URL: envURL, options: [
+        let envURL = Bundle.module.url(forResource: "IndoorEnvironmentHDRI013_1K-HDR", withExtension: "exr")
+            .orFatalError("Missing scene graph environment texture")
+        environmentTexture = (try? textureLoader.newTexture(URL: envURL, options: [
             .textureUsage: MTLTextureUsage.shaderRead.rawValue,
             .textureStorageMode: MTLStorageMode.private.rawValue,
             .generateMipmaps: true,
             .SRGB: false
-        ])
+        ])).orFatalError("Failed to load scene graph environment texture")
     }
 
     public var body: some View {

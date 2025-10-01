@@ -33,10 +33,11 @@ struct SceneGraphRenderPass: Element {
             return (worldTransform.translation, light)
         }
         if lights.isEmpty {
-            self.lighting = try! Lighting.demo()
+            self.lighting = (try? Lighting.demo()).orFatalError("Failed to load demo lighting")
         }
         else {
-            self.lighting = try! .init(ambientLightColor: [1, 1, 1], lights: lights)
+            self.lighting = (try? Lighting(ambientLightColor: [1, 1, 1], lights: lights))
+                .orFatalError("Failed to create scene graph lighting")
         }
         self.environmentTexture = environmentTexture
     }
