@@ -85,8 +85,8 @@ only_rules:
   - first_where
   - flatmap_over_map_reduce
   - for_where
-  - force_cast # 1 violations
-#  - force_try # 13 violations
+  - force_cast
+  - force_try # 13 violations
 #  - force_unwrapping # 25 violations
 #  - function_body_length
 #  - function_default_parameter_at_end
