@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4570B1FD2E8DAD2F00C44C13 /* UltraviolenceSnapshotUI in Frameworks */ = {isa = PBXBuildFile; productRef = 4570B1FC2E8DAD2F00C44C13 /* UltraviolenceSnapshotUI */; };
 		45CCE6A92E83B057001EF989 /* UltraviolenceExamples in Frameworks */ = {isa = PBXBuildFile; productRef = 45CCE6A82E83B057001EF989 /* UltraviolenceExamples */; };
 		45CCE6AD2E83B0C0001EF989 /* DemoKit in Frameworks */ = {isa = PBXBuildFile; productRef = 45CCE6AC2E83B0C0001EF989 /* DemoKit */; };
 /* End PBXBuildFile section */
@@ -63,6 +64,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				45CCE6AD2E83B0C0001EF989 /* DemoKit in Frameworks */,
+				4570B1FD2E8DAD2F00C44C13 /* UltraviolenceSnapshotUI in Frameworks */,
 				45CCE6A92E83B057001EF989 /* UltraviolenceExamples in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -131,6 +133,7 @@
 			packageProductDependencies = (
 				45CCE6A82E83B057001EF989 /* UltraviolenceExamples */,
 				45CCE6AC2E83B0C0001EF989 /* DemoKit */,
+				4570B1FC2E8DAD2F00C44C13 /* UltraviolenceSnapshotUI */,
 			);
 			productName = UltraviolenceExamples;
 			productReference = 45E0A1122D9DAF2D0091ED9E /* Ultraviolence-Examples.app */;
@@ -162,6 +165,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				45057C682E6F661900C379BE /* XCRemoteSwiftPackageReference "DemoKit" */,
+				4570B1F92E8DAD0D00C44C13 /* XCRemoteSwiftPackageReference "Ultraviolence" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 455C19062CD483FC009A25A6 /* Products */;
@@ -317,9 +321,22 @@
 				minimumVersion = 0.1.0;
 			};
 		};
+		4570B1F92E8DAD0D00C44C13 /* XCRemoteSwiftPackageReference "Ultraviolence" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/schwa/Ultraviolence";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		4570B1FC2E8DAD2F00C44C13 /* UltraviolenceSnapshotUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4570B1F92E8DAD0D00C44C13 /* XCRemoteSwiftPackageReference "Ultraviolence" */;
+			productName = UltraviolenceSnapshotUI;
+		};
 		45C0EEDD2D9DB10A0076D9DF /* UltraviolenceExamples */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = UltraviolenceExamples;
