@@ -52,9 +52,20 @@ public struct StencilDemoView: View {
         RenderView { _, _ in
             try BlitPass {
                 EnvironmentReader(keyPath: \.renderPassDescriptor) { renderPassDescriptor in
-                    let stencilAttachmentTexture = renderPassDescriptor!.stencilAttachment.texture!
-                    Blit { encoder in
-                        encoder.copy(from: try texture.orThrow(.resourceCreationFailure("texture")), sourceSlice: 0, sourceLevel: 0, sourceOrigin: .init(x: 0, y: 0, z: 0), sourceSize: .init(width: texture!.width, height: texture!.height, depth: 1), to: stencilAttachmentTexture, destinationSlice: 0, destinationLevel: 0, destinationOrigin: .init(x: 0, y: 0, z: 0))
+                    if let descriptor = renderPassDescriptor, let stencilAttachmentTexture = descriptor.stencilAttachment.texture, let sourceTexture = texture {
+                        Blit { encoder in
+                            encoder.copy(
+                                from: sourceTexture,
+                                sourceSlice: 0,
+                                sourceLevel: 0,
+                                sourceOrigin: .init(x: 0, y: 0, z: 0),
+                                sourceSize: .init(width: sourceTexture.width, height: sourceTexture.height, depth: 1),
+                                to: stencilAttachmentTexture,
+                                destinationSlice: 0,
+                                destinationLevel: 0,
+                                destinationOrigin: .init(x: 0, y: 0, z: 0)
+                            )
+                        }
                     }
                 }
             }
@@ -86,7 +97,8 @@ public struct StencilDemoView: View {
                 descriptor.usage = [.shaderRead, .shaderWrite]
 
                 let device = _MTLCreateSystemDefaultDevice()
-                let texture = device.makeTexture(descriptor: descriptor)!
+                let texture = device.makeTexture(descriptor: descriptor)
+                    .orFatalError("Failed to create stencil texture")
                 texture.label = "Faux Stencil Texture"
                 let pass = try ComputePass {
                     try CheckerboardKernel_ushort(outputTexture: texture, checkerSize: [100, 100], foregroundColor: 0xFFFF)
@@ -95,7 +107,8 @@ public struct StencilDemoView: View {
                 self.texture = texture
             }
             catch {
-                fatalError("\(error)")
+                debugPrint("Stencil texture update failed: \(error)")
+                texture = nil
             }
         }
     }

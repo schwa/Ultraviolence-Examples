@@ -49,19 +49,21 @@ public struct BlinnPhongDemoView: View {
 
                         LightingVisualizer(cameraMatrix: cameraMatrix, projectionMatrix: projectionMatrix, lighting: lighting)
 
-                        try BlinnPhongShader {
-                            try ForEach(models) { model in
-                                try Draw { encoder in
-                                    encoder.setVertexBuffers(of: model.mesh)
-                                    encoder.draw(model.mesh)
+                        if let firstModel = models.first {
+                            try BlinnPhongShader {
+                                try ForEach(models) { model in
+                                    try Draw { encoder in
+                                        encoder.setVertexBuffers(of: model.mesh)
+                                        encoder.draw(model.mesh)
+                                    }
+                                    .blinnPhongMaterial(model.material)
+                                    .transforms(.init(modelMatrix: model.modelMatrix, cameraMatrix: cameraMatrix, projectionMatrix: projectionMatrix))
                                 }
-                                .blinnPhongMaterial(model.material)
-                                .transforms(.init(modelMatrix: model.modelMatrix, cameraMatrix: cameraMatrix, projectionMatrix: projectionMatrix))
+                                .lighting(lighting)
                             }
-                            .lighting(lighting)
+                            .vertexDescriptor(firstModel.mesh.vertexDescriptor)
+                            .depthCompare(function: .less, enabled: true)
                         }
-                        .vertexDescriptor(models.first!.mesh.vertexDescriptor)
-                        .depthCompare(function: .less, enabled: true)
 
                         try AxisLinesRenderPipeline(mvpMatrix: viewProjectionMatrix, scale: 10_000.0)
                     }

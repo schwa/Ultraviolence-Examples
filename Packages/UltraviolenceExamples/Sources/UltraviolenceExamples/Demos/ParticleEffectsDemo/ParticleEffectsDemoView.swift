@@ -209,9 +209,11 @@ private struct ParticleUpdateCompute: Element {
     var body: some Element {
         get throws {
             let device = _MTLCreateSystemDefaultDevice()
-            let bundle = Bundle.ultraviolenceExampleShaders()!
+            let bundle = Bundle.ultraviolenceExampleShaders()
+                .orFatalError("Failed to load shader bundle")
             let library = try device.makeDefaultLibrary(bundle: bundle)
-            let updateFunction = library.makeFunction(name: "updateParticles")!
+            let updateFunction = library.makeFunction(name: "updateParticles")
+                .orFatalError("Missing updateParticles shader")
 
             let uniforms = ParticleUniforms(
                 viewMatrix: .identity,
@@ -264,11 +266,14 @@ private struct ParticleRenderPipeline: Element {
     var body: some Element {
         get throws {
             let device = _MTLCreateSystemDefaultDevice()
-            let bundle = Bundle.ultraviolenceExampleShaders()!
+            let bundle = Bundle.ultraviolenceExampleShaders()
+                .orFatalError("Failed to load shader bundle")
             let library = try device.makeDefaultLibrary(bundle: bundle)
 
-            let vertexFunction = library.makeFunction(name: "particleEffectsVertex")!
-            let fragmentFunction = library.makeFunction(name: "particleEffectsFragment")!
+            let vertexFunction = library.makeFunction(name: "particleEffectsVertex")
+                .orFatalError("Missing particleEffectsVertex shader")
+            let fragmentFunction = library.makeFunction(name: "particleEffectsFragment")
+                .orFatalError("Missing particleEffectsFragment shader")
 
             try RenderPipeline(
                 vertexShader: VertexShader(vertexFunction),
