@@ -44,6 +44,6 @@ format:
 
 update-deps:
     rm Packages/UltraviolenceExamples/Package.resolved
-    rm Ultraviolence-Examples.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
+    #rm Ultraviolence-Examples.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
     cd Packages/UltraviolenceExamples; swift package update
     xcodebuild -resolvePackageDependencies
