@@ -52,7 +52,9 @@ public struct DepthDemoView: View {
             return float4(depth, depth, depth, 1.0);
         }
         """
-        let library = try! Ultraviolence.ShaderLibrary(source: adjustSource)
+        let device = _MTLCreateSystemDefaultDevice()
+        let mtlLibrary = try! device.makeLibrary(source: adjustSource, options: nil)
+        let library = Ultraviolence.ShaderLibrary(library: mtlLibrary)
         colorAdjustFunction = try! library.function(named: "colorAdjustPow", type: VisibleFunction.self)
     }
 

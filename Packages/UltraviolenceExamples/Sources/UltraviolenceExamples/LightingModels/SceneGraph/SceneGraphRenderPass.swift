@@ -4,7 +4,6 @@ import Ultraviolence
 import UltraviolenceExampleShaders
 import UltraviolenceSupport
 
-// TODO: Currently not using parents transforms
 // TODO: Lighing is static once generated.
 
 struct SceneGraphRenderPass: Element {
@@ -13,19 +12,25 @@ struct SceneGraphRenderPass: Element {
     var projectionMatrix: simd_float4x4
     var lighting: Lighting
     var environmentTexture: MTLTexture
+    private let nodesWithWorldTransforms: [(node: SceneGraph.Node, worldTransform: float4x4)]
 
     init(sceneGraph: SceneGraph, cameraMatrix: simd_float4x4, projectionMatrix: simd_float4x4, environmentTexture: MTLTexture) {
         self.sceneGraph = sceneGraph
         self.cameraMatrix = cameraMatrix
         self.projectionMatrix = projectionMatrix
 
-        // TODO: We are generating this every frame! [FILE ME]
-        let lights = sceneGraph.filter { node in
-            node.light != nil
+        var worldTransforms: [(SceneGraph.Node, float4x4)] = []
+        sceneGraph.visit(worldTransform: .identity) { node, worldTransform in
+            worldTransforms.append((node, worldTransform))
         }
-        .compactMap { node in
-            let light = node.light!
-            return (node.transform.translation, light)
+        self.nodesWithWorldTransforms = worldTransforms
+
+        // TODO: We are generating this every frame! [FILE ME]
+        let lights = worldTransforms.compactMap { node, worldTransform -> (SIMD3<Float>, Light)? in
+            guard let light = node.light else {
+                return nil
+            }
+            return (worldTransform.translation, light)
         }
         if lights.isEmpty {
             self.lighting = try! Lighting.demo()
@@ -49,21 +54,23 @@ struct SceneGraphRenderPass: Element {
     @ElementBuilder
     var blinnPhong: some Element {
         get throws {
-            let nodesWithMeshes = sceneGraph.filter { $0.mesh != nil }
-            let blinnPhongNodes = nodesWithMeshes.filter { node in
-                if case .blinnPhong = node.material {
+            let meshNodes = nodesWithWorldTransforms.filter { $0.node.mesh != nil }
+            let blinnPhongNodes = meshNodes.filter { entry in
+                if case .blinnPhong = entry.node.material {
                     return true
                 }
                 return false
             }
             try BlinnPhongShader {
-                try ForEach(Array(blinnPhongNodes.enumerated()), id: \.offset) { _, node in
+                try ForEach(Array(blinnPhongNodes.enumerated()), id: \.offset) { _, entry in
+                    let node = entry.node
+                    let worldTransform = entry.worldTransform
                     if let mesh = node.mesh, case let .blinnPhong(material) = node.material {
                         try Draw { encoder in
                             encoder.draw(mesh: mesh)
                         }
                         .blinnPhongMaterial(material)
-                        .transforms(.init(modelMatrix: node.transform, cameraMatrix: cameraMatrix, projectionMatrix: projectionMatrix))
+                        .transforms(.init(modelMatrix: worldTransform, cameraMatrix: cameraMatrix, projectionMatrix: projectionMatrix))
                     }
                 }
                 .lighting(lighting)
@@ -76,21 +83,23 @@ struct SceneGraphRenderPass: Element {
     @ElementBuilder
     var pbr: some Element {
         get throws {
-            let nodesWithMeshes = sceneGraph.filter { $0.mesh != nil }
-            let pbrNodes = nodesWithMeshes.filter { node in
-                if case .pbr = node.material {
+            let meshNodes = nodesWithWorldTransforms.filter { $0.node.mesh != nil }
+            let pbrNodes = meshNodes.filter { entry in
+                if case .pbr = entry.node.material {
                     return true
                 }
                 return false
             }
             try PBRShader {
-                try ForEach(Array(pbrNodes.enumerated()), id: \.offset) { _, node in
+                try ForEach(Array(pbrNodes.enumerated()), id: \.offset) { _, entry in
+                    let node = entry.node
+                    let worldTransform = entry.worldTransform
                     if let mesh = node.mesh, case let .pbr(material) = node.material {
                         Draw { encoder in
                             encoder.draw(mesh: mesh)
                         }
                         .pbrMaterial(material)
-                        .pbrUniforms(modelTransform: node.transform, cameraMatrix: cameraMatrix, projectionMatrix: projectionMatrix)
+                        .pbrUniforms(modelTransform: worldTransform, cameraMatrix: cameraMatrix, projectionMatrix: projectionMatrix)
                     }
                 }
                 .pbrEnvironment(environmentTexture)
@@ -103,26 +112,6 @@ struct SceneGraphRenderPass: Element {
 }
 
 extension SceneGraph {
-    func visit(_ visitor: (Node) throws -> Void) rethrows {
-        func _visitor(_ node: Node) throws {
-            try visitor(node)
-            for child in node.children {
-                try _visitor(child)
-            }
-        }
-        try _visitor(self.root)
-    }
-
-    func filter(_ isIncluded: (Node) throws -> Bool) rethrows -> [Node] {
-        var result: [Node] = []
-        try visit { node in
-            if try isIncluded(node) {
-                result.append(node)
-            }
-        }
-        return result
-    }
-
     func dump() {
         func _dump(_ node: Node, level: Int) {
             let indent = String(repeating: "  ", count: level)
