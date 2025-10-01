@@ -49,15 +49,11 @@ public struct DepthDemoView: View {
         return float4(depth, depth, depth, 1.0);
     }
     """
-    let colorAdjustFunction: MTLFunction
+    let colorAdjustFunction: VisibleFunction
 
     public init() {
-        let device = _MTLCreateSystemDefaultDevice()
-
         let library = try! Ultraviolence.ShaderLibrary(source: adjustSource)
-
-        let sourceLibrary = try! device.makeLibrary(source: adjustSource, options: nil)
-        colorAdjustFunction = sourceLibrary.makeFunction(name: "colorAdjustPow")!
+        colorAdjustFunction = try! library.function(named: "colorAdjustPow", type: VisibleFunction.self)
     }
 
     public var body: some View {
@@ -78,9 +74,14 @@ public struct DepthDemoView: View {
                         renderPassDescriptor.depthAttachment.storeAction = .store
                     }
 
-                    //                    try ComputePass(label: "ColorAdjust") {
-                    //                        ColorAdjustComputePipeline(inputSpecifier: .depth2D(depthTexture, nil), inputParameters: exponent, outputTexture: adjustedDepthTexture, colorAdjustFunction: colorAdjustFunction)
-                    //                    }
+                    try ComputePass(label: "Depth Adjust Pass") {
+                        try ColorAdjustComputePipeline(
+                            inputSpecifier: .depth2D(depthTexture, nil),
+                            inputParameters: exponent,
+                            outputTexture: adjustedDepthTexture,
+                            colorAdjustFunction: colorAdjustFunction
+                        )
+                    }
 
                     try RenderPass(label: "Depth to Screen Pass") {
                         try TextureBillboardPipeline(specifier: showDepthMap ? .texture2D(adjustedDepthTexture, nil) : .texture2D(colorTexture, nil))
