@@ -19,12 +19,12 @@ public struct MetalFXDemoView: View {
         let device = _MTLCreateSystemDefaultDevice()
         let textureLoader = MTKTextureLoader(device: device)
 
-        let url = Bundle.module.url(forResource: "4.2.03", withExtension: "heic")!
+        let url = Bundle.module.url(forResource: "4.2.03", withExtension: "heic").orFatalError("Missing 4.2.03.heic resource")
 
-        sourceTexture = try! textureLoader.newTexture(URL: url, options: [
+        sourceTexture = (try? textureLoader.newTexture(URL: url, options: [
             .textureUsage: MTLTextureUsage([.shaderRead, .shaderWrite]).rawValue,
             .SRGB: false
-        ])
+        ])).orFatalError("Failed to load MetalFX source texture")
     }
 
     public var body: some View {
@@ -80,7 +80,8 @@ public struct MetalFXDemoView: View {
             let upscaledTextureDescriptor = MTLTextureDescriptor.texture2DDescriptor(pixelFormat: sourceTexture.pixelFormat, width: Int(Double(sourceTexture.width) * scaleFactor), height: Int(Double(sourceTexture.height) * scaleFactor), mipmapped: false)
             upscaledTextureDescriptor.usage = [.shaderRead, .shaderWrite, .renderTarget]
             upscaledTextureDescriptor.storageMode = .private
-            upscaledTexture = device.makeTexture(descriptor: upscaledTextureDescriptor)!
+            upscaledTexture = device.makeTexture(descriptor: upscaledTextureDescriptor)
+                .orFatalError("Failed to allocate upscaled texture")
         }
     }
 

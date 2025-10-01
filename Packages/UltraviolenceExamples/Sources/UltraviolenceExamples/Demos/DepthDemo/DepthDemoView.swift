@@ -53,9 +53,11 @@ public struct DepthDemoView: View {
         }
         """
         let device = _MTLCreateSystemDefaultDevice()
-        let mtlLibrary = try! device.makeLibrary(source: adjustSource, options: nil)
+        let mtlLibrary = (try? device.makeLibrary(source: adjustSource, options: nil))
+            .orFatalError("Failed to compile depth adjust shader")
         let library = Ultraviolence.ShaderLibrary(library: mtlLibrary)
-        colorAdjustFunction = try! library.function(named: "colorAdjustPow", type: VisibleFunction.self)
+        colorAdjustFunction = (try? library.function(named: "colorAdjustPow", type: VisibleFunction.self))
+            .orFatalError("Missing colorAdjustPow function")
     }
 
     public var body: some View {

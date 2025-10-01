@@ -273,7 +273,10 @@ public struct TrivialMeshDemoView: View {
             )
             self.lighting = lighting
 
-            self.skyboxTexture = try! device.makeTextureCubeFromCrossTexture(texture: try device.makeTexture(name: "Skybox", bundle: .main))
+            let skyboxCrossTexture = (try? device.makeTexture(name: "Skybox", bundle: .main))
+                .orFatalError("Failed to load skybox cross texture")
+            self.skyboxTexture = (try? device.makeTextureCubeFromCrossTexture(texture: skyboxCrossTexture))
+                .orFatalError("Failed to build skybox cube texture")
         }
         catch {
             fatalError("\(error)")
