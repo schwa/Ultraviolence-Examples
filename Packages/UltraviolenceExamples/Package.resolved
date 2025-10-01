@@ -1,6 +1,15 @@
 {
-  "originHash" : "38f26cfbe002342e43dd976c96adb752fe438f1b0bb4e12cc5c98fab76c4ca83",
+  "originHash" : "e52da0129bf48307d4ca7818bfebbf258c4f940acd64f74398a06e1311f031a3",
   "pins" : [
+    {
+      "identity" : "demokit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/schwa/DemoKit",
+      "state" : {
+        "revision" : "abf12ec5910b9ec7b18f72c65f09a107895a43d4",
+        "version" : "0.1.0"
+      }
+    },
     {
       "identity" : "geometrylite3d",
       "kind" : "remoteSourceControl",
@@ -26,6 +35,15 @@
       "state" : {
         "branch" : "main",
         "revision" : "69d396ba90b17cfe2adbc0fb2aec5f175fefe7df"
+      }
+    },
+    {
+      "identity" : "swift-async-algorithms",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-async-algorithms.git",
+      "state" : {
+        "revision" : "042e1c4d9d19748c9c228f8d4ebc97bb1e339b0b",
+        "version" : "1.0.4"
       }
     },
     {
