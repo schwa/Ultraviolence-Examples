@@ -90,6 +90,9 @@ public struct DepthDemoView: View {
             .onDrawableSizeChange { size in
                 drawableSize = size
 
+                guard size.width > 0, size.height > 0 else {
+                    return
+                }
                 let device = _MTLCreateSystemDefaultDevice()
                 let colorDescriptor = MTLTextureDescriptor.texture2DDescriptor(pixelFormat: .bgra8Unorm, width: Int(size.width), height: Int(size.height), mipmapped: false)
                 colorDescriptor.usage = [.renderTarget, .shaderRead, .shaderWrite]
