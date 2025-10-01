@@ -1,10 +1,12 @@
 import GeometryLite3D
 import simd
-import XCTest
+import Testing
 @testable import UltraviolenceExamples
 
-final class SceneGraphTransformTests: XCTestCase {
-    func test_WhenVisitingWorldTransforms_ThenStackedTransformsApplied() {
+@Suite
+struct SceneGraphTransformTests {
+    @Test("World transforms accumulate parent hierarchies")
+    func whenVisitingWorldTransforms_thenStackedTransformsApplied() {
         let rootTransform = float4x4(translation: [1, 0, 0])
         let childTransform = float4x4(translation: [0, 2, 0])
         let grandchildTransform = float4x4(scale: [0.5, 0.5, 0.5]) * float4x4(translation: [0, 0, 3])
@@ -23,20 +25,29 @@ final class SceneGraphTransformTests: XCTestCase {
             worldTransforms[node.id] = worldTransform
         }
 
-        XCTAssertEqual(worldTransforms[rootNode.id], rootTransform)
-        XCTAssertEqual(worldTransforms[childNode.id], rootTransform * childTransform)
-        XCTAssertEqual(worldTransforms[grandchildNode.id], rootTransform * childTransform * grandchildTransform)
+        let tolerance: Float = 1e-5
+        expectWorldTransform(worldTransforms, for: rootNode, equals: rootTransform, tolerance: tolerance, context: "root node")
+        expectWorldTransform(worldTransforms, for: childNode, equals: rootTransform * childTransform, tolerance: tolerance, context: "child node")
+        expectWorldTransform(
+            worldTransforms,
+            for: grandchildNode,
+            equals: rootTransform * childTransform * grandchildTransform,
+            tolerance: tolerance,
+            context: "grandchild node"
+        )
     }
 }
 
-private func XCTAssertEqual(_ matrix: float4x4?, _ expected: float4x4?, accuracy: Float = 1e-5, file: StaticString = #filePath, line: UInt = #line) {
-    guard let matrix, let expected else {
-        XCTFail("Nil matrices cannot be compared", file: file, line: line)
+private func expectWorldTransform(
+    _ worldTransforms: [SceneGraph.Node.ID: float4x4],
+    for node: SceneGraph.Node,
+    equals expected: float4x4,
+    tolerance: Float,
+    context: String
+) {
+    guard let matrix = worldTransforms[node.id] else {
+        Issue.record("Missing world transform for \(context)")
         return
     }
-    for columnIndex in 0..<4 {
-        for rowIndex in 0..<4 {
-            XCTAssertEqual(matrix[columnIndex][rowIndex], expected[columnIndex][rowIndex], accuracy: accuracy, file: file, line: line)
-        }
-    }
+    #expect(simd_almost_equal_elements(matrix, expected, tolerance), "Unexpected world transform for \(context)")
 }

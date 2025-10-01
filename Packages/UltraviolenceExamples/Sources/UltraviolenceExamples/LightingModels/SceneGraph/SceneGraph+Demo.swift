@@ -51,7 +51,7 @@ extension SceneGraph {
                 let shape = shapeFactories[(row * columnCount + column) % shapeFactories.count]()
                 cellNode.mesh = Mesh(shape.generateTangents(), device: device)
 
-                if (row + column) % 2 == 0 {
+                if (row + column).isMultiple(of: 2) {
                     cellNode.material = .blinnPhong(
                         BlinnPhongMaterial(
                             ambient: .color([0.1, 0.1, 0.1]),
