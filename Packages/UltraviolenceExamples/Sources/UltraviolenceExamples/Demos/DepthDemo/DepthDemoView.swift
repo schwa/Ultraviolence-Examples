@@ -54,7 +54,7 @@ public struct DepthDemoView: View {
     public init() {
         let device = _MTLCreateSystemDefaultDevice()
 
-        let library = Ultraviolence.ShaderLibrary(source: adjustSource)
+        let library = try! Ultraviolence.ShaderLibrary(source: adjustSource)
 
         let sourceLibrary = try! device.makeLibrary(source: adjustSource, options: nil)
         colorAdjustFunction = sourceLibrary.makeFunction(name: "colorAdjustPow")!
