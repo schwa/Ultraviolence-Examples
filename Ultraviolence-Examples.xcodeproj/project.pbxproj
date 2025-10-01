@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		45870FB02E84401000C9CEDE /* UltraviolenceSnapshotUI in Frameworks */ = {isa = PBXBuildFile; productRef = 45870FAF2E84401000C9CEDE /* UltraviolenceSnapshotUI */; };
 		45CCE6A92E83B057001EF989 /* UltraviolenceExamples in Frameworks */ = {isa = PBXBuildFile; productRef = 45CCE6A82E83B057001EF989 /* UltraviolenceExamples */; };
 		45CCE6AD2E83B0C0001EF989 /* DemoKit in Frameworks */ = {isa = PBXBuildFile; productRef = 45CCE6AC2E83B0C0001EF989 /* DemoKit */; };
 /* End PBXBuildFile section */
@@ -63,7 +62,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				45870FB02E84401000C9CEDE /* UltraviolenceSnapshotUI in Frameworks */,
 				45CCE6AD2E83B0C0001EF989 /* DemoKit in Frameworks */,
 				45CCE6A92E83B057001EF989 /* UltraviolenceExamples in Frameworks */,
 			);
@@ -133,7 +131,6 @@
 			packageProductDependencies = (
 				45CCE6A82E83B057001EF989 /* UltraviolenceExamples */,
 				45CCE6AC2E83B0C0001EF989 /* DemoKit */,
-				45870FAF2E84401000C9CEDE /* UltraviolenceSnapshotUI */,
 			);
 			productName = UltraviolenceExamples;
 			productReference = 45E0A1122D9DAF2D0091ED9E /* Ultraviolence-Examples.app */;
@@ -164,9 +161,7 @@
 			mainGroup = 455C18FC2CD483FC009A25A6;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				450B4C822D7FCAEB0051CFE4 /* XCRemoteSwiftPackageReference "swift-async-algorithms" */,
 				45057C682E6F661900C379BE /* XCRemoteSwiftPackageReference "DemoKit" */,
-				45870FAE2E84401000C9CEDE /* XCRemoteSwiftPackageReference "Ultraviolence" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 455C19062CD483FC009A25A6 /* Products */;
@@ -322,30 +317,9 @@
 				minimumVersion = 0.1.0;
 			};
 		};
-		450B4C822D7FCAEB0051CFE4 /* XCRemoteSwiftPackageReference "swift-async-algorithms" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/apple/swift-async-algorithms.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.3;
-			};
-		};
-		45870FAE2E84401000C9CEDE /* XCRemoteSwiftPackageReference "Ultraviolence" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/schwa/Ultraviolence";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		45870FAF2E84401000C9CEDE /* UltraviolenceSnapshotUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 45870FAE2E84401000C9CEDE /* XCRemoteSwiftPackageReference "Ultraviolence" */;
-			productName = UltraviolenceSnapshotUI;
-		};
 		45C0EEDD2D9DB10A0076D9DF /* UltraviolenceExamples */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = UltraviolenceExamples;
