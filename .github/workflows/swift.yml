@@ -8,23 +8,6 @@ on:
     push:
     pull_request:
 jobs:
-    # Disabled
-    swift-build-16:
-        if: false # Disabled for now - remove later.
-        env:
-            XCODE_VERSION: "16.4"
-        runs-on: macos-15
-        steps:
-            - uses: maxim-lobanov/setup-xcode@v1
-              with:
-                  xcode-version: ${{ env.XCODE_VERSION }}
-            - uses: actions/checkout@v3
-            - name: Trust plugins
-              run: defaults write com.apple.dt.Xcode IDESkipPackagePluginFingerprintValidation -bool YES
-            - run: swift build -v
-              working-directory: Packages/UltraviolenceExamples
-            - run: swift test -v
-              working-directory: Packages/UltraviolenceExamples
     swift-build-26:
         env:
             XCODE_VERSION: "latest-stable"
@@ -42,38 +25,8 @@ jobs:
               working-directory: Packages/UltraviolenceExamples
             - run: swift test -v
               working-directory: Packages/UltraviolenceExamples
-    xcode-build-16:
-        env:
-            XCODE_VERSION: "16.4"
-            XCODE_PROJECT: "Ultraviolence-Examples.xcodeproj"
-            XCODE_SCHEME: "Ultraviolence-Examples"
-            XCODE_CONFIGURATION: "Release"
-        runs-on: macos-15 # macos-latest
-        steps:
-            - uses: maxim-lobanov/setup-xcode@v1
-              with:
-                  xcode-version: ${{ env.XCODE_VERSION }}
-            - uses: actions/checkout@v3
-              with:
-                  submodules: true
-            - run: defaults write com.apple.dt.Xcode IDESkipPackagePluginFingerprintValidation -bool YES
-            - run: defaults write com.apple.dt.Xcode IDESkipPackagePluginFingerprintValidatation -bool YES
-            - run: |
-                  xcodebuild \
-                    -project "${{ env.XCODE_PROJECT }}" \
-                    -scheme "${{ env.XCODE_SCHEME }}" \
-                    -configuration "${{ env.XCODE_CONFIGURATION }}" \
-                    -destination "generic/platform=macOS" \
-                    -skipPackagePluginValidation \
-                    -skipMacroValidation \
-                    build \
-                    ARCHS=arm64 \
-                    ONLY_ACTIVE_ARCH=NO \
-                    CODE_SIGNING_ALLOWED=NO
 
-    # Disabled
     xcode-build-26:
-        if: false # Disabled for now - remove later.
         env:
             XCODE_VERSION: "latest-stable"
             XCODE_PROJECT: "Ultraviolence-Examples.xcodeproj"
