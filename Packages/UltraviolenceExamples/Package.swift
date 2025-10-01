@@ -5,9 +5,9 @@ import PackageDescription
 let package = Package(
     name: "UltraviolenceExamples",
     platforms: [
-        .iOS("18.6"),
-        .macOS("15.6"),
-        .visionOS("2.6")
+        .iOS("18.5"),
+        .macOS("15.5"),
+        .visionOS("2.5")
     ],
     products: [
         .library(name: "UltraviolenceExamples", targets: ["UltraviolenceExamples"]),
