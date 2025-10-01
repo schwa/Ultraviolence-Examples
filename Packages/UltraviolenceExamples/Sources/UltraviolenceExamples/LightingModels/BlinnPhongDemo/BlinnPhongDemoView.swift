@@ -26,14 +26,9 @@ public struct BlinnPhongDemoView: View {
     private var cameraMatrix: simd_float4x4 = .init(translation: [0, 2, 6])
 
     public init() {
-        do {
-            self.lighting = try! .demo()
-            let device = _MTLCreateSystemDefaultDevice()
-            self.skyboxTexture = try! device.makeTextureCubeFromCrossTexture(texture: try device.makeTexture(name: "Skybox", bundle: .main))
-        }
-        catch {
-            fatalError("\(error)")
-        }
+        self.lighting = try! .demo()
+        let device = _MTLCreateSystemDefaultDevice()
+        self.skyboxTexture = try! device.makeTextureCubeFromCrossTexture(texture: try device.makeTexture(name: "Skybox", bundle: .main))
     }
 
     public var body: some View {
