@@ -6,7 +6,7 @@ import Ultraviolence
 import UltraviolenceSupport
 
 /// Pipeline that renders video frames to a Metal texture
-public class VideoTexturePipeline: ObservableObject {
+public class VideoTexturePipeline: ObservableObject, @unchecked Sendable {
     private let device: MTLDevice
     private var player: AVPlayer?
     private var playerItem: AVPlayerItem?
