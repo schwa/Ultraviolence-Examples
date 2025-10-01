@@ -33,25 +33,25 @@ public struct DepthDemoView: View {
 
     let teapot = MTKMesh.teapot()
 
-    let adjustSource = """
-    #include <metal_stdlib>
-    using namespace metal;
-
-    [[ stitchable ]]
-    float4 colorAdjustPow(float4 inputColor, float2 inputCoordinate, constant float &inputParameters) {
-        // Invert depth so near objects are white and far objects are black
-        // This makes the depth visualization more intuitive
-        float depth = 1.0 - inputColor.r;
-
-        // Apply power to increase contrast
-        depth = pow(depth, inputParameters);
-
-        return float4(depth, depth, depth, 1.0);
-    }
-    """
     let colorAdjustFunction: VisibleFunction
 
     public init() {
+        let adjustSource = """
+        #include <metal_stdlib>
+        using namespace metal;
+
+        [[ stitchable ]]
+        float4 colorAdjustPow(float4 inputColor, float2 inputCoordinate, constant float &inputParameters) {
+            // Invert depth so near objects are white and far objects are black
+            // This makes the depth visualization more intuitive
+            float depth = 1.0 - inputColor.r;
+
+            // Apply power to increase contrast
+            depth = pow(depth, inputParameters);
+
+            return float4(depth, depth, depth, 1.0);
+        }
+        """
         let library = try! Ultraviolence.ShaderLibrary(source: adjustSource)
         colorAdjustFunction = try! library.function(named: "colorAdjustPow", type: VisibleFunction.self)
     }

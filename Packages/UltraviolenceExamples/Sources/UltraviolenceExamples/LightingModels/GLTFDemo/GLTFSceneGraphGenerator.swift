@@ -44,27 +44,34 @@ class GLTGSceneGraphGenerator {
     func generateSceneGraphNode(from node: Node) throws -> SceneGraph.Node {
         let uvNode = SceneGraph.Node()
 
+        uvNode.transform = transform(for: node)
+        uvNode.label = node.name
+
         if let mesh = try node.mesh?.resolve(in: document) {
             try update(node: uvNode, from: mesh)
-        }
-
-        if let matrix = node.matrix {
-            uvNode.transform = matrix
-        }
-        if let translation = node.translation {
-            //            fatalError()
-        }
-        if let rotation = node.rotation {
-            // fatalError()
-        }
-        if let scale = node.scale {
-            // fatalError()
         }
         try node.children.map { try $0.resolve(in: document) }.map { try generateSceneGraphNode(from: $0) }.forEach { node in
             node.parent = uvNode
             uvNode.children.append(node)
         }
         return uvNode
+    }
+
+    private func transform(for node: Node) -> float4x4 {
+        if let matrix = node.matrix {
+            return matrix
+        }
+
+        let translation = node.translation ?? SIMD3<Float>(repeating: 0)
+        let rotationVector = node.rotation ?? SIMD4<Float>(0, 0, 0, 1)
+        let scale = node.scale ?? SIMD3<Float>(repeating: 1)
+
+        let translationMatrix = float4x4(translation: translation)
+        let rotationQuaternion = simd_quatf(vector: rotationVector)
+        let rotationMatrix = float4x4(rotationQuaternion)
+        let scaleMatrix = float4x4(scale: scale)
+
+        return translationMatrix * rotationMatrix * scaleMatrix
     }
 
     func update(node: SceneGraph.Node, from mesh: SwiftGLTF.Mesh) throws {
