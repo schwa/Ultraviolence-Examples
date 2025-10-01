@@ -6,6 +6,7 @@ on:
     push:
     pull_request:
 jobs:
+    # Disabled
     swift-build-16:
         if: false # Disabled for now - remove later.
         env:
@@ -54,16 +55,20 @@ jobs:
               with:
                   submodules: true
             - run: defaults write com.apple.dt.Xcode IDESkipPackagePluginFingerprintValidation -bool YES
+            - run: defaults write com.apple.dt.Xcode IDESkipPackagePluginFingerprintValidatation -bool YES
             - run: |
                   xcodebuild \
                     -project "${{ env.XCODE_PROJECT }}" \
                     -scheme "${{ env.XCODE_SCHEME }}" \
-                    -destination "generic/platform=macOS" \
-                    -skipPackagePluginValidation build \
                     -configuration "${{ env.XCODE_CONFIGURATION }}" \
+                    -destination "generic/platform=macOS" \
+                    -skipPackagePluginValidation \
+                    build \
                     ARCHS=arm64 \
                     ONLY_ACTIVE_ARCH=NO \
                     CODE_SIGNING_ALLOWED=NO
+
+    # Disabled
     xcode-build-26:
         if: false # Disabled for now - remove later.
         env:
@@ -86,9 +91,10 @@ jobs:
                   xcodebuild \
                     -project "${{ env.XCODE_PROJECT }}" \
                     -scheme "${{ env.XCODE_SCHEME }}" \
-                    -destination "generic/platform=macOS" \
-                    -skipPackagePluginValidation build \
                     -configuration "${{ env.XCODE_CONFIGURATION }}" \
+                    -destination "generic/platform=macOS" \
+                    -skipPackagePluginValidation \
+                    build \
                     ARCHS=arm64 \
                     ONLY_ACTIVE_ARCH=NO \
                     CODE_SIGNING_ALLOWED=NO
