@@ -1,5 +1,5 @@
 {
-  "originHash" : "687caac901bafbbc712dc0701b6d81e175765994f98d9e4a5788244080df6e6e",
+  "originHash" : "1152f4a19de642dd16eb6e0b081b741b547b623b5eb011a5fee5b7dcb719e25a",
   "pins" : [
     {
       "identity" : "demokit",
@@ -34,7 +34,7 @@
       "location" : "https://github.com/schwa/Panels",
       "state" : {
         "branch" : "main",
-        "revision" : "cc70504f14f77a44864d8ed7d2508556d8ff3252"
+        "revision" : "69d396ba90b17cfe2adbc0fb2aec5f175fefe7df"
       }
     },
     {
