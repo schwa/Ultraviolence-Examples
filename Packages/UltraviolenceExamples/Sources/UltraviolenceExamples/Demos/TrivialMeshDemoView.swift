@@ -296,22 +296,24 @@ public struct TrivialMeshDemoView: View {
 
                         try GridShader(projectionMatrix: projectionMatrix, cameraMatrix: cameraMatrix)
 
-                        try BlinnPhongShader {
-                            try ForEach(models) { model in
-                                try Draw { encoder in
-                                    if showWireframe {
-                                        encoder.setTriangleFillMode(.lines)
+                        if let firstModel = models.first {
+                            try BlinnPhongShader {
+                                try ForEach(models) { model in
+                                    try Draw { encoder in
+                                        if showWireframe {
+                                            encoder.setTriangleFillMode(.lines)
+                                        }
+                                        encoder.setVertexBuffers(of: model.mesh)
+                                        encoder.draw(mesh: model.mesh)
                                     }
-                                    encoder.setVertexBuffers(of: model.mesh)
-                                    encoder.draw(mesh: model.mesh)
+                                    .blinnPhongMaterial(model.material)
+                                    .transforms(.init(modelMatrix: model.modelMatrix, cameraMatrix: cameraMatrix, projectionMatrix: projectionMatrix))
                                 }
-                                .blinnPhongMaterial(model.material)
-                                .transforms(.init(modelMatrix: model.modelMatrix, cameraMatrix: cameraMatrix, projectionMatrix: projectionMatrix))
+                                .lighting(lighting)
                             }
-                            .lighting(lighting)
+                            .vertexDescriptor(MTLVertexDescriptor(firstModel.mesh.vertexDescriptor))
+                            .depthCompare(function: .less, enabled: true)
                         }
-                        .vertexDescriptor(MTLVertexDescriptor(models.first!.mesh.vertexDescriptor))
-                        .depthCompare(function: .less, enabled: true)
 
                         try AxisLinesRenderPipeline(mvpMatrix: viewProjectionMatrix, scale: 10_000.0)
                     }

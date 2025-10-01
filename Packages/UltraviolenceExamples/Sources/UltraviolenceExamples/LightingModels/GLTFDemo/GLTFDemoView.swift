@@ -29,7 +29,8 @@ public struct GLTFDemoView: View {
     public var body: some View {
         VStack {
             HStack {
-                DownloadButton(url: URL(string: "https://github.com/KhronosGroup/glTF-Sample-Assets/archive/refs/heads/main.zip")!, destinationName: "GLTFDownloads") { path in
+                let url = URL(string: "https://github.com/KhronosGroup/glTF-Sample-Assets/archive/refs/heads/main.zip").orFatalError("Failed to create url")
+                DownloadButton(url: url, destinationName: "GLTFDownloads") { path in
                     downloadedPath = path
                     loadAvailableFiles(from: path)
                 }
@@ -110,6 +111,6 @@ public struct GLTFDemoView: View {
 }
 
 extension UTType {
-    static let gltf = UTType(filenameExtension: "gltf")!
-    static let glb = UTType(filenameExtension: "glb")!
+    static let gltf = UTType(filenameExtension: "gltf").orFatalError("Failed to create UTType for .gltf")
+    static let glb = UTType(filenameExtension: "glb").orFatalError("Failed to create UTType for .glb")
 }

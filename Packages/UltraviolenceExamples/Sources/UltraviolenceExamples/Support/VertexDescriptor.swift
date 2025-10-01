@@ -152,13 +152,15 @@ extension VertexDescriptor {
     var mtlVertexDescriptor: MTLVertexDescriptor {
         let mtlVertexDescriptor = MTLVertexDescriptor()
         for (index, attribute) in attributes.enumerated() {
-            let mtlAttribute = mtlVertexDescriptor.attributes[index]!
+            let mtlAttribute = mtlVertexDescriptor.attributes[index]
+                .orFatalError("Missing MTL attribute descriptor at index \(index)")
             mtlAttribute.format = attribute.format
             mtlAttribute.offset = attribute.offset
             mtlAttribute.bufferIndex = attribute.bufferIndex
         }
         for (bufferIndex, layout) in layouts {
-            let mtlLayout = mtlVertexDescriptor.layouts[bufferIndex]!
+            let mtlLayout = mtlVertexDescriptor.layouts[bufferIndex]
+                .orFatalError("Missing MTL layout descriptor at index \(bufferIndex)")
             mtlLayout.stride = layout.stride
             mtlLayout.stepFunction = layout.stepFunction
             mtlLayout.stepRate = layout.stepRate
@@ -173,7 +175,8 @@ extension MTLVertexDescriptor {
 
         // Set up attributes
         for (index, attribute) in vertexDescriptor.attributes.enumerated() {
-            let mtlAttribute = attributes[index]!
+            let mtlAttribute = attributes[index]
+                .orFatalError("Missing MTL attribute descriptor at index \(index)")
             mtlAttribute.format = attribute.format
             mtlAttribute.offset = attribute.offset
             mtlAttribute.bufferIndex = attribute.bufferIndex
@@ -181,7 +184,8 @@ extension MTLVertexDescriptor {
 
         // Set up layouts
         for (bufferIndex, layout) in vertexDescriptor.layouts {
-            let mtlLayout = layouts[bufferIndex]!
+            let mtlLayout = layouts[bufferIndex]
+                .orFatalError("Missing MTL layout descriptor at index \(bufferIndex)")
             mtlLayout.stride = layout.stride
             mtlLayout.stepFunction = layout.stepFunction
             mtlLayout.stepRate = layout.stepRate

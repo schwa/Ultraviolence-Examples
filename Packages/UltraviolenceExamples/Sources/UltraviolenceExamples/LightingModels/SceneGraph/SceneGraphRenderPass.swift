@@ -116,7 +116,8 @@ extension SceneGraph {
     func dump() {
         func _dump(_ node: Node, level: Int) {
             let indent = String(repeating: "  ", count: level)
-            print("\(indent)- Node(name: \(String(describing: node.label)), mesh: \(node.mesh != nil ? "yes" : "no"), material: \(node.material != nil ? "\(type(of: node.material!))" : "no"))")
+            let materialDescription = node.material.map { String(describing: type(of: $0)) } ?? "no"
+            print("\(indent)- Node(name: \(String(describing: node.label)), mesh: \(node.mesh != nil ? "yes" : "no"), material: \(materialDescription))")
             for child in node.children {
                 _dump(child, level: level + 1)
             }
