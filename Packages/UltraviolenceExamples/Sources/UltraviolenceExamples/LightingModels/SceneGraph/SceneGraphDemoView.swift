@@ -61,10 +61,10 @@ struct SceneGraphEditorView: View {
     var body: some View {
         List([sceneGraph.root], children: \.listChildren, selection: $selectedNode) { node in
             VStack {
-                Text("Node: \(node.label)")
+                Text("Node: \(String(describing: node.label))")
                 if selectedNode == node.id {
                     LabeledContent("Transform") {
-                        Text("\(node.transform)")
+                        Text("\(String(describing: node.transform))")
                     }
                     LabeledContent("Camera") {
                         Text("\(node.camera != nil ? "Yes" : "No")")

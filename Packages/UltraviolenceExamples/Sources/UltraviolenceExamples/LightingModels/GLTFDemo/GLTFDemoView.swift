@@ -44,7 +44,7 @@ public struct GLTFDemoView: View {
             .padding(.horizontal)
 
             CachingImportButton(url: $url, identifier: "GLTFDemo", allowedContentTypes: [.gltf, .glb])
-            Text("\(url)")
+            Text("\(String(describing: url))")
             if let document {
                 Text("\(document.scenes.count) scene(s)")
                 Text("\(document.meshes.count) mesh(s)")

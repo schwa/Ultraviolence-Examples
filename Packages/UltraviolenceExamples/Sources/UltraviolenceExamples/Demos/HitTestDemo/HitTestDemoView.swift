@@ -55,7 +55,7 @@ public struct HitTestDemoView: View {
         self.lighting = try! .demo()
         let device = _MTLCreateSystemDefaultDevice()
         self.device = device
-        self.commandQueue = device.makeCommandQueue().orFatalError()
+        self.commandQueue = device.makeCommandQueue().orFatalError("Failed to create command queue")
         self.skyboxTexture = try! device.makeTextureCubeFromCrossTexture(texture: try! device.makeTexture(name: "Skybox", bundle: .main))
     }
 
@@ -63,19 +63,11 @@ public struct HitTestDemoView: View {
         ZStack {
             WorldView(projection: $projection, cameraMatrix: $cameraMatrix, targetMatrix: .constant(nil)) {
                 TimelineView(.animation) { timeline in
+                    // swiftlint:disable:next accessibility_trait_for_button
                     RenderView { _, drawableSize in
                         let projectionMatrix = projection.projectionMatrix(for: drawableSize)
-                        let viewMatrix = cameraMatrix.inverse
-                        let viewProjectionMatrix = projectionMatrix * viewMatrix
-
                         // Main rendering pass
                         try RenderPass {
-                            //                        try SkyboxRenderPipeline(projectionMatrix: projectionMatrix, cameraMatrix: cameraMatrix, texture: skyboxTexture)
-                            //
-                            //                        try GridShader(projectionMatrix: projectionMatrix, cameraMatrix: cameraMatrix)
-
-                            //                        LightingVisualizer(cameraMatrix: cameraMatrix, projectionMatrix: projectionMatrix, lighting: lighting)
-
                             // Render teapot with Blinn-Phong shading
                             try BlinnPhongShader {
                                 try Draw { encoder in
@@ -88,8 +80,6 @@ public struct HitTestDemoView: View {
                             }
                             .vertexDescriptor(mesh.vertexDescriptor)
                             .depthCompare(function: .less, enabled: true)
-
-                            //                        try AxisLinesRenderPipeline(mvpMatrix: viewProjectionMatrix, scale: 10_000.0)
                         }
 
                         // Hit test rendering pass (to offscreen textures)
@@ -165,7 +155,9 @@ public struct HitTestDemoView: View {
                     .frame(width: 512, height: 512)
                     .metalDepthStencilPixelFormat(.depth32Float)
                     .onDrawableSizeChange { size in
-                        guard size.width > 0, size.height > 0 else { return }
+                        guard size.width > 0, size.height > 0 else {
+                            return
+                        }
                         drawableSize = size
                         hitTestTextures = HitTestTextures(device: device, size: size)
                     }
@@ -197,7 +189,6 @@ public struct HitTestDemoView: View {
                     } action: { newSize in
                         renderViewSize = newSize
                     }
-
                 }
             }
         }
@@ -234,7 +225,6 @@ public struct HitTestDemoView: View {
                 .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 8))
                 .padding()
                 .allowsHitTesting(false)
-
             } else {
                 VStack {
                     Text("No Hit Test Result")
@@ -247,8 +237,12 @@ public struct HitTestDemoView: View {
     }
 
     func performHitTest(at location: CGPoint) {
-        guard let textures = hitTestTextures else { return }
-        guard renderViewSize.width > 0, renderViewSize.height > 0 else { return }
+        guard let textures = hitTestTextures else {
+            return
+        }
+        guard renderViewSize.width > 0, renderViewSize.height > 0 else {
+            return
+        }
 
         // Convert location from view coordinates to normalized [0...1] range
         // The location is in the RenderView's coordinate space
@@ -260,15 +254,20 @@ public struct HitTestDemoView: View {
         let metalY = Int(normalizedY * textures.size.height)
 
         // Ensure coordinates are within texture bounds
-        guard metalX >= 0, metalX < Int(textures.size.width),
-              metalY >= 0, metalY < Int(textures.size.height) else { return }
+        guard metalX >= 0, metalX < Int(textures.size.width), metalY >= 0, metalY < Int(textures.size.height) else {
+            return
+        }
 
         // Synchronize the buffers if needed on macOS
         #if os(macOS)
         if textures.geometryIDBuffer.storageMode == .managed {
             // Create a command buffer to synchronize managed buffers
-            guard let commandBuffer = commandQueue.makeCommandBuffer() else { return }
-            guard let blitEncoder = commandBuffer.makeBlitCommandEncoder() else { return }
+            guard let commandBuffer = commandQueue.makeCommandBuffer() else {
+                return
+            }
+            guard let blitEncoder = commandBuffer.makeBlitCommandEncoder() else {
+                return
+            }
             blitEncoder.synchronize(resource: textures.geometryIDBuffer)
             blitEncoder.synchronize(resource: textures.instanceIDBuffer)
             blitEncoder.synchronize(resource: textures.triangleIDBuffer)
@@ -329,8 +328,12 @@ public struct HitTestDemoView: View {
         // Synchronize buffers on macOS
         #if os(macOS)
         if textures.geometryIDBuffer.storageMode == .managed {
-            guard let commandBuffer = commandQueue.makeCommandBuffer() else { return }
-            guard let blitEncoder = commandBuffer.makeBlitCommandEncoder() else { return }
+            guard let commandBuffer = commandQueue.makeCommandBuffer() else {
+                return
+            }
+            guard let blitEncoder = commandBuffer.makeBlitCommandEncoder() else {
+                return
+            }
             blitEncoder.synchronize(resource: textures.geometryIDBuffer)
             blitEncoder.endEncoding()
             commandBuffer.commit()
@@ -394,17 +397,17 @@ public struct HitTestDemoView: View {
         }
 
         // Write to temp directory
-        let tempDir = NSTemporaryDirectory()
+        let tempDir = FileManager.default.temporaryDirectory
         let timestamp = Int(Date().timeIntervalSince1970)
         let filename = "hit_test_grid_\(timestamp).pgm"
-        let filePath = (tempDir as NSString).appendingPathComponent(filename)
+        let filePath = tempDir.appendingPathComponent(filename).path
 
         do {
             try pgmContent.write(toFile: filePath, atomically: true, encoding: .utf8)
             print("Wrote hit test grid to: \(filePath)")
 
             // Also create a smaller debug version showing just a sample
-            if width > 100 && height > 100 {
+            if width > 100, height > 100 {
                 // Sample every 10th pixel for a quick overview
                 let sampleStep = 10
                 var debugOutput = "Debug sample (every \(sampleStep)th pixel):\n"
@@ -462,11 +465,11 @@ struct HitTestTextures {
         let bufferLength = bytesPerRow * height
         let bufferLengthRGBA = bytesPerRowRGBA * height
 
-        self.geometryIDBuffer = device.makeBuffer(length: bufferLength, options: []).orFatalError()
-        self.instanceIDBuffer = device.makeBuffer(length: bufferLength, options: []).orFatalError()
-        self.triangleIDBuffer = device.makeBuffer(length: bufferLength, options: []).orFatalError()
-        self.depthBuffer = device.makeBuffer(length: bufferLength, options: []).orFatalError()
-        self.triangleCoordinatesBuffer = device.makeBuffer(length: bufferLengthRGBA, options: []).orFatalError()
+        self.geometryIDBuffer = device.makeBuffer(length: bufferLength, options: []).orFatalError("Failed to create geometryID buffer")
+        self.instanceIDBuffer = device.makeBuffer(length: bufferLength, options: []).orFatalError("Failed to create instanceID buffer")
+        self.triangleIDBuffer = device.makeBuffer(length: bufferLength, options: []).orFatalError("Failed to create triangleID buffer")
+        self.depthBuffer = device.makeBuffer(length: bufferLength, options: []).orFatalError("Failed to create depth buffer")
+        self.triangleCoordinatesBuffer = device.makeBuffer(length: bufferLengthRGBA, options: []).orFatalError("Failed to create triangleCoordinates buffer")
 
         // Create texture descriptors
         let textureDescriptor = MTLTextureDescriptor()
@@ -477,21 +480,21 @@ struct HitTestTextures {
 
         // Create buffer-backed textures for r32Sint format
         textureDescriptor.pixelFormat = .r32Sint
-        self.geometryIDTexture = geometryIDBuffer.makeTexture(descriptor: textureDescriptor, offset: 0, bytesPerRow: bytesPerRow).orFatalError()
-        self.instanceIDTexture = instanceIDBuffer.makeTexture(descriptor: textureDescriptor, offset: 0, bytesPerRow: bytesPerRow).orFatalError()
-        self.triangleIDTexture = triangleIDBuffer.makeTexture(descriptor: textureDescriptor, offset: 0, bytesPerRow: bytesPerRow).orFatalError()
+        self.geometryIDTexture = geometryIDBuffer.makeTexture(descriptor: textureDescriptor, offset: 0, bytesPerRow: bytesPerRow).orFatalError("Failed to create geometryID texture")
+        self.instanceIDTexture = instanceIDBuffer.makeTexture(descriptor: textureDescriptor, offset: 0, bytesPerRow: bytesPerRow).orFatalError("Failed to create instanceID texture")
+        self.triangleIDTexture = triangleIDBuffer.makeTexture(descriptor: textureDescriptor, offset: 0, bytesPerRow: bytesPerRow).orFatalError("Failed to create triangleID texture")
 
         // Create buffer-backed texture for r32Float format
         textureDescriptor.pixelFormat = .r32Float
-        self.depthTexture = depthBuffer.makeTexture(descriptor: textureDescriptor, offset: 0, bytesPerRow: bytesPerRow).orFatalError()
+        self.depthTexture = depthBuffer.makeTexture(descriptor: textureDescriptor, offset: 0, bytesPerRow: bytesPerRow).orFatalError("Failed to create depth texture")
 
         // Create buffer-backed texture for rgba32Float format
         textureDescriptor.pixelFormat = .rgba32Float
-        self.triangleCoordinatesTexture = triangleCoordinatesBuffer.makeTexture(descriptor: textureDescriptor, offset: 0, bytesPerRow: bytesPerRowRGBA).orFatalError()
+        self.triangleCoordinatesTexture = triangleCoordinatesBuffer.makeTexture(descriptor: textureDescriptor, offset: 0, bytesPerRow: bytesPerRowRGBA).orFatalError("Failed to create triangleCoordinates texture")
 
         // Depth stencil texture cannot be buffer-backed, create normally
         textureDescriptor.pixelFormat = .depth32Float
         textureDescriptor.usage = .renderTarget
-        self.depthStencilTexture = device.makeTexture(descriptor: textureDescriptor).orFatalError()
+        self.depthStencilTexture = device.makeTexture(descriptor: textureDescriptor).orFatalError("Failed to create depthStencil texture")
     }
 }
