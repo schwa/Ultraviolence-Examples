@@ -52,13 +52,12 @@ public struct DepthDemoView: View {
     let colorAdjustFunction: MTLFunction
 
     public init() {
-        //        let device = _MTLCreateSystemDefaultDevice()
+        let device = _MTLCreateSystemDefaultDevice()
 
-        //        let library = ShaderLibrary(source: adjustSource)
-        //
-        //        let sourceLibrary = try! device.makeLibrary(source: adjustSource, options: nil)
-        //        colorAdjustFunction = sourceLibrary.makeFunction(name: "colorAdjustPow")!
-        fatalError("unimplemented")
+        let library = Ultraviolence.ShaderLibrary(source: adjustSource)
+
+        let sourceLibrary = try! device.makeLibrary(source: adjustSource, options: nil)
+        colorAdjustFunction = sourceLibrary.makeFunction(name: "colorAdjustPow")!
     }
 
     public var body: some View {
