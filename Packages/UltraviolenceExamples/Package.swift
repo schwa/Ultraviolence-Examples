@@ -15,6 +15,7 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/schwa/Ultraviolence", branch: "main"),
         .package(url: "https://github.com/swiftlang/swift-syntax.git", from: "600.0.0-latest"),
+        .package(url: "https://github.com/schwa/Interaction3D.git", branch: "main"),
         .package(url: "https://github.com/schwa/MetalCompilerPlugin", from: "0.1.0"),
         .package(url: "https://github.com/apple/swift-collections", from: "1.2.0"),
         .package(url: "https://github.com/schwa/GeometryLite3D", branch: "main"),
@@ -32,6 +33,7 @@ let package = Package(
                 .product(name: "UltraviolenceUI", package: "Ultraviolence"),
                 .product(name: "Collections", package: "swift-collections"),
                 .product(name: "GeometryLite3D", package: "GeometryLite3D"),
+                .product(name: "Interaction3D", package: "Interaction3D"),
                 .product(name: "SwiftGLTF", package: "SwiftGLTF"),
                 .product(name: "Panels", package: "Panels"),
                 .product(name: "ZIPFoundation", package: "ZIPFoundation"),
