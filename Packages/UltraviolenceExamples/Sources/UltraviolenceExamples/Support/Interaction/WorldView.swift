@@ -1,4 +1,5 @@
 import GeometryLite3D
+import Interaction3D
 import Panels
 import simd
 import SwiftUI
@@ -49,7 +50,7 @@ public struct WorldView<Content: View>: View {
                 settingsView
             }
             .panel(id: "turntable", label: "Turntable") {
-                TurntableCameraControllerEditor(constraint: $turntableConstraint)
+                TurntableConstraintEditor(value: $turntableConstraint)
             }
             .onChange(of: cameraMode) {
                 switch cameraMode {
