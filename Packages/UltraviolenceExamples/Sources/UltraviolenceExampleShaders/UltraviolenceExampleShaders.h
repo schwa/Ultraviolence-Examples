@@ -10,6 +10,7 @@
 #import "ParticleEffectsShader.h"
 #import "SDFShader.h"
 #import "Support.h"
+#import "VoxelShaders.h"
 #import "WireframeShader.h"
 
 #ifdef __OBJC__

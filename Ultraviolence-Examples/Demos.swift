@@ -29,7 +29,8 @@ import UltraviolenceExamples
         WireframeDemoView.self,
         TrivialMeshDemoView.self,
         SceneGraphDemoView.self,
-        GLTFDemoView.self
+        GLTFDemoView.self,
+        VoxelDemoView.self
     ]
 
     #if os(macOS)
@@ -365,6 +366,14 @@ extension GLTFDemoView: @retroactive DemoView {
             description: "TODO",
             group: "Complex",
             keywords: []
+        )
+    }
+}
+
+extension VoxelDemoView: @retroactive DemoView {
+    public static var metadata: DemoMetadata {
+        DemoMetadata(
+            name: "Voxel Renderer"
         )
     }
 }
