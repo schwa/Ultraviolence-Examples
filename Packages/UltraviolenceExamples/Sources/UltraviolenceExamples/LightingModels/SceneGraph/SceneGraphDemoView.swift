@@ -51,6 +51,7 @@ public struct SceneGraphDemoView: View {
                 SceneGraphEditorView(sceneGraph: sceneGraph)
             }
         }
+        .panelsHost()
     }
 }
 

@@ -36,7 +36,7 @@ public struct BlinnPhongDemoView: View {
     }
 
     public var body: some View {
-        WorldView(projection: $projection, cameraMatrix: $cameraMatrix) {
+        WorldView(projection: $projection, cameraMatrix: $cameraMatrix, tools: [.turntable]) {
             TimelineView(.animation) { timeline in
                 RenderView { _, drawableSize in
                     let projectionMatrix = projection.projectionMatrix(for: drawableSize)
@@ -74,6 +74,9 @@ public struct BlinnPhongDemoView: View {
                     LightingAnimator.run(date: timeline.date, lighting: &lighting)
                 }
             }
+        }
+        .onChange(of: cameraMatrix) {
+            print(cameraMatrix)
         }
     }
 }
