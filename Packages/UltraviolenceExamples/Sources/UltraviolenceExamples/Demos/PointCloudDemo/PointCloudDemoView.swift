@@ -1,4 +1,5 @@
 import GeometryLite3D
+import Interaction3D
 import Metal
 import simd
 import SwiftUI
@@ -27,7 +28,7 @@ public struct PointCloudDemoView: View {
     }
 
     public var body: some View {
-        WorldView(projection: $projection, cameraMatrix: $cameraMatrix, targetMatrix: .constant(nil)) {
+        WorldView(projection: $projection, cameraMatrix: $cameraMatrix) {
             RenderView { _, drawableSize in
                 if let pointBuffer {
                     try RenderPass {

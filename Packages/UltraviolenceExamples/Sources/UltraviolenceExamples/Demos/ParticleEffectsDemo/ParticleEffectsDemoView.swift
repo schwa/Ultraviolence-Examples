@@ -1,4 +1,5 @@
 import GeometryLite3D
+import Interaction3D
 import Metal
 import simd
 import SwiftUI
@@ -37,7 +38,7 @@ public struct ParticleEffectsDemoView: View {
     }
 
     public var body: some View {
-        WorldView(projection: $projection, cameraMatrix: $cameraMatrix, targetMatrix: .constant(nil)) {
+        WorldView(projection: $projection, cameraMatrix: $cameraMatrix) {
             RenderView { context, drawableSize in
                 let currentTime = context.frameUniforms.time
 

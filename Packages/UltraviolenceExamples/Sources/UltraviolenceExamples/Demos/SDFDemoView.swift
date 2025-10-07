@@ -1,4 +1,5 @@
 import GeometryLite3D
+import Interaction3D
 import MetalKit
 import simd
 import SwiftUI
@@ -29,7 +30,7 @@ public struct SDFDemoView: View {
 
     public var body: some View {
         VStack {
-            WorldView(projection: $projection, cameraMatrix: $cameraMatrix, targetMatrix: .constant(nil)) {
+            WorldView(projection: $projection, cameraMatrix: $cameraMatrix) {
                 RenderView { _, _ in
                     try RenderPass {
                         try SDFRenderPipeline(

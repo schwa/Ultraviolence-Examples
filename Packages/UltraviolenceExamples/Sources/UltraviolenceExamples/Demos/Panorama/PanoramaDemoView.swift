@@ -1,4 +1,5 @@
 import GeometryLite3D
+import Interaction3D
 @preconcurrency import Metal
 import MetalKit
 import SwiftUI
