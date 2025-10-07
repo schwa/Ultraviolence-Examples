@@ -14,14 +14,15 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/schwa/Ultraviolence", branch: "main"),
-        .package(url: "https://github.com/swiftlang/swift-syntax.git", from: "600.0.0-latest"),
-        .package(url: "https://github.com/schwa/Interaction3D.git", branch: "main"),
+        .package(url: "https://github.com/swiftlang/swift-syntax", from: "600.0.0-latest"),
+        .package(url: "https://github.com/schwa/Everything", from: "1.2.0"),
+        .package(url: "https://github.com/schwa/Interaction3D", branch: "main"),
         .package(url: "https://github.com/schwa/MetalCompilerPlugin", from: "0.1.0"),
         .package(url: "https://github.com/apple/swift-collections", from: "1.2.0"),
         .package(url: "https://github.com/schwa/GeometryLite3D", branch: "main"),
         .package(url: "https://github.com/schwa/SwiftGLTF", branch: "main"),
         .package(url: "https://github.com/schwa/Panels", branch: "main"),
-        .package(url: "https://github.com/weichsel/ZIPFoundation.git", from: "0.9.0"),
+        .package(url: "https://github.com/weichsel/ZIPFoundation", from: "0.9.0"),
     ],
     targets: [
         .target(
@@ -37,6 +38,7 @@ let package = Package(
                 .product(name: "SwiftGLTF", package: "SwiftGLTF"),
                 .product(name: "Panels", package: "Panels"),
                 .product(name: "ZIPFoundation", package: "ZIPFoundation"),
+                .product(name: "Everything", package: "Everything"),
             ],
             resources: [
                 .copy("Resources/AppleEventVideo.mp4"),
