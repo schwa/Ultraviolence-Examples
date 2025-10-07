@@ -136,7 +136,7 @@ struct SkyboxRenderPipeline: Element {
                     [ 1, -1, -1], [ 1, 1, -1], [ 1, 1, 1],  // Triangle 11 (inward)
                     [ 1, -1, -1], [ 1, 1, 1], [ 1, -1, 1]  // Triangle 12 (inward)
                 ]
-                .map { $0 * 100 }
+                .map { $0 * 50 }
                 Draw { encoder in
                     encoder.setVertexUnsafeBytes(of: positions, index: 0)
                     encoder.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: positions.count)
