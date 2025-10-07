@@ -124,17 +124,17 @@ extension CameraAngle {
     var matrix: simd_float4x4 {
         switch self {
         case .top:
-            return float4x4.look(at: [0, 0, 0], from: [0, 1, 0], up: [0, 0, 1])
+            return LookAt(position: [0, 1, 0], target: [0, 0, 0], up: [0, 0, 1]).cameraMatrix
         case .bottom:
-            return float4x4.look(at: [0, 0, 0], from: [0, -1, 0], up: [0, 0, -1])
+            return LookAt(position: [0, -1, 0], target: [0, 0, 0], up: [0, 0, -1]).cameraMatrix
         case .left:
-            return float4x4.look(at: [0, 0, 0], from: [-1, 0, 0], up: [0, 1, 0])
+            return LookAt(position: [-1, 0, 0], target: [0, 0, 0], up: [0, 1, 0]).cameraMatrix
         case .right:
-            return float4x4.look(at: [0, 0, 0], from: [1, 0, 0], up: [0, 1, 0])
+            return LookAt(position: [1, 0, 0], target: [0, 0, 0], up: [0, 1, 0]).cameraMatrix
         case .front:
-            return float4x4.look(at: [0, 0, 0], from: [0, 0, 1], up: [0, 1, 0])
+            return LookAt(position: [0, 0, 1], target: [0, 0, 0], up: [0, 1, 0]).cameraMatrix
         case .back:
-            return float4x4.look(at: [0, 0, 0], from: [0, 0, -1], up: [0, 1, 0])
+            return LookAt(position: [0, 0, -1], target: [0, 0, 0], up: [0, 1, 0]).cameraMatrix
         }
     }
 }

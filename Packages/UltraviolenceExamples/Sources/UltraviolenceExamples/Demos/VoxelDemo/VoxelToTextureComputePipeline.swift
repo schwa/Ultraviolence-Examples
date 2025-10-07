@@ -7,7 +7,7 @@ import UltraviolenceSupport
 import UltraviolenceUI
 
 struct VoxelToTextureComputePipeline: Element {
-    let projection: OldPerspectiveProjection
+    let projection: PerspectiveProjection
     let aspectRatio: Float
     let cameraMatrix: float4x4
     let voxelTexture: MTLTexture
@@ -17,7 +17,7 @@ struct VoxelToTextureComputePipeline: Element {
     var voxelComputeShader: ComputeKernel
 
     init(projection: any ProjectionProtocol, aspectRatio: Float, cameraMatrix: float4x4, voxelTexture: MTLTexture, outputTexture: MTLTexture, voxelScale: SIMD3<Float>) throws {
-        self.projection = projection as! OldPerspectiveProjection // TODO: as! bad!
+        self.projection = projection as! PerspectiveProjection // TODO: as! bad!
         self.aspectRatio = aspectRatio
         self.cameraMatrix = cameraMatrix
         self.voxelTexture = voxelTexture
@@ -36,23 +36,24 @@ struct VoxelToTextureComputePipeline: Element {
                 let viewProj = projectionMatrix * viewMatrix
                 let invViewProj = simd_inverse(viewProj)
                 let cameraPosition = cameraMatrix.columns.3.xyz
-
-                try ComputeDispatch(
-                    threadsPerGrid: outputTexture.size,
-                    threadsPerThreadgroup: MTLSize(width: 32, height: 32, depth: 1) // TODO: hard coded
-                )
-                .parameter("voxelTexture", texture: voxelTexture)
-                .parameter("outputTexture", texture: outputTexture)
-                .parameter("projectionMatrix", value: projectionMatrix)
-                .parameter("inverseProjectionMatrix", value: projectionMatrix.inverse)
-                .parameter("near", value: projection.zClip.lowerBound)
-                .parameter("far", value: projection.zClip.upperBound)
-                .parameter("cameraMatrix", value: cameraMatrix)
-                .parameter("viewMatrix", value: viewMatrix)
-                .parameter("invViewProj", value: invViewProj)
-                .parameter("cameraPosition", value: cameraPosition)
-                .parameter("voxelModelMatrix", value: float4x4.identity)
-                .parameter("voxelScale", value: voxelScale)
+                if case let .standard(zRange) = projection.depthMode {
+                    try ComputeDispatch(
+                        threadsPerGrid: outputTexture.size,
+                        threadsPerThreadgroup: MTLSize(width: 32, height: 32, depth: 1) // TODO: hard coded
+                    )
+                    .parameter("voxelTexture", texture: voxelTexture)
+                    .parameter("outputTexture", texture: outputTexture)
+                    .parameter("projectionMatrix", value: projectionMatrix)
+                    .parameter("inverseProjectionMatrix", value: projectionMatrix.inverse)
+                    .parameter("near", value: zRange.lowerBound)
+                    .parameter("far", value: zRange.upperBound)
+                    .parameter("cameraMatrix", value: cameraMatrix)
+                    .parameter("viewMatrix", value: viewMatrix)
+                    .parameter("invViewProj", value: invViewProj)
+                    .parameter("cameraPosition", value: cameraPosition)
+                    .parameter("voxelModelMatrix", value: float4x4.identity)
+                    .parameter("voxelScale", value: voxelScale)
+                }
             }
         }
     }

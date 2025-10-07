@@ -69,9 +69,8 @@ public struct VoxelDemoView: View {
             print(model.size)
 
             let texture = try! model.makeTexture()
-            self.voxelTexture = texture
-            self.voxelScale = SIMD3<Float>(0.01, 0.01, 0.01)
-
+            voxelTexture = texture
+            voxelScale = SIMD3<Float>(0.01, 0.01, 0.01)
         }
 
         .overlay(alignment: .bottom) {
@@ -161,7 +160,6 @@ extension UTType {
 
 extension MagicaVoxelModel {
     func makeTexture() throws -> MTLTexture {
-
         let device = _MTLCreateSystemDefaultDevice()
         let descriptor = MTLTextureDescriptor()
         descriptor.textureType = .type3D
@@ -170,8 +168,6 @@ extension MagicaVoxelModel {
         descriptor.height = Int(size.y)
         descriptor.depth = Int(size.z)
         descriptor.usage = [.shaderRead, .shaderWrite]
-
-
         guard let texture = device.makeTexture(descriptor: descriptor) else {
             throw UltraviolenceError.resourceCreationFailure("Failed to create voxel texture.")
         }
