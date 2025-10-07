@@ -5,6 +5,7 @@ import SwiftUI
 import Ultraviolence
 import UltraviolenceSupport
 import UltraviolenceUI
+import UniformTypeIdentifiers
 
 public struct VoxelDemoView: View {
     @State
@@ -24,6 +25,9 @@ public struct VoxelDemoView: View {
 
     @State
     private var voxelScale: SIMD3<Float> = [1, 1, 1]
+
+    @State
+    var magicaVoxelURL: URL?
 
     public init() {
         // This line intentionally left blank.
@@ -57,6 +61,19 @@ public struct VoxelDemoView: View {
                 assertionFailure("Failed to create voxel texture: \(error)")
             }
         }
+        .onChange(of: magicaVoxelURL, initial: true) {
+            guard let magicaVoxelURL else {
+                return
+            }
+            let model = try! MagicaVoxelModel(contentsOf: magicaVoxelURL)
+            print(model.size)
+
+            let texture = try! model.makeTexture()
+            self.voxelTexture = texture
+            self.voxelScale = SIMD3<Float>(0.01, 0.01, 0.01)
+
+        }
+
         .overlay(alignment: .bottom) {
             Form {
                 Text("Voxel Size: \(voxelSize.width) x \(voxelSize.height) x \(voxelSize.depth)")
@@ -80,6 +97,9 @@ public struct VoxelDemoView: View {
             .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 8))
             .padding()
         }
+        .toolbar {
+            CachingImportButton(url: $magicaVoxelURL, identifier: "magica-voxel", allowedContentTypes: [.magicaVoxel])
+        }
     }
 
     func makeRenderTexture(size: MTLSize) -> MTLTexture {
@@ -90,118 +110,80 @@ public struct VoxelDemoView: View {
         texture.label = "Color Texture"
         return texture
     }
-}
 
-@MainActor
-private func makeSphereVoxelTexture(device: MTLDevice?, size: MTLSize) throws -> MTLTexture {
-    guard let device else {
-        throw UltraviolenceError.resourceCreationFailure("Metal device unavailable.")
-    }
-
-    let descriptor = MTLTextureDescriptor()
-    descriptor.textureType = .type3D
-    descriptor.pixelFormat = .rgba8Unorm
-    descriptor.width = size.width
-    descriptor.height = size.height
-    descriptor.depth = size.depth
-    descriptor.usage = [.shaderRead, .shaderWrite]
-
-    guard let texture = device.makeTexture(descriptor: descriptor) else {
-        throw UltraviolenceError.resourceCreationFailure("Failed to create voxel texture.")
-    }
-    texture.label = "Voxel Texture"
-
-    let shaderBundle = Bundle.ultraviolenceExampleShaders().orFatalError("Failed to load shader bundle")
-    let shaderLibrary = try ShaderLibrary(bundle: shaderBundle, namespace: "VoxelShaders")
-    let kernel: ComputeKernel = try shaderLibrary.voxel_generateSphere
-
-    let threadsPerThreadgroup = MTLSize(
-        width: max(1, min(4, size.width)),
-        height: max(1, min(4, size.height)),
-        depth: max(1, min(4, size.depth))
-    )
-
-    let computePass = try ComputePass(label: "GenerateVoxelSphere") {
-        try ComputePipeline(computeKernel: kernel) {
-            try ComputeDispatch(
-                threadsPerGrid: size,
-                threadsPerThreadgroup: threadsPerThreadgroup
-            )
-            .parameter("voxelTexture", texture: texture)
+    func makeSphereVoxelTexture(device: MTLDevice?, size: MTLSize) throws -> MTLTexture {
+        guard let device else {
+            throw UltraviolenceError.resourceCreationFailure("Metal device unavailable.")
         }
-    }
 
-    try computePass.run()
+        let descriptor = MTLTextureDescriptor()
+        descriptor.textureType = .type3D
+        descriptor.pixelFormat = .rgba8Unorm
+        descriptor.width = size.width
+        descriptor.height = size.height
+        descriptor.depth = size.depth
+        descriptor.usage = [.shaderRead, .shaderWrite]
 
-    return texture
-}
+        guard let texture = device.makeTexture(descriptor: descriptor) else {
+            throw UltraviolenceError.resourceCreationFailure("Failed to create voxel texture.")
+        }
+        texture.label = "Voxel Texture"
 
-extension MTLSize {
-    init(_ size: CGSize) {
-        self.init(width: Int(size.width), height: Int(size.height), depth: 1)
-    }
-}
+        let shaderBundle = Bundle.ultraviolenceExampleShaders().orFatalError("Failed to load shader bundle")
+        let shaderLibrary = try ShaderLibrary(bundle: shaderBundle, namespace: "VoxelShaders")
+        let kernel: ComputeKernel = try shaderLibrary.voxel_generateSphere
 
-struct VoxelToTextureComputePipeline: Element {
-    let projection: OldPerspectiveProjection
-    let aspectRatio: Float
-    let cameraMatrix: float4x4
-    let voxelTexture: MTLTexture
-    let outputTexture: MTLTexture
-    let voxelScale: SIMD3<Float>
+        let threadsPerThreadgroup = MTLSize(
+            width: max(1, min(4, size.width)),
+            height: max(1, min(4, size.height)),
+            depth: max(1, min(4, size.depth))
+        )
 
-    var voxelComputeShader: ComputeKernel
-
-    init(projection: any ProjectionProtocol, aspectRatio: Float, cameraMatrix: float4x4, voxelTexture: MTLTexture, outputTexture: MTLTexture, voxelScale: SIMD3<Float>) throws {
-        self.projection = projection as! OldPerspectiveProjection // TODO: as! bad!
-        self.aspectRatio = aspectRatio
-        self.cameraMatrix = cameraMatrix
-        self.voxelTexture = voxelTexture
-        self.outputTexture = outputTexture
-        self.voxelScale = voxelScale
-        let bundle = Bundle.ultraviolenceExampleShaders().orFatalError("Failed to load shader bundle")
-        let shaderLibrary = try ShaderLibrary(bundle: bundle, namespace: "VoxelShaders")
-        self.voxelComputeShader = try shaderLibrary.voxel_main
-    }
-
-    var body: some Element {
-        get throws {
-            try ComputePipeline(computeKernel: voxelComputeShader) {
-                let viewMatrix = cameraMatrix.inverse
-                let projectionMatrix = projection.projectionMatrix(aspectRatio: aspectRatio)
-                let viewProj = projectionMatrix * viewMatrix
-                let invViewProj = simd_inverse(viewProj)
-                let cameraPosition = cameraMatrix.columns.3.xyz
-
+        let computePass = try ComputePass(label: "GenerateVoxelSphere") {
+            try ComputePipeline(computeKernel: kernel) {
                 try ComputeDispatch(
-                    threadsPerGrid: outputTexture.size,
-                    threadsPerThreadgroup: MTLSize(width: 32, height: 32, depth: 1) // TODO: hard coded
+                    threadsPerGrid: size,
+                    threadsPerThreadgroup: threadsPerThreadgroup
                 )
-                .parameter("voxelTexture", texture: voxelTexture)
-                .parameter("outputTexture", texture: outputTexture)
-                .parameter("projectionMatrix", value: projectionMatrix)
-                .parameter("inverseProjectionMatrix", value: projectionMatrix.inverse)
-                .parameter("near", value: projection.zClip.lowerBound)
-                .parameter("far", value: projection.zClip.upperBound)
-                .parameter("cameraMatrix", value: cameraMatrix)
-                .parameter("viewMatrix", value: viewMatrix)
-                .parameter("invViewProj", value: invViewProj)
-                .parameter("cameraPosition", value: cameraPosition)
-                .parameter("voxelModelMatrix", value: float4x4.identity)
-                .parameter("voxelScale", value: voxelScale)
+                .parameter("voxelTexture", texture: texture)
             }
         }
+
+        try computePass.run()
+
+        return texture
     }
 }
 
-extension MTLTexture {
-    var size: MTLSize {
-        MTLSize(width: width, height: height, depth: depth)
-    }
+extension UTType {
+    static let magicaVoxel = UTType(filenameExtension: "vox").orFatalError()
 }
 
-extension MTLSize: @retroactive Equatable {
-    public static func == (lhs: MTLSize, rhs: MTLSize) -> Bool {
-        lhs.width == rhs.width && lhs.height == rhs.height && lhs.depth == rhs.depth
+extension MagicaVoxelModel {
+    func makeTexture() throws -> MTLTexture {
+
+        let device = _MTLCreateSystemDefaultDevice()
+        let descriptor = MTLTextureDescriptor()
+        descriptor.textureType = .type3D
+        descriptor.pixelFormat = .rgba8Unorm
+        descriptor.width = Int(size.x)
+        descriptor.height = Int(size.y)
+        descriptor.depth = Int(size.z)
+        descriptor.usage = [.shaderRead, .shaderWrite]
+
+
+        guard let texture = device.makeTexture(descriptor: descriptor) else {
+            throw UltraviolenceError.resourceCreationFailure("Failed to create voxel texture.")
+        }
+        texture.label = "MagicaVoxel Texture"
+
+        for voxel in voxels {
+            let position = voxel.0
+            let color = colors[Int(voxel.1)]
+            let colorData: [UInt8] = [color.x, color.y, color.z, 255]
+            texture.replace(region: MTLRegionMake3D(Int(position.x), Int(position.y), Int(position.z), 1, 1, 1), mipmapLevel: 0, slice: 0, withBytes: colorData, bytesPerRow: 4, bytesPerImage: 4)
+        }
+
+        return texture
     }
 }
