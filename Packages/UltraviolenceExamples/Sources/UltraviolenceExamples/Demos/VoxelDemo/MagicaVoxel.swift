@@ -83,7 +83,7 @@ public extension MagicaVoxelModel {
                     return color
                 }
                 colors = [
-                    [255, 0, 0, 255],
+                    [255, 0, 0, 255]
                 ] + offsetColors[0 ... 254]
 
             case .material, .renderObject, .renderCamera, .layer, .paletteNote, .indexMap, .transform, .group, .shape:
@@ -102,7 +102,7 @@ public extension MagicaVoxelModel {
 public struct VoxelChunk {
     public let type: ChunkType
     public let content: [UInt8]
-    public let children: [VoxelChunk]
+    public let children: [Self]
 }
 
 // MARK: -
