@@ -1,4 +1,5 @@
 import GeometryLite3D
+import Interaction3D
 import Metal
 import MetalKit
 import Panels
@@ -41,7 +42,7 @@ public struct SceneGraphDemoView: View {
     }
 
     public var body: some View {
-        WorldView(projection: $projection, cameraMatrix: $cameraMatrix, targetMatrix: .constant(nil)) {
+        WorldView(projection: $projection, cameraMatrix: $cameraMatrix) {
             RenderView { _, drawableSize in
                 SceneGraphRenderPass(sceneGraph: sceneGraph, cameraMatrix: cameraMatrix, projectionMatrix: projection.projectionMatrix(for: drawableSize), environmentTexture: environmentTexture)
             }

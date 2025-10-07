@@ -1,4 +1,5 @@
 import GeometryLite3D
+import Interaction3D
 import MetalKit
 import simd
 import SwiftUI
@@ -67,7 +68,7 @@ public struct BouncingTeapotsDemoView: View {
 
     @ViewBuilder
     func renderView() -> some View {
-        WorldView(projection: $projection, cameraMatrix: $cameraMatrix, targetMatrix: .constant(nil)) {
+        WorldView(projection: $projection, cameraMatrix: $cameraMatrix) {
             let transforms = Transforms(modelMatrix: .identity, cameraMatrix: cameraMatrix, projectionMatrix: projection.projectionMatrix(for: drawableSize))
             RenderView { _, _ in
                 if let offscreenTexture, let offscreenDepthTexture, let upscaledTexture {

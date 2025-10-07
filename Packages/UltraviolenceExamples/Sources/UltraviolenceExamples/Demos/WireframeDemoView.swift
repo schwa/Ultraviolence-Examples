@@ -1,4 +1,5 @@
 import GeometryLite3D
+import Interaction3D
 import Metal
 import MetalKit
 import simd
@@ -28,7 +29,7 @@ public struct WireframeDemoView: View {
     }
 
     public var body: some View {
-        WorldView(projection: $projection, cameraMatrix: $cameraMatrix, targetMatrix: .constant(nil)) {
+        WorldView(projection: $projection, cameraMatrix: $cameraMatrix) {
             RenderView { _, drawableSize in
                 let projectionMatrix = projection.projectionMatrix(for: drawableSize)
                 let viewMatrix = cameraMatrix.inverse

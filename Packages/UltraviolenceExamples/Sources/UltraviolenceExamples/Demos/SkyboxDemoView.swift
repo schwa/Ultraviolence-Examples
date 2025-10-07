@@ -1,4 +1,5 @@
 import GeometryLite3D
+import Interaction3D
 import MetalKit
 import SwiftUI
 import Ultraviolence
@@ -20,7 +21,7 @@ public struct SkyboxDemoView: View {
     }
 
     public var body: some View {
-        WorldView(projection: $projection, cameraMatrix: $cameraMatrix, targetMatrix: .constant(nil)) {
+        WorldView(projection: $projection, cameraMatrix: $cameraMatrix) {
             RenderView { _, drawableSize in
                 try RenderPass {
                     if let texture {

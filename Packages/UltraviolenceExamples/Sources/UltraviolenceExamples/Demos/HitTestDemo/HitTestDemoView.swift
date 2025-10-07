@@ -1,4 +1,5 @@
 import GeometryLite3D
+import Interaction3D
 import Metal
 import MetalKit
 import simd
@@ -64,7 +65,7 @@ public struct HitTestDemoView: View {
 
     public var body: some View {
         ZStack {
-            WorldView(projection: $projection, cameraMatrix: $cameraMatrix, targetMatrix: .constant(nil)) {
+            WorldView(projection: $projection, cameraMatrix: $cameraMatrix) {
                 TimelineView(.animation) { timeline in
                     // swiftlint:disable:next accessibility_trait_for_button
                     RenderView { _, drawableSize in
