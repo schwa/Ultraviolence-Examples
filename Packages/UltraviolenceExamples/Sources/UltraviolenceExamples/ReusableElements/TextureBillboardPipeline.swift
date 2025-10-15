@@ -106,6 +106,24 @@ extension TextureBillboardPipeline {
         try self.init(specifierA: specifierA, specifierB: specifierB, positions: positions, textureCoordinates: textureCoordinates, colorTransform: colorTransform)
     }
 
+    init(specifierA: ColorSource, specifierB: ColorSource, positions: Quad = .clip, textureCoordinatesArray: [SIMD2<Float>], colorTransformFunctionName: String) throws {
+        let device = _MTLCreateSystemDefaultDevice()
+        #if os(iOS)
+        assert(device.supportsFeatureSet(.iOS_GPUFamily4_v1))
+        #endif
+        assert(device.argumentBuffersSupport == .tier2)
+        let shaderBundle = Bundle.ultraviolenceExampleShaders().orFatalError("Failed to load ultraviolence example shaders bundle")
+        let shaderLibrary = try ShaderLibrary(bundle: shaderBundle, namespace: "TextureBillboard")
+        self.vertexShader = try shaderLibrary.vertex_main
+        self.fragmentShader = try shaderLibrary.fragment_main
+        self.specifierA = specifierA
+        self.specifierB = specifierB
+        self.positions = [positions.minXMinY, positions.maxXMinY, positions.minXMaxY, positions.maxXMaxY]
+        self.textureCoordinates = textureCoordinatesArray
+        let colorTransform = try shaderLibrary.function(named: colorTransformFunctionName, type: VisibleFunction.self)
+        colorTransformGraph = try SimpleStitchedFunctionGraph(name: "TextureBillboard::colorTransform", function: colorTransform, inputs: 4)
+    }
+
     init(specifier: ColorSource, positions: Quad = .clip, textureCoordinates: Quad = .unit, colorTransform: VisibleFunction? = nil) throws {
         try self.init(specifierA: specifier, specifierB: .color([0, 0, 0]), positions: positions, textureCoordinates: textureCoordinates, colorTransform: colorTransform)
     }

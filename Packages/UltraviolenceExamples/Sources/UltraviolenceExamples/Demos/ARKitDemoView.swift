@@ -15,6 +15,15 @@ public struct ARKitDemoView: View {
     @State
     private var viewModel = ARKitDemoViewModel()
 
+    @State
+    private var showMeshes = true
+
+    @State
+    private var showPlanes = true
+
+    @State
+    private var limitAnchors = false
+
     let teapot: MTKMesh
     let environmentTexture: MTLTexture
 
@@ -37,13 +46,19 @@ public struct ARKitDemoView: View {
             RenderView { _, drawableSize in
                 try RenderPass {
                     if let currentFrame = viewModel.currentFrame, let textureY = viewModel.currentTextureY, let textureCbCr = viewModel.currentTextureCbCr {
-                        let cameraTransform = currentFrame.camera.transform
-                        let cameraMatrix = cameraTransform.inverse
-                        let orientation = UIInterfaceOrientation.portrait
-                        let projectionMatrix = currentFrame.camera.projectionMatrix(for: orientation, viewportSize: drawableSize, zNear: 0.001, zFar: 1_000)
-                        let viewProjectionMatrix = projectionMatrix * cameraMatrix
+                        let interfaceOrientation = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.interfaceOrientation ?? .portrait
+                        let viewMatrix = currentFrame.camera.viewMatrix(for: interfaceOrientation)
+                        let projectionMatrix = currentFrame.camera.projectionMatrix(for: interfaceOrientation, viewportSize: drawableSize, zNear: 0.001, zFar: 1_000)
+                        let viewProjectionMatrix = projectionMatrix * viewMatrix
 
-                        try TextureBillboardPipeline(specifierA: .texture2D(textureY), specifierB: .texture2D(textureCbCr), colorTransformFunctionName: "colorTransformYCbCrToRGB")
+                        let displayTransform = currentFrame.displayTransform(for: interfaceOrientation, viewportSize: drawableSize).inverted()
+                        let texCoords: [CGPoint] = [CGPoint(x: 0, y: 1), CGPoint(x: 1, y: 1), CGPoint(x: 0, y: 0), CGPoint(x: 1, y: 0)]
+                        let transformedTexCoords = texCoords.map { coord in
+                            let transformed = coord.applying(displayTransform)
+                            return SIMD2<Float>(Float(transformed.x), Float(transformed.y))
+                        }
+
+                        try TextureBillboardPipeline(specifierA: .texture2D(textureY), specifierB: .texture2D(textureCbCr), textureCoordinatesArray: transformedTexCoords, colorTransformFunctionName: "colorTransformYCbCrToRGB")
 
                         //                        try PBRShader {
                         //                            Draw(mtkMesh: teapot)
@@ -56,12 +71,7 @@ public struct ARKitDemoView: View {
                         //                        .vertexDescriptor(teapot.vertexDescriptor)
                         //                        .depthCompare(function: .less, enabled: true)
 
-                        if let anchors = viewModel.session.currentFrame?.anchors, !anchors.isEmpty {
-                            try AxisAlignedWireframeBoxesRenderPipeline(mvpMatrix: viewProjectionMatrix, boxes: currentFrame.anchors.map { anchor in
-                                let position = anchor.transform.translation
-                                return BoxInstance(min: position + [-0.05, -0.05, -0.05], max: position + [0.05, 0.05, 0.05], color: [1, 0, 1, 1])
-                            })
-                        }
+                        try ARAnchorsRenderPipeline(viewProjectionMatrix: viewProjectionMatrix, anchors: currentFrame.anchors, showMeshes: showMeshes, showPlanes: showPlanes, limitAnchors: limitAnchors)
 
                         try AxisLinesRenderPipeline(mvpMatrix: viewProjectionMatrix, scale: 10_000.0)
                     }
@@ -76,12 +86,32 @@ public struct ARKitDemoView: View {
         .navigationBarTitleDisplayMode(.inline)
         .ignoresSafeArea()
         .overlay(alignment: .top) {
-            if let cameraTrackingState = viewModel.cameraTrackingState {
-                VStack {
-                    Text("\(cameraTrackingState)")
+            if let cameraTrackingState = viewModel.cameraTrackingState, let currentFrame = viewModel.currentFrame {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Tracking: \(String(describing: cameraTrackingState))")
                     Text("Y: \(viewModel.currentTextureY?.width ?? 0)x\(viewModel.currentTextureY?.height ?? 0)")
                     Text("CbCr: \(viewModel.currentTextureCbCr?.width ?? 0)x\(viewModel.currentTextureCbCr?.height ?? 0)")
+                    Divider()
+                    let meshAnchors = currentFrame.anchors.compactMap { $0 as? ARMeshAnchor }
+                    let planeAnchors = currentFrame.anchors.compactMap { $0 as? ARPlaneAnchor }
+                    Text("Total Anchors: \(currentFrame.anchors.count)")
+                    Text("Mesh Anchors: \(meshAnchors.count)")
+                    Text("Plane Anchors: \(planeAnchors.count)")
+                    if let firstMesh = meshAnchors.first {
+                        Text("Mesh Vertices: \(firstMesh.geometry.vertices.count)")
+                        Text("Mesh Faces: \(firstMesh.geometry.faces.count)")
+                    }
+                    if let firstPlane = planeAnchors.first {
+                        Text("Plane Vertices: \(firstPlane.geometry.vertices.count)")
+                        Text("Plane Triangles: \(firstPlane.geometry.triangleIndices.count / 3)")
+                        Text("Plane Boundary: \(firstPlane.geometry.boundaryVertices.count)")
+                    }
+                    Divider()
+                    Toggle("Show Meshes", isOn: $showMeshes)
+                    Toggle("Show Planes", isOn: $showPlanes)
+                    Toggle("Limit to First", isOn: $limitAnchors)
                 }
+                .font(.system(size: 12, design: .monospaced))
                 .padding()
                 .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 8))
                 .padding()
