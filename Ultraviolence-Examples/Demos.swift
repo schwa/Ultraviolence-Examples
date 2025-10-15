@@ -4,7 +4,7 @@ import UltraviolenceExamples
 
 @MainActor let allDemos: [any DemoView.Type] = {
     var demos: [any DemoView.Type] = [
-        EmptyView.self,
+        EmptyDemoView.self,
         BlinnPhongDemoView.self,
         HitTestDemoView.self,
         SkyboxDemoView.self,
@@ -53,9 +53,17 @@ import UltraviolenceExamples
     return demos
 }()
 
-extension EmptyView: @retroactive DemoView {
-    public static var metadata: DemoMetadata {
+struct EmptyDemoView: DemoView {
+    static var metadata: DemoMetadata {
         DemoMetadata(name: "Empty", description: "An empty view.")
+    }
+
+    init() {
+
+    }
+
+    var body: some View {
+        Text("This view intentionally left blank")
     }
 }
 
