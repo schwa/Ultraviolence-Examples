@@ -113,7 +113,7 @@ internal struct CubicBezier {
 
     // Solves the cubic equation at^3 + bt^2 + ct + d = 0 using Cardano's formula
     private func solveCubic(a: Double, b: Double, c: Double, d: Double) -> Double? {
-        if abs(a) < 1e-8 {
+        if Swift.abs(a) < 1e-8 {
             return solveQuadratic(b: b, c: c, d: d)
         }
 
@@ -147,8 +147,8 @@ internal struct CubicBezier {
 
     // Fallback: Solve quadratic equation bt^2 + ct + d = 0
     private func solveQuadratic(b: Double, c: Double, d: Double) -> Double? {
-        if abs(b) < 1e-8 {
-            return (abs(c) < 1e-8) ? nil : -d / c
+        if Swift.abs(b) < 1e-8 {
+            return (Swift.abs(c) < 1e-8) ? nil : -d / c
         }
 
         let discriminant = c * c - 4 * b * d
