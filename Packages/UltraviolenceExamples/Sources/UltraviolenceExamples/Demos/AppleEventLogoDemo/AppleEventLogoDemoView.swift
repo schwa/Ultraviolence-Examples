@@ -110,7 +110,7 @@ public struct AppleEventLogoDemoView: View {
                     #else
                     try RenderPass {
                         if let finalTexture {
-                            try TextureBillboardPipeline(texture: finalTexture)
+                            try TextureBillboardPipeline(specifier: .texture2D(finalTexture))
                         }
                     }
                     #endif

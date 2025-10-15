@@ -18,11 +18,6 @@ public struct ARKitDemoView: View {
     let teapot: MTKMesh
     let environmentTexture: MTLTexture
 
-    @State private var lights: [PBRLight] = [
-        PBRLight(position: [5, 5, 5], color: [1, 1, 1], intensity: 10.0, type: .point),
-        PBRLight(position: normalize([0.5, 1.0, 0.5]), color: [1.0, 0.95, 0.8], intensity: 3.0, type: .directional)
-    ]
-
     public init() {
         teapot = (try? MTKMesh.teapot(options: [.generateTangentBasis, .generateTextureCoordinatesIfMissing, .useSimpleTextureCoordinates]))
             .orFatalError("Failed to load AR teapot mesh")
