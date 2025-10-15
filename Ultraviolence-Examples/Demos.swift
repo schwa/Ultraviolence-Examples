@@ -11,7 +11,6 @@ import UltraviolenceExamples
         TriangleDemoView.self,
         ComputeDemoView.self,
         DepthDemoView.self,
-        MetalFXDemoView.self,
         MixedDemoView.self,
         BouncingTeapotsDemoView.self,
         StencilDemoView.self,
@@ -44,6 +43,13 @@ import UltraviolenceExamples
         ARKitDemoView.self
     ]
     #endif
+
+    #if canImport(MetalFX)
+    demos += [
+        MetalFXDemoView.self,
+    ]
+    #endif
+
     return demos
 }()
 
@@ -110,6 +116,7 @@ extension DepthDemoView: @retroactive DemoView {
     }
 }
 
+#if canImport(MetalFX)
 extension MetalFXDemoView: @retroactive DemoView {
     public static var metadata: DemoMetadata {
         DemoMetadata(
@@ -120,6 +127,7 @@ extension MetalFXDemoView: @retroactive DemoView {
         )
     }
 }
+#endif
 
 extension BouncingTeapotsDemoView: @retroactive DemoView {
     public static var metadata: DemoMetadata {
