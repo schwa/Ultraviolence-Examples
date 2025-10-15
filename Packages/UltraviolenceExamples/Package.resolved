@@ -6,8 +6,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/schwa/DemoKit",
       "state" : {
-        "revision" : "abf12ec5910b9ec7b18f72c65f09a107895a43d4",
-        "version" : "0.1.0"
+        "revision" : "e3e8fb2166fc1e478bbd628b98593bf7029f5e54",
+        "version" : "0.1.1"
       }
     },
     {
