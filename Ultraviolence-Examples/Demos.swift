@@ -31,6 +31,7 @@ import UltraviolenceExamples
         GLTFDemoView.self,
         VoxelDemoView.self
         GrassDemoView.self
+        GraphicsContext3DDemoView.self
     ]
 
     #if os(macOS)
@@ -395,13 +396,23 @@ extension VoxelDemoView: @retroactive DemoView {
     }
 }
 
-extension GrassDemoView: @retroactive DemoView {
-    public static var metadata: DemoMetadata {
+public static var metadata: DemoMetadata {
         DemoMetadata(
             name: "Grass Sphere",
             description: "Procedural grass rendering on a sphere using Object and Mesh shaders with uniform point distribution",
             group: "Complex",
             keywords: ["mesh-shaders", "procedural", "animated"]
+        )
+    }
+}
+
+extension GraphicsContext3DDemoView: @retroactive DemoView {
+    public static var metadata: DemoMetadata {
+        DemoMetadata(
+            name: "GraphicsContext3D",
+            description: "SwiftUI.Canvas-style API for rendering 3D geometry with Path3D and stroke/fill operations",
+            group: "Basic",
+            keywords: ["3d", "path", "canvas"]
         )
     }
 }
