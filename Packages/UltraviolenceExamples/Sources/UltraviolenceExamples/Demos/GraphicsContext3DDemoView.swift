@@ -14,6 +14,7 @@ public struct GraphicsContext3DDemoView: View {
         case miter = "Miter"
         case curves = "Curves"
         case geometry = "Geometry"
+        case randomLines = "Random Lines"
 
         var id: String { rawValue }
     }
@@ -42,73 +43,154 @@ public struct GraphicsContext3DDemoView: View {
     @State
     private var showLineWidthPopover: Bool = false
 
+    @State
+    private var randomLineCount: Int = 1000
+
+    @State
+    private var showRandomLineCountPopover: Bool = false
+
+    @State
+    private var randomLines: [(start: SIMD3<Float>, end: SIMD3<Float>, color: Color)] = []
+
     public init() {
         // Empty initializer
     }
 
     public var body: some View {
         WorldView(projection: $projection, cameraMatrix: $cameraMatrix) {
-            Group {
-                if isPlaying {
-                    TimelineView(.animation) { timeline in
-                        renderContent(animating: true)
-                            .onChange(of: timeline.date) { _, _ in
-                                rotation += 0.01
-                            }
+            TimelineView(.animation) { timeline in
+                RenderView { _, drawableSize in
+                    let projectionMatrix = projection.projectionMatrix(for: drawableSize)
+                    let viewMatrix = cameraMatrix.inverse
+                    let rotationMatrix = float4x4(yRotation: .radians(rotation))
+                    let viewProjection = projectionMatrix * viewMatrix * rotationMatrix
+
+                    try RenderPass {
+                        try GraphicsContext3DRenderPipeline(context: currentContext, viewProjection: viewProjection, viewport: [Float(drawableSize.width), Float(drawableSize.height)], debugWireframe: debugWireframe)
                     }
-                } else {
-                    renderContent(animating: false)
+                }
+                .metalDepthStencilPixelFormat(.depth32Float)
+                .onChange(of: timeline.date) {
+                    if isPlaying {
+                        rotation += 0.01
+                    }
                 }
             }
         }
         .toolbar {
-            ToolbarItem {
-                Picker("Sample", selection: $selectedSample) {
-                    ForEach(Sample.allCases) { sample in
-                        Text(sample.rawValue).tag(sample)
-                    }
+            toolbarContent
+        }
+        .onAppear {
+            generateRandomLines()
+        }
+        .onChange(of: randomLineCount) {
+            generateRandomLines()
+        }
+    }
+
+    private func generateRandomLines() {
+        let cubeSize: Float = 4.0
+        randomLines = (0..<randomLineCount).map { _ in
+            let start = SIMD3<Float>(Float.random(in: -cubeSize...cubeSize), Float.random(in: -cubeSize...cubeSize), Float.random(in: -cubeSize...cubeSize))
+            let end = SIMD3<Float>(Float.random(in: -cubeSize...cubeSize), Float.random(in: -cubeSize...cubeSize), Float.random(in: -cubeSize...cubeSize))
+            let color = Color(red: Double.random(in: 0...1), green: Double.random(in: 0...1), blue: Double.random(in: 0...1))
+            return (start, end, color)
+        }
+    }
+
+    @ToolbarContentBuilder
+    private var toolbarContent: some ToolbarContent {
+        ToolbarItem {
+            Picker("Sample", selection: $selectedSample) {
+                ForEach(Sample.allCases) { sample in
+                    Text(sample.rawValue).tag(sample)
                 }
-                .pickerStyle(.segmented)
             }
-            ToolbarItem {
-                Button(action: { isPlaying.toggle() }) {
-                    Image(systemName: isPlaying ? "pause.fill" : "play.fill")
+            .pickerStyle(.segmented)
+        }
+        ToolbarItem {
+            Button(action: { isPlaying.toggle() }, label: {
+                Image(systemName: isPlaying ? "pause.fill" : "play.fill")
+            })
+            .accessibilityLabel(isPlaying ? "Pause" : "Play")
+        }
+        ToolbarItem {
+            Button(action: { debugWireframe.toggle() }, label: {
+                Image(systemName: debugWireframe ? "grid.circle.fill" : "grid.circle")
+            })
+            .accessibilityLabel("Toggle Debug Wireframe")
+        }
+        ToolbarItem {
+            Button(action: {
+                cameraMatrix = .init(translation: [0, 0, 8])
+                rotation = 0.0
+            }, label: {
+                Image(systemName: "arrow.counterclockwise")
+            })
+            .accessibilityLabel("Reset Camera")
+        }
+        ToolbarItem {
+            Button(action: { showLineWidthPopover.toggle() }, label: {
+                Image(systemName: "lineweight")
+            })
+            .accessibilityLabel("Line Width Settings")
+            .popover(isPresented: $showLineWidthPopover) {
+                VStack {
+                    Text("Line Width Multiplier")
+                        .font(.headline)
+                    Slider(value: $lineWidthMultiplier, in: 0.1...20.0)
+                    Text(String(format: "%.2f", lineWidthMultiplier))
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
                 }
+                .padding()
+                .frame(minWidth: 200)
             }
-            ToolbarItem {
-                Button(action: { debugWireframe.toggle() }) {
-                    Image(systemName: debugWireframe ? "grid.circle.fill" : "grid.circle")
+        }
+        ToolbarItem {
+            Button(action: { showRandomLineCountPopover.toggle() }, label: {
+                Image(systemName: "number")
+            })
+            .accessibilityLabel("Random Line Count")
+            .popover(isPresented: $showRandomLineCountPopover) {
+                VStack {
+                    Text("Random Line Count")
+                        .font(.headline)
+                    Slider(value: Binding(get: { Double(randomLineCount) }, set: { randomLineCount = Int($0) }), in: 10...20000, step: 10)
+                    Text("\(randomLineCount)")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
                 }
-            }
-            ToolbarItem {
-                Button(action: {
-                    cameraMatrix = .init(translation: [0, 0, 8])
-                    rotation = 0.0
-                }) {
-                    Image(systemName: "arrow.counterclockwise")
-                }
-            }
-            ToolbarItem {
-                Button(action: { showLineWidthPopover.toggle() }) {
-                    Image(systemName: "lineweight")
-                }
-                .popover(isPresented: $showLineWidthPopover) {
-                    VStack {
-                        Text("Line Width Multiplier")
-                            .font(.headline)
-                        Slider(value: $lineWidthMultiplier, in: 0.1...5.0)
-                        Text(String(format: "%.2f", lineWidthMultiplier))
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                    }
-                    .padding()
-                    .frame(minWidth: 200)
-                }
+                .padding()
+                .frame(minWidth: 200)
             }
         }
     }
 
-    private func buildLineCapsContext() -> GraphicsContext3D {
+    private var currentContext: GraphicsContext3D {
+        selectedSample.buildContext(lineWidthMultiplier: lineWidthMultiplier, randomLines: randomLines)
+    }
+}
+
+extension GraphicsContext3DDemoView.Sample {
+    func buildContext(lineWidthMultiplier: Double, randomLines: [(start: SIMD3<Float>, end: SIMD3<Float>, color: Color)]) -> GraphicsContext3D {
+        switch self {
+        case .lineCaps:
+            return buildLineCapsContext(lineWidthMultiplier: lineWidthMultiplier)
+        case .lineJoins:
+            return buildLineJoinsContext(lineWidthMultiplier: lineWidthMultiplier)
+        case .miter:
+            return buildMiterContext(lineWidthMultiplier: lineWidthMultiplier)
+        case .curves:
+            return buildCurvesContext(lineWidthMultiplier: lineWidthMultiplier)
+        case .geometry:
+            return buildGeometryContext(lineWidthMultiplier: lineWidthMultiplier)
+        case .randomLines:
+            return buildRandomLinesContext(lineWidthMultiplier: lineWidthMultiplier, lines: randomLines)
+        }
+    }
+
+    private func buildLineCapsContext(lineWidthMultiplier: Double) -> GraphicsContext3D {
         GraphicsContext3D { context in
             let z: Float = 0
             let ySpacing: Float = 1
@@ -134,7 +216,7 @@ public struct GraphicsContext3DDemoView: View {
         }
     }
 
-    private func buildLineJoinsContext() -> GraphicsContext3D {
+    private func buildLineJoinsContext(lineWidthMultiplier: Double) -> GraphicsContext3D {
         GraphicsContext3D { context in
             let spacing: Float = 3.5
 
@@ -167,7 +249,7 @@ public struct GraphicsContext3DDemoView: View {
         }
     }
 
-    private func buildMiterContext() -> GraphicsContext3D {
+    private func buildMiterContext(lineWidthMultiplier: Double) -> GraphicsContext3D {
         GraphicsContext3D { context in
             let lShape = Path3D { path in
                 path.move(to: [-1, -1, -1])
@@ -178,7 +260,7 @@ public struct GraphicsContext3DDemoView: View {
         }
     }
 
-    private func buildCurvesContext() -> GraphicsContext3D {
+    private func buildCurvesContext(lineWidthMultiplier: Double) -> GraphicsContext3D {
         GraphicsContext3D { context in
             let quadCurve = Path3D { path in
                 path.move(to: [-3, -1, 0])
@@ -247,7 +329,7 @@ public struct GraphicsContext3DDemoView: View {
         }
     }
 
-    private func buildGeometryContext() -> GraphicsContext3D {
+    private func buildGeometryContext(lineWidthMultiplier: Double) -> GraphicsContext3D {
         GraphicsContext3D { context in
             let groundSquare = Path3D { path in
                 path.move(to: [-4, -2, -4])
@@ -309,33 +391,15 @@ public struct GraphicsContext3DDemoView: View {
         }
     }
 
-    private var currentContext: GraphicsContext3D {
-        switch selectedSample {
-        case .lineCaps:
-            return buildLineCapsContext()
-        case .lineJoins:
-            return buildLineJoinsContext()
-        case .miter:
-            return buildMiterContext()
-        case .curves:
-            return buildCurvesContext()
-        case .geometry:
-            return buildGeometryContext()
-        }
-    }
-
-    @ViewBuilder
-    private func renderContent(animating: Bool) -> some View {
-        RenderView { _, drawableSize in
-            let projectionMatrix = projection.projectionMatrix(for: drawableSize)
-            let viewMatrix = cameraMatrix.inverse
-            let rotationMatrix = animating ? float4x4(yRotation: .radians(rotation)) : .identity
-            let viewProjection = projectionMatrix * viewMatrix * rotationMatrix
-
-            try RenderPass {
-                try GraphicsContext3DRenderPipeline(context: currentContext, viewProjection: viewProjection, viewport: [Float(drawableSize.width), Float(drawableSize.height)], debugWireframe: debugWireframe)
+    private func buildRandomLinesContext(lineWidthMultiplier: Double, lines: [(start: SIMD3<Float>, end: SIMD3<Float>, color: Color)]) -> GraphicsContext3D {
+        GraphicsContext3D { context in
+            for lineData in lines {
+                let line = Path3D { path in
+                    path.move(to: lineData.start)
+                    path.addLine(to: lineData.end)
+                }
+                context.stroke(line, with: lineData.color, style: StrokeStyle(lineWidth: 2.0 * lineWidthMultiplier, lineCap: .butt))
             }
         }
-        .metalDepthStencilPixelFormat(.depth32Float)
     }
 }
