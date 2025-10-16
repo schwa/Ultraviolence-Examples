@@ -28,7 +28,7 @@ public struct VoxelDemoView: View {
     private var voxelScale: SIMD3<Float> = [1, 1, 1]
 
     @State
-    var magicaVoxelURL: URL?
+    private var magicaVoxelURL: URL?
 
     public init() {
         // This line intentionally left blank.

@@ -29,8 +29,8 @@ import UltraviolenceExamples
         TrivialMeshDemoView.self,
         SceneGraphDemoView.self,
         GLTFDemoView.self,
-        VoxelDemoView.self
-        GrassDemoView.self
+        VoxelDemoView.self,
+        GrassDemoView.self,
         GraphicsContext3DDemoView.self
     ]
 
@@ -48,7 +48,7 @@ import UltraviolenceExamples
 
     #if canImport(MetalFX)
     demos += [
-        MetalFXDemoView.self,
+        MetalFXDemoView.self
     ]
     #endif
 
@@ -61,7 +61,7 @@ struct EmptyDemoView: DemoView {
     }
 
     init() {
-
+        // Empty initializer
     }
 
     var body: some View {
@@ -396,7 +396,8 @@ extension VoxelDemoView: @retroactive DemoView {
     }
 }
 
-public static var metadata: DemoMetadata {
+extension GrassDemoView: @retroactive DemoView {
+    public static var metadata: DemoMetadata {
         DemoMetadata(
             name: "Grass Sphere",
             description: "Procedural grass rendering on a sphere using Object and Mesh shaders with uniform point distribution",
@@ -405,7 +406,6 @@ public static var metadata: DemoMetadata {
         )
     }
 }
-
 extension GraphicsContext3DDemoView: @retroactive DemoView {
     public static var metadata: DemoMetadata {
         DemoMetadata(

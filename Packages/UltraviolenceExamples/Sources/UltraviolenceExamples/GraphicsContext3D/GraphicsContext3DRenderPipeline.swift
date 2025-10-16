@@ -69,7 +69,7 @@ public struct GraphicsContext3DRenderPipeline: Element {
         get throws {
             if let device {
                 if joinDataBuffer == nil {
-                    let bufferSize = 16 * 1024 * 1024
+                    let bufferSize = 16 * 1_024 * 1_024
                     joinDataBuffer = device.makeBuffer(length: bufferSize, options: .storageModeShared)
                     joinDataBuffer?.label = "GraphicsContext3D Join Data Buffer"
                 }
@@ -80,7 +80,7 @@ public struct GraphicsContext3DRenderPipeline: Element {
                 }
 
                 if fillVertexBuffer == nil {
-                    let bufferSize = 64 * 1024 * 1024
+                    let bufferSize = 64 * 1_024 * 1_024
                     fillVertexBuffer = device.makeBuffer(length: bufferSize, options: .storageModeShared)
                     fillVertexBuffer?.label = "GraphicsContext3D Fill Vertex Buffer"
                 }
@@ -96,10 +96,10 @@ public struct GraphicsContext3DRenderPipeline: Element {
 
                 for command in context.commands {
                     switch command {
-                    case .stroke(let path, let color, let style):
+                    case let .stroke(path, color, style):
                         let joinData = generator.generateLineJoinGPUData(path: path, color: color, style: style)
                         allJoinData.append(contentsOf: joinData)
-                    case .fill(let path, let color):
+                    case let .fill(path, color):
                         let vertices = generator.generateFillGeometry(path: path, color: color)
                         allFillVertices.append(contentsOf: vertices)
                     }
@@ -135,7 +135,9 @@ public struct GraphicsContext3DRenderPipeline: Element {
                 try MeshRenderPipeline(objectShader: objectShader, meshShader: meshShader, fragmentShader: meshFragmentShader) {
                     Draw { encoder in
                         encoder.withDebugGroup("GraphicsContext3D Stroke Mesh Shader (joinCount: \(joinCount))") {
-                            guard joinCount > 0 else { return }
+                            guard joinCount > 0 else {
+                                return
+                            }
                             encoder.label = "GraphicsContext3D Stroke Mesh Encoder"
                             encoder.setCullMode(.none)
                             encoder.setTriangleFillMode(debugWireframe ? .lines : .fill)
@@ -154,7 +156,9 @@ public struct GraphicsContext3DRenderPipeline: Element {
                 try RenderPipeline(vertexShader: fillVertexShader, fragmentShader: fillFragmentShader) {
                     Draw { encoder in
                         encoder.withDebugGroup("GraphicsContext3D Fill Geometry (fillVertexCount: \(fillVertexCount))") {
-                            guard fillVertexCount > 0 else { return }
+                            guard fillVertexCount > 0 else {
+                                return
+                            }
                             encoder.label = "GraphicsContext3D Fill Encoder"
                             encoder.setCullMode(.none)
                             encoder.setTriangleFillMode(debugWireframe ? .lines : .fill)

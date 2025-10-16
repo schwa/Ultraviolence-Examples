@@ -11,9 +11,11 @@ public struct Path3D: Equatable {
 
     private var elements: [Element] = []
 
-    public init() {}
+    public init() {
+        // Empty initializer
+    }
 
-    public init(_ builder: (inout Path3D) -> Void) {
+    public init(_ builder: (inout Self) -> Void) {
         builder(&self)
     }
 

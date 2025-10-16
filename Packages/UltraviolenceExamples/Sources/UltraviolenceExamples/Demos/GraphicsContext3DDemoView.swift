@@ -1,10 +1,10 @@
+import GeometryLite3D
+import Interaction3D
 import MetalKit
 import simd
 import SwiftUI
-import Interaction3D
-import GeometryLite3D
-import UltraviolenceSupport
 import Ultraviolence
+import UltraviolenceSupport
 import UltraviolenceUI
 
 public struct GraphicsContext3DDemoView: View {
@@ -43,6 +43,7 @@ public struct GraphicsContext3DDemoView: View {
     private var showLineWidthPopover: Bool = false
 
     public init() {
+        // Empty initializer
     }
 
     public var body: some View {
@@ -140,8 +141,8 @@ public struct GraphicsContext3DDemoView: View {
             let miterSquare = Path3D { path in
                 path.move(to: [-1 + spacing * -1, -1, -1])
                 path.addLine(to: [ 1 + spacing * -1, -1, -1])
-                path.addLine(to: [ 1 + spacing * -1,  1, -1])
-                path.addLine(to: [-1 + spacing * -1,  1, -1])
+                path.addLine(to: [ 1 + spacing * -1, 1, -1])
+                path.addLine(to: [-1 + spacing * -1, 1, -1])
                 path.closeSubpath()
             }
             context.stroke(miterSquare, with: .red, style: StrokeStyle(lineWidth: 40.0 * lineWidthMultiplier, lineCap: .butt, lineJoin: .miter))
@@ -149,8 +150,8 @@ public struct GraphicsContext3DDemoView: View {
             let roundSquare = Path3D { path in
                 path.move(to: [-1 + spacing * 0, -1, -1])
                 path.addLine(to: [ 1 + spacing * 0, -1, -1])
-                path.addLine(to: [ 1 + spacing * 0,  1, -1])
-                path.addLine(to: [-1 + spacing * 0,  1, -1])
+                path.addLine(to: [ 1 + spacing * 0, 1, -1])
+                path.addLine(to: [-1 + spacing * 0, 1, -1])
                 path.closeSubpath()
             }
             context.stroke(roundSquare, with: .green, style: StrokeStyle(lineWidth: 40.0 * lineWidthMultiplier, lineCap: .butt, lineJoin: .round))
@@ -158,8 +159,8 @@ public struct GraphicsContext3DDemoView: View {
             let bevelSquare = Path3D { path in
                 path.move(to: [-1 + spacing * 1, -1, -1])
                 path.addLine(to: [ 1 + spacing * 1, -1, -1])
-                path.addLine(to: [ 1 + spacing * 1,  1, -1])
-                path.addLine(to: [-1 + spacing * 1,  1, -1])
+                path.addLine(to: [ 1 + spacing * 1, 1, -1])
+                path.addLine(to: [-1 + spacing * 1, 1, -1])
                 path.closeSubpath()
             }
             context.stroke(bevelSquare, with: .blue, style: StrokeStyle(lineWidth: 40.0 * lineWidthMultiplier, lineCap: .butt, lineJoin: .bevel))
@@ -171,7 +172,7 @@ public struct GraphicsContext3DDemoView: View {
             let lShape = Path3D { path in
                 path.move(to: [-1, -1, -1])
                 path.addLine(to: [ 1, -1, -1])
-                path.addLine(to: [ 1,  1, -1])
+                path.addLine(to: [ 1, 1, -1])
             }
             context.stroke(lShape, with: .red, style: StrokeStyle(lineWidth: 40.0 * lineWidthMultiplier, lineCap: .round, lineJoin: .miter))
         }
@@ -251,8 +252,8 @@ public struct GraphicsContext3DDemoView: View {
             let groundSquare = Path3D { path in
                 path.move(to: [-4, -2, -4])
                 path.addLine(to: [ 4, -2, -4])
-                path.addLine(to: [ 4, -2,  4])
-                path.addLine(to: [-4, -2,  4])
+                path.addLine(to: [ 4, -2, 4])
+                path.addLine(to: [-4, -2, 4])
                 path.closeSubpath()
             }
             context.stroke(groundSquare, with: .gray, style: StrokeStyle(lineWidth: 24.0 * lineWidthMultiplier, lineCap: .round, lineJoin: .round))
@@ -261,29 +262,29 @@ public struct GraphicsContext3DDemoView: View {
                 // Bottom square
                 path.move(to: [-2, -2, -2])
                 path.addLine(to: [ 2, -2, -2])
-                path.addLine(to: [ 2, -2,  2])
-                path.addLine(to: [-2, -2,  2])
+                path.addLine(to: [ 2, -2, 2])
+                path.addLine(to: [-2, -2, 2])
                 path.closeSubpath()
 
                 // Top square
-                path.move(to: [-2,  2, -2])
-                path.addLine(to: [ 2,  2, -2])
-                path.addLine(to: [ 2,  2,  2])
-                path.addLine(to: [-2,  2,  2])
+                path.move(to: [-2, 2, -2])
+                path.addLine(to: [ 2, 2, -2])
+                path.addLine(to: [ 2, 2, 2])
+                path.addLine(to: [-2, 2, 2])
                 path.closeSubpath()
 
                 // Vertical edges
                 path.move(to: [-2, -2, -2])
-                path.addLine(to: [-2,  2, -2])
+                path.addLine(to: [-2, 2, -2])
 
                 path.move(to: [ 2, -2, -2])
-                path.addLine(to: [ 2,  2, -2])
+                path.addLine(to: [ 2, 2, -2])
 
-                path.move(to: [ 2, -2,  2])
-                path.addLine(to: [ 2,  2,  2])
+                path.move(to: [ 2, -2, 2])
+                path.addLine(to: [ 2, 2, 2])
 
-                path.move(to: [-2, -2,  2])
-                path.addLine(to: [-2,  2,  2])
+                path.move(to: [-2, -2, 2])
+                path.addLine(to: [-2, 2, 2])
             }
             context.stroke(cubeOutline, with: .white, style: StrokeStyle(lineWidth: 16.0 * lineWidthMultiplier, lineCap: .round, lineJoin: .round))
 
@@ -299,8 +300,8 @@ public struct GraphicsContext3DDemoView: View {
             let square = Path3D { path in
                 path.move(to: [-0.6, -0.6, 1])
                 path.addLine(to: [ 0.6, -0.6, 1])
-                path.addLine(to: [ 0.6,  0.6, 1])
-                path.addLine(to: [-0.6,  0.6, 1])
+                path.addLine(to: [ 0.6, 0.6, 1])
+                path.addLine(to: [-0.6, 0.6, 1])
                 path.closeSubpath()
             }
             context.fill(square, with: .green)
