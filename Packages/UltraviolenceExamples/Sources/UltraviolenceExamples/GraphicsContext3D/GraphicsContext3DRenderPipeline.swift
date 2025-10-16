@@ -1,6 +1,7 @@
 import Metal
 import simd
 import Ultraviolence
+import UltraviolenceExampleShaders
 
 public struct GraphicsContext3DRenderPipeline: Element {
     let context: GraphicsContext3D
@@ -9,13 +10,28 @@ public struct GraphicsContext3DRenderPipeline: Element {
     let debugWireframe: Bool
 
     @UVState
-    var vertexShader: VertexShader
+    var objectShader: ObjectShader
 
     @UVState
-    var fragmentShader: FragmentShader
+    var meshShader: MeshShader
 
     @UVState
-    var vertexBuffer: MTLBuffer?
+    var meshFragmentShader: FragmentShader
+
+    @UVState
+    var fillVertexShader: VertexShader
+
+    @UVState
+    var fillFragmentShader: FragmentShader
+
+    @UVState
+    var joinDataBuffer: MTLBuffer?
+
+    @UVState
+    var uniformsBuffer: MTLBuffer?
+
+    @UVState
+    var fillVertexBuffer: MTLBuffer?
 
     @UVState
     var previousContext: GraphicsContext3D?
@@ -27,7 +43,10 @@ public struct GraphicsContext3DRenderPipeline: Element {
     var previousViewport: SIMD2<Float>?
 
     @UVState
-    var vertexCount: Int = 0
+    var joinCount: Int = 0
+
+    @UVState
+    var fillVertexCount: Int = 0
 
     @UVEnvironment(\.device)
     var device
@@ -39,60 +58,113 @@ public struct GraphicsContext3DRenderPipeline: Element {
         self.debugWireframe = debugWireframe
 
         let library = try ShaderLibrary(bundle: .ultraviolenceExampleShaders())
-        vertexShader = try library.function(named: "graphicsContext3D_vertex", type: VertexShader.self)
-        fragmentShader = try library.function(named: "graphicsContext3D_fragment", type: FragmentShader.self)
+        objectShader = try library.function(named: "lineJoinObjectShader", type: ObjectShader.self)
+        meshShader = try library.function(named: "lineJoinMeshShader", type: MeshShader.self)
+        meshFragmentShader = try library.function(named: "lineJoinFragmentShader", type: FragmentShader.self)
+        fillVertexShader = try library.function(named: "graphicsContext3D_vertex", type: VertexShader.self)
+        fillFragmentShader = try library.function(named: "graphicsContext3D_fragment", type: FragmentShader.self)
     }
 
     public var body: some Element {
         get throws {
-            if let device, vertexBuffer == nil {
-                let bufferSize = 64 * 1024 * 1024
-                vertexBuffer = device.makeBuffer(length: bufferSize, options: .storageModeShared)
-                vertexBuffer?.label = "GraphicsContext3D Vertex Buffer"
+            if let device {
+                if joinDataBuffer == nil {
+                    let bufferSize = 16 * 1024 * 1024
+                    joinDataBuffer = device.makeBuffer(length: bufferSize, options: .storageModeShared)
+                    joinDataBuffer?.label = "GraphicsContext3D Join Data Buffer"
+                }
+
+                if uniformsBuffer == nil {
+                    uniformsBuffer = device.makeBuffer(length: MemoryLayout<LineJoinUniforms>.stride, options: .storageModeShared)
+                    uniformsBuffer?.label = "GraphicsContext3D Uniforms Buffer"
+                }
+
+                if fillVertexBuffer == nil {
+                    let bufferSize = 64 * 1024 * 1024
+                    fillVertexBuffer = device.makeBuffer(length: bufferSize, options: .storageModeShared)
+                    fillVertexBuffer?.label = "GraphicsContext3D Fill Vertex Buffer"
+                }
             }
 
             let needsRegeneration = previousContext != context || previousViewProjection != viewProjection || previousViewport != viewport
 
             if needsRegeneration {
                 let generator = GeometryGenerator(viewProjection: viewProjection, viewport: viewport)
-                var allVertices: [Vertex] = []
+
+                var allJoinData: [LineJoinGPUData] = []
+                var allFillVertices: [Vertex] = []
 
                 for command in context.commands {
                     switch command {
                     case .stroke(let path, let color, let style):
-                        let vertices = generator.generateStrokeGeometry(path: path, color: color, style: style)
-                        allVertices.append(contentsOf: vertices)
+                        let joinData = generator.generateLineJoinGPUData(path: path, color: color, style: style)
+                        allJoinData.append(contentsOf: joinData)
                     case .fill(let path, let color):
                         let vertices = generator.generateFillGeometry(path: path, color: color)
-                        allVertices.append(contentsOf: vertices)
+                        allFillVertices.append(contentsOf: vertices)
                     }
                 }
 
-                let byteCount = allVertices.count * MemoryLayout<Vertex>.stride
-                print("Regenerating vertex buffer: \(byteCount) bytes (\(allVertices.count) vertices)")
+                if let buffer = joinDataBuffer, !allJoinData.isEmpty {
+                    let byteCount = allJoinData.count * MemoryLayout<LineJoinGPUData>.stride
+                    buffer.contents().copyMemory(from: allJoinData, byteCount: byteCount)
+                }
+                joinCount = allJoinData.count
 
-                if let buffer = vertexBuffer {
-                    buffer.contents().copyMemory(from: allVertices, byteCount: byteCount)
+                if let buffer = fillVertexBuffer, !allFillVertices.isEmpty {
+                    let byteCount = allFillVertices.count * MemoryLayout<Vertex>.stride
+                    buffer.contents().copyMemory(from: allFillVertices, byteCount: byteCount)
+                }
+                fillVertexCount = allFillVertices.count
+
+                if let buffer = uniformsBuffer {
+                    var uniforms = LineJoinUniforms(
+                        viewProjection: viewProjection,
+                        viewport: viewport,
+                        _padding: (0, 0)
+                    )
+                    buffer.contents().copyMemory(from: &uniforms, byteCount: MemoryLayout<LineJoinUniforms>.stride)
                 }
 
-                vertexCount = allVertices.count
                 previousContext = context
                 previousViewProjection = viewProjection
                 previousViewport = viewport
             }
 
-            return try RenderPipeline(vertexShader: vertexShader, fragmentShader: fragmentShader) {
-                Draw { encoder in
-                    guard vertexCount > 0, let buffer = vertexBuffer else {
-                        return
+            return try Group {
+                try MeshRenderPipeline(objectShader: objectShader, meshShader: meshShader, fragmentShader: meshFragmentShader) {
+                    Draw { encoder in
+                        encoder.withDebugGroup("GraphicsContext3D Stroke Mesh Shader (joinCount: \(joinCount))") {
+                            guard joinCount > 0 else { return }
+                            encoder.label = "GraphicsContext3D Stroke Mesh Encoder"
+                            encoder.setCullMode(.none)
+                            encoder.setTriangleFillMode(debugWireframe ? .lines : .fill)
+                            encoder.drawMeshThreadgroups(
+                                MTLSize(width: joinCount, height: 1, depth: 1),
+                                threadsPerObjectThreadgroup: MTLSize(width: 1, height: 1, depth: 1),
+                                threadsPerMeshThreadgroup: MTLSize(width: 1, height: 1, depth: 1)
+                            )
+                        }
                     }
-                    encoder.setCullMode(.none)
-                    encoder.setTriangleFillMode(debugWireframe ? .lines : .fill)
-                    encoder.setVertexBuffer(buffer, offset: 0, index: 0)
-                    encoder.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: vertexCount)
+                    .parameter("joinData", functionType: .mesh, buffer: joinDataBuffer!, offset: 0)
+                    .parameter("uniforms", functionType: .mesh, buffer: uniformsBuffer!, offset: 0)
                 }
+                .depthCompare(function: .less, enabled: true)
+
+                try RenderPipeline(vertexShader: fillVertexShader, fragmentShader: fillFragmentShader) {
+                    Draw { encoder in
+                        encoder.withDebugGroup("GraphicsContext3D Fill Geometry (fillVertexCount: \(fillVertexCount))") {
+                            guard fillVertexCount > 0 else { return }
+                            encoder.label = "GraphicsContext3D Fill Encoder"
+                            encoder.setCullMode(.none)
+                            encoder.setTriangleFillMode(debugWireframe ? .lines : .fill)
+                            encoder.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: fillVertexCount)
+                        }
+                    }
+                    .parameter("vertices", functionType: .vertex, buffer: fillVertexBuffer!, offset: 0)
+                }
+                .depthCompare(function: .less, enabled: true)
             }
-            .depthCompare(function: .less, enabled: true)
         }
     }
 }
