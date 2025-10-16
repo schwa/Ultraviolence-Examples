@@ -5,6 +5,7 @@
 #import "Boxes.h"
 #import "ColorSource.h"
 #import "DebugShaders.h"
+#import "GraphicsContext3DShaders.h"
 #import "PBRShaders.h"
 #import "Panorama.h"
 #import "ParticleEffectsShader.h"

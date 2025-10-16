@@ -1,5 +1,6 @@
 import simd
 import CoreGraphics
+import SwiftUI
 
 // GraphicsContext3D: A SwiftUI.Canvas-style API for rendering stroked and filled paths in 3D with pixel-perfect line widths.
 // - GraphicsContext3D: Records stroke() and fill() commands with Path3D objects and styles
@@ -23,15 +24,15 @@ public struct GraphicsContext3D: Equatable {
         builder(&self)
     }
 
-    public mutating func stroke(_ path: Path3D, with color: SIMD4<Float>, style: StrokeStyle) {
-        commands.append(.stroke(path: path, color: color, style: style))
+    public mutating func stroke(_ path: Path3D, with color: Color, style: StrokeStyle) {
+        commands.append(.stroke(path: path, color: color.float4, style: style))
     }
 
-    public mutating func stroke(_ path: Path3D, with color: SIMD4<Float>, lineWidth: Float) {
-        commands.append(.stroke(path: path, color: color, style: StrokeStyle(lineWidth: CGFloat(lineWidth))))
+    public mutating func stroke(_ path: Path3D, with color: Color, lineWidth: Float) {
+        commands.append(.stroke(path: path, color: color.float4, style: StrokeStyle(lineWidth: CGFloat(lineWidth))))
     }
 
-    public mutating func fill(_ path: Path3D, with color: SIMD4<Float>) {
-        commands.append(.fill(path: path, color: color))
+    public mutating func fill(_ path: Path3D, with color: Color) {
+        commands.append(.fill(path: path, color: color.float4))
     }
 }
