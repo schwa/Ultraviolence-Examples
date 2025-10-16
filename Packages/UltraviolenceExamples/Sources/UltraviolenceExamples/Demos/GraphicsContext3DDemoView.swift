@@ -9,6 +9,7 @@ import UltraviolenceUI
 
 public struct GraphicsContext3DDemoView: View {
     enum Sample: String, CaseIterable, Identifiable {
+        case axisLines = "Axis Lines"
         case lineCaps = "Line Caps"
         case lineJoins = "Line Joins"
         case miter = "Miter"
@@ -175,6 +176,8 @@ public struct GraphicsContext3DDemoView: View {
 extension GraphicsContext3DDemoView.Sample {
     func buildContext(lineWidthMultiplier: Double, randomLines: [(start: SIMD3<Float>, end: SIMD3<Float>, color: Color)]) -> GraphicsContext3D {
         switch self {
+        case .axisLines:
+            return buildAxisLinesContext(lineWidthMultiplier: lineWidthMultiplier)
         case .lineCaps:
             return buildLineCapsContext(lineWidthMultiplier: lineWidthMultiplier)
         case .lineJoins:
@@ -187,6 +190,31 @@ extension GraphicsContext3DDemoView.Sample {
             return buildGeometryContext(lineWidthMultiplier: lineWidthMultiplier)
         case .randomLines:
             return buildRandomLinesContext(lineWidthMultiplier: lineWidthMultiplier, lines: randomLines)
+        }
+    }
+
+    private func buildAxisLinesContext(lineWidthMultiplier: Double) -> GraphicsContext3D {
+        GraphicsContext3D { context in
+            let scale: Float = 15.0
+            let lineWidth: Float = 2.0 * Float(lineWidthMultiplier)
+
+            let xAxis = Path3D { path in
+                path.move(to: [-scale, 0, 0])
+                path.addLine(to: [scale, 0, 0])
+            }
+            context.stroke(xAxis, with: .red, lineWidth: lineWidth)
+
+            let yAxis = Path3D { path in
+                path.move(to: [0, -scale, 0])
+                path.addLine(to: [0, scale, 0])
+            }
+            context.stroke(yAxis, with: .green, lineWidth: lineWidth)
+
+            let zAxis = Path3D { path in
+                path.move(to: [0, 0, -scale])
+                path.addLine(to: [0, 0, scale])
+            }
+            context.stroke(zAxis, with: .blue, lineWidth: lineWidth)
         }
     }
 

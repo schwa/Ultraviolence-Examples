@@ -57,12 +57,12 @@ public struct GraphicsContext3DRenderPipeline: Element {
         self.viewport = viewport
         self.debugWireframe = debugWireframe
 
-        let library = try ShaderLibrary(bundle: .ultraviolenceExampleShaders())
+        let library = try ShaderLibrary(bundle: .ultraviolenceExampleShaders(), namespace: "GraphicsContext3D")
         objectShader = try library.function(named: "lineJoinObjectShader", type: ObjectShader.self)
         meshShader = try library.function(named: "lineJoinMeshShader", type: MeshShader.self)
-        meshFragmentShader = try library.function(named: "lineJoinFragmentShader", type: FragmentShader.self)
-        fillVertexShader = try library.function(named: "graphicsContext3D_vertex", type: VertexShader.self)
-        fillFragmentShader = try library.function(named: "graphicsContext3D_fragment", type: FragmentShader.self)
+        meshFragmentShader = try library.function(named: "fragmentShader", type: FragmentShader.self)
+        fillVertexShader = try library.function(named: "vertexShader", type: VertexShader.self)
+        fillFragmentShader = try library.function(named: "fragmentShader", type: FragmentShader.self)
     }
 
     public var body: some Element {
