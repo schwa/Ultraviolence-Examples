@@ -30,6 +30,7 @@ import UltraviolenceExamples
         SceneGraphDemoView.self,
         GLTFDemoView.self,
         VoxelDemoView.self
+        GrassDemoView.self
     ]
 
     #if os(macOS)
@@ -390,6 +391,17 @@ extension VoxelDemoView: @retroactive DemoView {
     public static var metadata: DemoMetadata {
         DemoMetadata(
             name: "Voxel Renderer"
+        )
+    }
+}
+
+extension GrassDemoView: @retroactive DemoView {
+    public static var metadata: DemoMetadata {
+        DemoMetadata(
+            name: "Grass Sphere",
+            description: "Procedural grass rendering on a sphere using Object and Mesh shaders with uniform point distribution",
+            group: "Complex",
+            keywords: ["mesh-shaders", "procedural", "animated"]
         )
     }
 }
