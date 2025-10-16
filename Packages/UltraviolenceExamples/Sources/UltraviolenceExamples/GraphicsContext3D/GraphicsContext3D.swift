@@ -1,5 +1,5 @@
-import simd
 import CoreGraphics
+import simd
 import SwiftUI
 
 // GraphicsContext3D: A SwiftUI.Canvas-style API for rendering stroked and filled paths in 3D with pixel-perfect line widths.
@@ -18,9 +18,11 @@ public struct GraphicsContext3D: Equatable {
 
     internal private(set) var commands: [DrawCommand] = []
 
-    public init() {}
+    public init() {
+        // Empty initializer
+    }
 
-    public init(_ builder: (inout GraphicsContext3D) -> Void) {
+    public init(_ builder: (inout Self) -> Void) {
         builder(&self)
     }
 

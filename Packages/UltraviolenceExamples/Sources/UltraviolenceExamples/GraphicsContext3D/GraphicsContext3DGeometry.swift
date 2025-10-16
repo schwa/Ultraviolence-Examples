@@ -1,6 +1,6 @@
-import simd
-import earcut
 import CoreGraphics
+import earcut
+import simd
 import UltraviolenceExampleShaders
 
 internal struct Vertex {
@@ -17,7 +17,9 @@ internal struct GeometryGenerator {
         let p1Clip = viewProjection * SIMD4<Float>(p1, 1.0)
         let p2Clip = viewProjection * SIMD4<Float>(p2, 1.0)
 
-        guard abs(p0Clip.w) > 1e-6, abs(p1Clip.w) > 1e-6, abs(p2Clip.w) > 1e-6 else { return 0 }
+        guard abs(p0Clip.w) > 1e-6, abs(p1Clip.w) > 1e-6, abs(p2Clip.w) > 1e-6 else {
+            return 0
+        }
 
         let p0Screen = SIMD2<Float>((p0Clip.x / p0Clip.w * 0.5 + 0.5) * viewport.x, (p0Clip.y / p0Clip.w * 0.5 + 0.5) * viewport.y)
         let p1Screen = SIMD2<Float>((p1Clip.x / p1Clip.w * 0.5 + 0.5) * viewport.x, (p1Clip.y / p1Clip.w * 0.5 + 0.5) * viewport.y)
@@ -34,7 +36,9 @@ internal struct GeometryGenerator {
         let p2Clip = viewProjection * SIMD4<Float>(p2, 1.0)
         let p3Clip = viewProjection * SIMD4<Float>(p3, 1.0)
 
-        guard abs(p0Clip.w) > 1e-6, abs(p1Clip.w) > 1e-6, abs(p2Clip.w) > 1e-6, abs(p3Clip.w) > 1e-6 else { return 0 }
+        guard abs(p0Clip.w) > 1e-6, abs(p1Clip.w) > 1e-6, abs(p2Clip.w) > 1e-6, abs(p3Clip.w) > 1e-6 else {
+            return 0
+        }
 
         let p0Screen = SIMD2<Float>((p0Clip.x / p0Clip.w * 0.5 + 0.5) * viewport.x, (p0Clip.y / p0Clip.w * 0.5 + 0.5) * viewport.y)
         let p1Screen = SIMD2<Float>((p1Clip.x / p1Clip.w * 0.5 + 0.5) * viewport.x, (p1Clip.y / p1Clip.w * 0.5 + 0.5) * viewport.y)
@@ -124,14 +128,14 @@ internal struct GeometryGenerator {
                 }
                 points.append(to)
                 currentPoint = to
-            case .quadCurve(let to, let control):
+            case let .quadCurve(to, control):
                 guard let from = currentPoint else {
                     fatalError("Curve command without preceding move command")
                 }
                 let curvePoints = subdivideQuadCurve(from: from, to: to, control: control)
                 points.append(contentsOf: curvePoints)
                 currentPoint = to
-            case .curve(let to, let control1, let control2):
+            case let .curve(to, control1, control2):
                 guard let from = currentPoint else {
                     fatalError("Curve command without preceding move command")
                 }
@@ -147,7 +151,9 @@ internal struct GeometryGenerator {
     }
 
     private func generateJoinDataForSubpath(segments: [(start: SIMD3<Float>, end: SIMD3<Float>)], isLoop: Bool, lineWidth: Float, joinStyleValue: UInt32, capStyleValue: UInt32, color: SIMD4<Float>, miterLimit: Float) -> [LineJoinGPUData] {
-        guard !segments.isEmpty else { return [] }
+        guard !segments.isEmpty else {
+            return []
+        }
 
         var joinData: [LineJoinGPUData] = []
         let pointCount = isLoop ? segments.count : segments.count + 1
@@ -159,14 +165,14 @@ internal struct GeometryGenerator {
             let isStartCap: UInt32
             let isEndCap: UInt32
 
-            if i == 0 && !isLoop {
+            if i == 0, !isLoop {
                 // Start cap
                 joinPoint = segments[0].start
                 prevPoint = joinPoint  // Dummy, not used for start cap
                 nextPoint = segments[0].end
                 isStartCap = 1
                 isEndCap = 0
-            } else if i == segments.count && !isLoop {
+            } else if i == segments.count, !isLoop {
                 // End cap
                 joinPoint = segments[segments.count - 1].end
                 prevPoint = segments[segments.count - 1].start
@@ -257,7 +263,7 @@ internal struct GeometryGenerator {
                 }
                 segments.append((start: from, end: to))
                 currentPoint = to
-            case .quadCurve(let to, let control):
+            case let .quadCurve(to, control):
                 guard let from = currentPoint else {
                     fatalError("Curve command without preceding move command")
                 }
@@ -268,7 +274,7 @@ internal struct GeometryGenerator {
                     segmentStart = segmentEnd
                 }
                 currentPoint = to
-            case .curve(let to, let control1, let control2):
+            case let .curve(to, control1, control2):
                 guard let from = currentPoint else {
                     fatalError("Curve command without preceding move command")
                 }

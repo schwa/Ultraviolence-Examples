@@ -1,7 +1,7 @@
+import CoreGraphics
 import GeometryLite3D
 import simd
 import Testing
-import CoreGraphics
 @testable import UltraviolenceExamples
 
 @Suite
@@ -57,7 +57,7 @@ struct LineJoinTests {
         for vertex in vertices {
             let distX = abs(vertex.position.x - expectedCornerX)
             let distY = abs(vertex.position.y - expectedCornerY)
-            if distX < tolerance && distY < tolerance {
+            if distX < tolerance, distY < tolerance {
                 foundDiagonalVertex = true
                 break
             }

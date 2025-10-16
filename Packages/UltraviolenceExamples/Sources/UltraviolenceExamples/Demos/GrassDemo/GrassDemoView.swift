@@ -1,12 +1,12 @@
+import GeometryLite3D
+import Interaction3D
 import MetalKit
 import simd
 import SwiftUI
-import Interaction3D
-import GeometryLite3D
-import UltraviolenceSupport
 import Ultraviolence
-import UltraviolenceUI
 import UltraviolenceExampleShaders
+import UltraviolenceSupport
+import UltraviolenceUI
 
 public struct GrassDemoView: View {
     @State
@@ -24,7 +24,7 @@ public struct GrassDemoView: View {
     @State
     private var grassDensity: Double = 500
 
-    private let maxGrassPoints = 2000
+    private let maxGrassPoints = 2_000
 
     @State
     private var grassLength: Double = 0.15
