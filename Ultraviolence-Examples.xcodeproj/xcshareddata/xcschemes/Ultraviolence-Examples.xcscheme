@@ -77,7 +77,7 @@
          <EnvironmentVariable
             key = "METAL_LOGGING"
             value = "YES"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </EnvironmentVariable>
          <EnvironmentVariable
             key = "DEMOVIEW"
