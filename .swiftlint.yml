@@ -6,6 +6,7 @@ excluded:
 force_cast: warning
 force_try: warning
 shorthand_operator: warning
+empty_count: warning
 type_name:
   allowed_symbols:
     - _
