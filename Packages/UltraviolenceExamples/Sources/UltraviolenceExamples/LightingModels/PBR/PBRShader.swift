@@ -53,8 +53,9 @@ public extension Element {
             .parameter("amplifiedUniforms", functionType: .fragment, values: viewUniforms)
     }
 
-    func pbrEnvironment(_ texture: MTLTexture?) -> some Element {
+    func pbrEnvironment(_ texture: MTLTexture) -> some Element {
         self
             .parameter("environmentTexture", functionType: .fragment, texture: texture)
+            .useResource(texture, usage: .read, stages: .fragment)
     }
 }

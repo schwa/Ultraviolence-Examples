@@ -65,6 +65,7 @@ extension Element {
             .useResource(material.roughness, usage: .read, stages: .fragment)
             .useResource(material.ambientOcclusion, usage: .read, stages: .fragment)
             .useResource(material.emissive, usage: .read, stages: .fragment)
+            .useResource(material.normal, usage: .read, stages: .fragment)
     }
 }
 
