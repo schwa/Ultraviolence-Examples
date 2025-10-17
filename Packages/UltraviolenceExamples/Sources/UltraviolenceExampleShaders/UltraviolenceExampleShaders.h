@@ -8,6 +8,7 @@
 #import "EdgeRenderingShaders.h"
 #import "GraphicsContext3DShaders.h"
 #import "GrassShaders.h"
+#import "MetalCanvasShaders.h"
 #import "PBRShaders.h"
 #import "Panorama.h"
 #import "ParticleEffectsShader.h"

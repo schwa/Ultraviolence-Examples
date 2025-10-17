@@ -33,7 +33,8 @@ import UltraviolenceExamples
         GrassDemoView.self,
         GraphicsContext3DDemoView.self,
         EdgeLinesDemoView.self,
-        CaptureReceiverDemoView.self
+        CaptureReceiverDemoView.self,
+        MetalCanvasDemoView.self,
     ]
 
     #if os(macOS)
@@ -437,6 +438,17 @@ extension CaptureReceiverDemoView: @retroactive DemoView {
             description: "Network receiver for AR capture data using Bonjour service discovery and structured concurrency",
             group: "WIP",
             keywords: ["network", "bonjour", "ar"]
+        )
+    }
+}
+
+extension MetalCanvasDemoView: @retroactive DemoView {
+    public static var metadata: DemoMetadata {
+        DemoMetadata(
+            name: "MetalCanvas",
+            description: "2D Canvas-style API for rendering SwiftUI Paths with stroke operations using mesh shaders",
+            group: "Basic",
+            keywords: ["2d", "path", "canvas", "mesh-shaders"]
         )
     }
 }
