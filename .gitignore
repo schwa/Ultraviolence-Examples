@@ -31,5 +31,5 @@ playground.xcworkspace
 .swiftpm
 .build/
 AGENTS.md
-.beads
+.beads/**
 !.beads/*.jsonl
