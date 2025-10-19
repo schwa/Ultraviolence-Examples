@@ -24,7 +24,7 @@ public extension MagicaVoxelModel {
             let buffer = Array(buffer.bindMemory(to: UInt8.self))
             var scanner = CollectionScanner(elements: buffer)
 
-            guard let header = scanner.scan(count: 4).map({ String(bytes: $0, encoding: .utf8)! }), header == "VOX " else {
+            guard let headerBytes = scanner.scan(count: 4), let header = String(bytes: headerBytes, encoding: .utf8), header == "VOX " else {
                 throw UndefinedError()
             }
             guard let version = scanner.scan(type: UInt32.self), version == 150 else {
@@ -39,7 +39,9 @@ public extension MagicaVoxelModel {
     }
 
     init(named name: String, bundle: Bundle = Bundle.main) throws {
-        let url = bundle.url(forResource: name, withExtension: "vox")!
+        guard let url = bundle.url(forResource: name, withExtension: "vox") else {
+            throw UndefinedError()
+        }
         self = try .init(contentsOf: url)
     }
 }
@@ -93,7 +95,10 @@ public extension MagicaVoxelModel {
                 continue
             }
         }
-        return MagicaVoxelModel(size: size!, voxels: voxels!, colors: colors!)
+        guard let size, let voxels, let colors else {
+            fatalError("MagicaVoxel file missing required chunks")
+        }
+        return MagicaVoxelModel(size: size, voxels: voxels, colors: colors)
     }
 }
 
@@ -156,7 +161,7 @@ public extension VoxelChunk {
 public extension CollectionScanner where Element == UInt8 {
     mutating func scan(type: VoxelChunk.Type) -> VoxelChunk? {
         let saved = current
-        guard let type = scan(count: 4).map({ String(bytes: $0, encoding: .utf8)! }) else {
+        guard let typeBytes = scan(count: 4), let type = String(bytes: typeBytes, encoding: .utf8) else {
             current = saved
             return nil
         }

@@ -100,7 +100,7 @@ extension Element {
             .useResource(color.texture2D, usage: usage, stages: stages)
         // uv-eg-3: textureCube and depth2D useResource calls cause hangs on iOS/macOS
         // Only texture2D works reliably when used with argument buffers
-//            .useResource(color.textureCube, usage: usage, stages: stages)
-//            .useResource(color.depth2D, usage: usage, stages: stages)
+        //            .useResource(color.textureCube, usage: usage, stages: stages)
+        //            .useResource(color.depth2D, usage: usage, stages: stages)
     }
 }

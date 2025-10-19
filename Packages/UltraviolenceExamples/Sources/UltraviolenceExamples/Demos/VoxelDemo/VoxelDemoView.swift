@@ -66,12 +66,17 @@ public struct VoxelDemoView: View {
             guard let magicaVoxelURL else {
                 return
             }
-            let model = try! MagicaVoxelModel(contentsOf: magicaVoxelURL)
-            print(model.size)
+            do {
+                let model = try MagicaVoxelModel(contentsOf: magicaVoxelURL)
+                print(model.size)
 
-            let texture = try! model.makeTexture()
-            voxelTexture = texture
-            voxelScale = SIMD3<Float>(0.01, 0.01, 0.01)
+                let texture = try model.makeTexture()
+                voxelTexture = texture
+                voxelScale = SIMD3<Float>(0.01, 0.01, 0.01)
+            }
+            catch {
+                assertionFailure("Failed to load MagicaVoxel model: \(error)")
+            }
         }
 
         .overlay(alignment: .bottom) {
@@ -106,7 +111,7 @@ public struct VoxelDemoView: View {
         let textureDescriptor = MTLTextureDescriptor.texture2DDescriptor(pixelFormat: .rgba8Unorm, width: size.width, height: size.height, mipmapped: false)
         textureDescriptor.usage = [.shaderRead, .shaderWrite]
         let device = _MTLCreateSystemDefaultDevice()
-        let texture = device.makeTexture(descriptor: textureDescriptor).orFatalError("TODO")
+        let texture = device.makeTexture(descriptor: textureDescriptor).orFatalError("Failed to create render texture")
         texture.label = "Color Texture"
         return texture
     }
@@ -156,7 +161,7 @@ public struct VoxelDemoView: View {
 }
 
 extension UTType {
-    static let magicaVoxel = UTType(filenameExtension: "vox").orFatalError()
+    static let magicaVoxel = UTType(filenameExtension: "vox").orFatalError("Failed to create magicaVoxel UTType")
 }
 
 extension MagicaVoxelModel {

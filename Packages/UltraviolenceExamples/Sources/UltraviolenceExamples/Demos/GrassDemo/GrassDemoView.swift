@@ -158,22 +158,25 @@ public struct GrassDemoView: View {
         }
         .toolbar {
             ToolbarItem {
-                Button(action: { isPlaying.toggle() }) {
+                Button(action: { isPlaying.toggle() }, label: {
                     Image(systemName: isPlaying ? "pause.fill" : "play.fill")
-                }
+                        .accessibilityLabel(isPlaying ? "Pause" : "Play")
+                })
             }
             ToolbarItem {
-                Button(action: { showSphere.toggle() }) {
+                Button(action: { showSphere.toggle() }, label: {
                     Image(systemName: showSphere ? "circle.fill" : "circle")
-                }
+                        .accessibilityLabel("Toggle sphere")
+                })
             }
             ToolbarItem {
                 Button(action: {
                     cameraMatrix = .init(translation: [0, 0, 4])
                     rotation = 0.0
-                }) {
+                }, label: {
                     Image(systemName: "arrow.counterclockwise")
-                }
+                        .accessibilityLabel("Reset camera")
+                })
             }
         }
     }

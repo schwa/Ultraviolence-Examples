@@ -17,7 +17,10 @@ struct VoxelToTextureComputePipeline: Element {
     var voxelComputeShader: ComputeKernel
 
     init(projection: any ProjectionProtocol, aspectRatio: Float, cameraMatrix: float4x4, voxelTexture: MTLTexture, outputTexture: MTLTexture, voxelScale: SIMD3<Float>) throws {
-        self.projection = projection as! PerspectiveProjection // TODO: as! bad!
+        guard let perspectiveProjection = projection as? PerspectiveProjection else {
+            throw UltraviolenceError.generic("VoxelToTextureComputePipeline requires a PerspectiveProjection")
+        }
+        self.projection = perspectiveProjection
         self.aspectRatio = aspectRatio
         self.cameraMatrix = cameraMatrix
         self.voxelTexture = voxelTexture

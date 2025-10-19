@@ -2,6 +2,7 @@ import Metal
 import simd
 import Ultraviolence
 import UltraviolenceExampleShaders
+import UltraviolenceSupport
 
 public struct GraphicsContext3DRenderPipeline: Element {
     let context: GraphicsContext3D
@@ -131,6 +132,10 @@ public struct GraphicsContext3DRenderPipeline: Element {
                 previousViewport = viewport
             }
 
+            guard let joinDataBuffer, let uniformsBuffer, let fillVertexBuffer else {
+                throw UltraviolenceError.resourceCreationFailure("Failed to create required buffers")
+            }
+
             return try Group {
                 try MeshRenderPipeline(objectShader: objectShader, meshShader: meshShader, fragmentShader: meshFragmentShader) {
                     Draw { encoder in
@@ -148,8 +153,8 @@ public struct GraphicsContext3DRenderPipeline: Element {
                             )
                         }
                     }
-                    .parameter("joinData", functionType: .mesh, buffer: joinDataBuffer!, offset: 0)
-                    .parameter("uniforms", functionType: .mesh, buffer: uniformsBuffer!, offset: 0)
+                    .parameter("joinData", functionType: .mesh, buffer: joinDataBuffer, offset: 0)
+                    .parameter("uniforms", functionType: .mesh, buffer: uniformsBuffer, offset: 0)
                 }
                 .depthCompare(function: .less, enabled: true)
 
@@ -165,7 +170,7 @@ public struct GraphicsContext3DRenderPipeline: Element {
                             encoder.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: fillVertexCount)
                         }
                     }
-                    .parameter("vertices", functionType: .vertex, buffer: fillVertexBuffer!, offset: 0)
+                    .parameter("vertices", functionType: .vertex, buffer: fillVertexBuffer, offset: 0)
                 }
                 .depthCompare(function: .less, enabled: true)
             }

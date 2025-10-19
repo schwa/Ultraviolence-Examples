@@ -141,8 +141,8 @@ namespace VoxelShaders {
         constant float3 &voxelScale [[buffer(9)]]
     ) {
 
-        const uint2 centerThread = threads_per_grid / 2;
-//        /const bool isLogging = thread_position_in_grid.x == centerThread.x && thread_position_in_grid.y == centerThread.y;
+//        const uint2 centerThread = threads_per_grid / 2;
+//        const bool isLogging = thread_position_in_grid.x == centerThread.x && thread_position_in_grid.y == centerThread.y;
         const bool isLogging = false;
 
         if (isLogging) {

@@ -45,7 +45,7 @@ public struct GraphicsContext3DDemoView: View {
     private var showLineWidthPopover: Bool = false
 
     @State
-    private var randomLineCount: Int = 1000
+    private var randomLineCount: Int = 1_000
 
     @State
     private var showRandomLineCountPopover: Bool = false
@@ -157,7 +157,7 @@ public struct GraphicsContext3DDemoView: View {
                 VStack {
                     Text("Random Line Count")
                         .font(.headline)
-                    Slider(value: Binding(get: { Double(randomLineCount) }, set: { randomLineCount = Int($0) }), in: 10...20000, step: 10)
+                    Slider(value: Binding(get: { Double(randomLineCount) }, set: { randomLineCount = Int($0) }), in: 10...20_000, step: 10)
                     Text("\(randomLineCount)")
                         .font(.caption)
                         .foregroundStyle(.secondary)
