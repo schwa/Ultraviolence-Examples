@@ -90,7 +90,7 @@ public struct VideoPlaybackDemoView: View {
                 if enableVCR {
                     // VCR Effect Controls
                     GroupBox("VCR Settings") {
-                        VStack {
+                        Form {
                             HStack {
                                 Button("Set All to Zero") {
                                     vcrParameters.curvature = 0
@@ -110,103 +110,117 @@ public struct VideoPlaybackDemoView: View {
                                 }
                                 Spacer()
                             }
-                            HStack {
-                                Text("Curvature")
-                                Slider(value: $vcrParameters.curvature, in: 0...10)
-                                    .frame(width: 200)
-                                    .help("CRT screen curvature distortion - warps the image edges")
-                                Text(vcrParameters.curvature, format: .number.precision(.fractionLength(2)))
+                            LabeledContent("Curvature") {
+                                HStack {
+                                    Slider(value: $vcrParameters.curvature, in: 0...10)
+                                        .help("CRT screen curvature distortion - warps the image edges")
+                                    Text(vcrParameters.curvature, format: .number.precision(.fractionLength(2)))
+                                        .frame(minWidth: 50)
+                                }
                             }
-                            HStack {
-                                Text("Tracking")
-                                Slider(value: $vcrParameters.skip, in: 0...1)
-                                    .frame(width: 200)
-                                    .help("VHS tracking error - horizontal image shifting/glitching")
-                                Text(vcrParameters.skip, format: .number.precision(.fractionLength(2)))
+                            LabeledContent("Tracking") {
+                                HStack {
+                                    Slider(value: $vcrParameters.skip, in: 0...1)
+                                        .help("VHS tracking error - horizontal image shifting/glitching")
+                                    Text(vcrParameters.skip, format: .number.precision(.fractionLength(2)))
+                                        .frame(minWidth: 50)
+                                }
                             }
-                            HStack {
-                                Text("Flicker")
-                                Slider(value: $vcrParameters.imageFlicker, in: 0...2)
-                                    .frame(width: 200)
-                                    .help("Brightness pulsing - simulates unstable video signal")
-                                Text(vcrParameters.imageFlicker, format: .number.precision(.fractionLength(2)))
+                            LabeledContent("Flicker") {
+                                HStack {
+                                    Slider(value: $vcrParameters.imageFlicker, in: 0...2)
+                                        .help("Brightness pulsing - simulates unstable video signal")
+                                    Text(vcrParameters.imageFlicker, format: .number.precision(.fractionLength(2)))
+                                        .frame(minWidth: 50)
+                                }
                             }
-                            HStack {
-                                Text("Scanlines")
-                                Slider(value: $vcrParameters.scanlinesOpacity, in: 0...2)
-                                    .frame(width: 200)
-                                    .help("CRT scanline visibility - horizontal lines across screen")
-                                Text(vcrParameters.scanlinesOpacity, format: .number.precision(.fractionLength(2)))
+                            LabeledContent("Scanlines") {
+                                HStack {
+                                    Slider(value: $vcrParameters.scanlinesOpacity, in: 0...2)
+                                        .help("CRT scanline visibility - horizontal lines across screen")
+                                    Text(vcrParameters.scanlinesOpacity, format: .number.precision(.fractionLength(2)))
+                                        .frame(minWidth: 50)
+                                }
                             }
-                            HStack {
-                                Text("Vignette")
-                                Slider(value: $vcrParameters.vignetteStrength, in: 0...2)
-                                    .frame(width: 200)
-                                    .help("Screen edge darkening - simulates CRT tube limitations")
-                                Text(vcrParameters.vignetteStrength, format: .number.precision(.fractionLength(2)))
+                            LabeledContent("Vignette") {
+                                HStack {
+                                    Slider(value: $vcrParameters.vignetteStrength, in: 0...2)
+                                        .help("Screen edge darkening - simulates CRT tube limitations")
+                                    Text(vcrParameters.vignetteStrength, format: .number.precision(.fractionLength(2)))
+                                        .frame(minWidth: 50)
+                                }
                             }
-                            HStack {
-                                Text("Noise")
-                                Slider(value: $vcrParameters.noiseAmount, in: 0...2)
-                                    .frame(width: 200)
-                                    .help("Video static/grain - animated noise overlay")
-                                Text(vcrParameters.noiseAmount, format: .number.precision(.fractionLength(2)))
+                            LabeledContent("Noise") {
+                                HStack {
+                                    Slider(value: $vcrParameters.noiseAmount, in: 0...2)
+                                        .help("Video static/grain - animated noise overlay")
+                                    Text(vcrParameters.noiseAmount, format: .number.precision(.fractionLength(2)))
+                                        .frame(minWidth: 50)
+                                }
                             }
-                            HStack {
-                                Text("Color Shift")
-                                Slider(value: $vcrParameters.chromaticAberration, in: 0...2)
-                                    .frame(width: 200)
-                                    .help("RGB channel separation - color fringing at edges")
-                                Text(vcrParameters.chromaticAberration, format: .number.precision(.fractionLength(2)))
+                            LabeledContent("Color Shift") {
+                                HStack {
+                                    Slider(value: $vcrParameters.chromaticAberration, in: 0...2)
+                                        .help("RGB channel separation - color fringing at edges")
+                                    Text(vcrParameters.chromaticAberration, format: .number.precision(.fractionLength(2)))
+                                        .frame(minWidth: 50)
+                                }
                             }
-                            HStack {
-                                Text("Vignette Pulse")
-                                Slider(value: $vcrParameters.vignetteFlickerSpeed, in: 0...2)
-                                    .frame(width: 200)
-                                    .help("Vignette brightness pulsing speed")
-                                Text(vcrParameters.vignetteFlickerSpeed, format: .number.precision(.fractionLength(2)))
+                            LabeledContent("Vignette Pulse") {
+                                HStack {
+                                    Slider(value: $vcrParameters.vignetteFlickerSpeed, in: 0...2)
+                                        .help("Vignette brightness pulsing speed")
+                                    Text(vcrParameters.vignetteFlickerSpeed, format: .number.precision(.fractionLength(2)))
+                                        .frame(minWidth: 50)
+                                }
                             }
-                            HStack {
-                                Text("Scanline Speed")
-                                Slider(value: $vcrParameters.scanlinesSpeed, in: 0...2)
-                                    .frame(width: 200)
-                                    .help("Scanline movement speed")
-                                Text(vcrParameters.scanlinesSpeed, format: .number.precision(.fractionLength(2)))
+                            LabeledContent("Scanline Speed") {
+                                HStack {
+                                    Slider(value: $vcrParameters.scanlinesSpeed, in: 0...2)
+                                        .help("Scanline movement speed")
+                                    Text(vcrParameters.scanlinesSpeed, format: .number.precision(.fractionLength(2)))
+                                        .frame(minWidth: 50)
+                                }
                             }
-                            HStack {
-                                Text("Scanline Thickness")
-                                Slider(value: $vcrParameters.scanlineThickness, in: 0...1)
-                                    .frame(width: 200)
-                                    .help("Thickness of scanlines")
-                                Text(vcrParameters.scanlineThickness, format: .number.precision(.fractionLength(2)))
+                            LabeledContent("Scanline Thickness") {
+                                HStack {
+                                    Slider(value: $vcrParameters.scanlineThickness, in: 0...1)
+                                        .help("Thickness of scanlines")
+                                    Text(vcrParameters.scanlineThickness, format: .number.precision(.fractionLength(2)))
+                                        .frame(minWidth: 50)
+                                }
                             }
-                            HStack {
-                                Text("Scanline Spacing")
-                                Slider(value: $vcrParameters.scanlinesSpacing, in: 0...2)
-                                    .frame(width: 200)
-                                    .help("Distance between scanlines")
-                                Text(vcrParameters.scanlinesSpacing, format: .number.precision(.fractionLength(2)))
+                            LabeledContent("Scanline Spacing") {
+                                HStack {
+                                    Slider(value: $vcrParameters.scanlinesSpacing, in: 0...2)
+                                        .help("Distance between scanlines")
+                                    Text(vcrParameters.scanlinesSpacing, format: .number.precision(.fractionLength(2)))
+                                        .frame(minWidth: 50)
+                                }
                             }
-                            HStack {
-                                Text("Fast Scanlines")
-                                Slider(value: $vcrParameters.smallScanlinesOpacity, in: 0...2)
-                                    .frame(width: 200)
-                                    .help("Small, fast-moving scanline opacity")
-                                Text(vcrParameters.smallScanlinesOpacity, format: .number.precision(.fractionLength(2)))
+                            LabeledContent("Fast Scanlines") {
+                                HStack {
+                                    Slider(value: $vcrParameters.smallScanlinesOpacity, in: 0...2)
+                                        .help("Small, fast-moving scanline opacity")
+                                    Text(vcrParameters.smallScanlinesOpacity, format: .number.precision(.fractionLength(2)))
+                                        .frame(minWidth: 50)
+                                }
                             }
-                            HStack {
-                                Text("Fast Scanline Speed")
-                                Slider(value: $vcrParameters.smallScanlinesSpeed, in: 0...2)
-                                    .frame(width: 200)
-                                    .help("Speed of small scanlines")
-                                Text(vcrParameters.smallScanlinesSpeed, format: .number.precision(.fractionLength(2)))
+                            LabeledContent("Fast Scanline Speed") {
+                                HStack {
+                                    Slider(value: $vcrParameters.smallScanlinesSpeed, in: 0...2)
+                                        .help("Speed of small scanlines")
+                                    Text(vcrParameters.smallScanlinesSpeed, format: .number.precision(.fractionLength(2)))
+                                        .frame(minWidth: 50)
+                                }
                             }
-                            HStack {
-                                Text("Fast Scanline Density")
-                                Slider(value: $vcrParameters.smallScanlinesProximity, in: 0...2)
-                                    .frame(width: 200)
-                                    .help("Density of small scanlines")
-                                Text(vcrParameters.smallScanlinesProximity, format: .number.precision(.fractionLength(2)))
+                            LabeledContent("Fast Scanline Density") {
+                                HStack {
+                                    Slider(value: $vcrParameters.smallScanlinesProximity, in: 0...2)
+                                        .help("Density of small scanlines")
+                                    Text(vcrParameters.smallScanlinesProximity, format: .number.precision(.fractionLength(2)))
+                                        .frame(minWidth: 50)
+                                }
                             }
                         }
                         .font(.caption)

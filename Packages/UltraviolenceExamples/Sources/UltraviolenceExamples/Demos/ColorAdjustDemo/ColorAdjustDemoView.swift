@@ -189,21 +189,21 @@ public struct ColorAdjustDemoView: View {
 
                 switch selectedFunction {
                 case .multiply:
-                    HStack {
-                        Text("Multiply Factor:")
-                        Slider(value: $multiplyValue, in: 0...10)
-                            .frame(minWidth: 200)
-                        Text("\(multiplyValue, format: .number.precision(.fractionLength(2)))")
-                            .frame(width: 50)
+                    LabeledContent("Multiply Factor:") {
+                        HStack {
+                            Slider(value: $multiplyValue, in: 0...10)
+                            Text(multiplyValue, format: .number.precision(.fractionLength(2)))
+                                .frame(minWidth: 50)
+                        }
                     }
 
                 case .gamma:
-                    HStack {
-                        Text("Gamma:")
-                        Slider(value: $gammaValue, in: 0.1...5.0)
-                            .frame(minWidth: 200)
-                        Text("\(gammaValue, format: .number.precision(.fractionLength(2)))")
-                            .frame(width: 50)
+                    LabeledContent("Gamma:") {
+                        HStack {
+                            Slider(value: $gammaValue, in: 0.1...5.0)
+                            Text(gammaValue, format: .number.precision(.fractionLength(2)))
+                                .frame(minWidth: 50)
+                        }
                     }
 
                 case .matrix:
@@ -364,193 +364,195 @@ public struct ColorAdjustDemoView: View {
                     }
 
                 case .brightnessContrast:
-                    VStack(alignment: .leading, spacing: 8) {
-                        HStack {
-                            Text("Brightness:")
-                            Slider(value: $brightnessContrastValues.x, in: -1...1)
-                                .frame(minWidth: 200)
-                            Text("\(brightnessContrastValues.x, format: .number.precision(.fractionLength(2)))")
-                                .frame(width: 50)
+                    Form {
+                        LabeledContent("Brightness:") {
+                            HStack {
+                                Slider(value: $brightnessContrastValues.x, in: -1...1)
+                                Text(brightnessContrastValues.x, format: .number.precision(.fractionLength(2)))
+                                    .frame(minWidth: 50)
+                            }
                         }
-                        HStack {
-                            Text("Contrast:")
-                            Slider(value: $brightnessContrastValues.y, in: 0...2)
-                                .frame(minWidth: 200)
-                            Text("\(brightnessContrastValues.y, format: .number.precision(.fractionLength(2)))")
-                                .frame(width: 50)
+                        LabeledContent("Contrast:") {
+                            HStack {
+                                Slider(value: $brightnessContrastValues.y, in: 0...2)
+                                Text(brightnessContrastValues.y, format: .number.precision(.fractionLength(2)))
+                                    .frame(minWidth: 50)
+                            }
                         }
                     }
 
                 case .hsvAdjust:
-                    VStack(alignment: .leading, spacing: 8) {
-                        HStack {
-                            Text("Hue:")
-                            Slider(value: $hsvValues.x, in: -180...180)
-                                .frame(minWidth: 200)
-                            Text("\(hsvValues.x, format: .number.precision(.fractionLength(0)))°")
-                                .frame(width: 50)
+                    Form {
+                        LabeledContent("Hue:") {
+                            HStack {
+                                Slider(value: $hsvValues.x, in: -180...180)
+                                (Text(hsvValues.x, format: .number.precision(.fractionLength(0))) + Text("°"))
+                                    .frame(minWidth: 50)
+                            }
                         }
-                        HStack {
-                            Text("Saturation:")
-                            Slider(value: $hsvValues.y, in: 0...2)
-                                .frame(minWidth: 200)
-                            Text("\(hsvValues.y, format: .number.precision(.fractionLength(2)))")
-                                .frame(width: 50)
+                        LabeledContent("Saturation:") {
+                            HStack {
+                                Slider(value: $hsvValues.y, in: 0...2)
+                                Text(hsvValues.y, format: .number.precision(.fractionLength(2)))
+                                    .frame(minWidth: 50)
+                            }
                         }
-                        HStack {
-                            Text("Value:")
-                            Slider(value: $hsvValues.z, in: 0...2)
-                                .frame(minWidth: 200)
-                            Text("\(hsvValues.z, format: .number.precision(.fractionLength(2)))")
-                                .frame(width: 50)
+                        LabeledContent("Value:") {
+                            HStack {
+                                Slider(value: $hsvValues.z, in: 0...2)
+                                Text(hsvValues.z, format: .number.precision(.fractionLength(2)))
+                                    .frame(minWidth: 50)
+                            }
                         }
                     }
 
                 case .colorBalance:
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("Shadows:").font(.caption)
-                        HStack {
-                            Text("R/C:")
-                            Slider(value: $colorBalanceValues[0][0], in: -0.5...0.5)
-                                .frame(minWidth: 150)
-                            Text("\(colorBalanceValues[0][0], format: .number.precision(.fractionLength(2)))")
-                                .frame(width: 50)
+                    Form {
+                        Section("Shadows") {
+                            LabeledContent("R/C:") {
+                                HStack {
+                                    Slider(value: $colorBalanceValues[0][0], in: -0.5...0.5)
+                                    Text(colorBalanceValues[0][0], format: .number.precision(.fractionLength(2)))
+                                        .frame(minWidth: 50)
+                                }
+                            }
+                            LabeledContent("G/M:") {
+                                HStack {
+                                    Slider(value: $colorBalanceValues[1][0], in: -0.5...0.5)
+                                    Text(colorBalanceValues[1][0], format: .number.precision(.fractionLength(2)))
+                                        .frame(minWidth: 50)
+                                }
+                            }
+                            LabeledContent("B/Y:") {
+                                HStack {
+                                    Slider(value: $colorBalanceValues[2][0], in: -0.5...0.5)
+                                    Text(colorBalanceValues[2][0], format: .number.precision(.fractionLength(2)))
+                                        .frame(minWidth: 50)
+                                }
+                            }
                         }
-                        HStack {
-                            Text("G/M:")
-                            Slider(value: $colorBalanceValues[1][0], in: -0.5...0.5)
-                                .frame(minWidth: 150)
-                            Text("\(colorBalanceValues[1][0], format: .number.precision(.fractionLength(2)))")
-                                .frame(width: 50)
-                        }
-                        HStack {
-                            Text("B/Y:")
-                            Slider(value: $colorBalanceValues[2][0], in: -0.5...0.5)
-                                .frame(minWidth: 150)
-                            Text("\(colorBalanceValues[2][0], format: .number.precision(.fractionLength(2)))")
-                                .frame(width: 50)
-                        }
-                        Text("Highlights:").font(.caption)
-                        HStack {
-                            Text("R/C:")
-                            Slider(value: $colorBalanceValues[0][1], in: -0.5...0.5)
-                                .frame(minWidth: 150)
-                            Text("\(colorBalanceValues[0][1], format: .number.precision(.fractionLength(2)))")
-                                .frame(width: 50)
-                        }
-                        HStack {
-                            Text("G/M:")
-                            Slider(value: $colorBalanceValues[1][1], in: -0.5...0.5)
-                                .frame(minWidth: 150)
-                            Text("\(colorBalanceValues[1][1], format: .number.precision(.fractionLength(2)))")
-                                .frame(width: 50)
-                        }
-                        HStack {
-                            Text("B/Y:")
-                            Slider(value: $colorBalanceValues[2][1], in: -0.5...0.5)
-                                .frame(minWidth: 150)
-                            Text("\(colorBalanceValues[2][1], format: .number.precision(.fractionLength(2)))")
-                                .frame(width: 50)
+                        Section("Highlights") {
+                            LabeledContent("R/C:") {
+                                HStack {
+                                    Slider(value: $colorBalanceValues[0][1], in: -0.5...0.5)
+                                    Text(colorBalanceValues[0][1], format: .number.precision(.fractionLength(2)))
+                                        .frame(minWidth: 50)
+                                }
+                            }
+                            LabeledContent("G/M:") {
+                                HStack {
+                                    Slider(value: $colorBalanceValues[1][1], in: -0.5...0.5)
+                                    Text(colorBalanceValues[1][1], format: .number.precision(.fractionLength(2)))
+                                        .frame(minWidth: 50)
+                                }
+                            }
+                            LabeledContent("B/Y:") {
+                                HStack {
+                                    Slider(value: $colorBalanceValues[2][1], in: -0.5...0.5)
+                                    Text(colorBalanceValues[2][1], format: .number.precision(.fractionLength(2)))
+                                        .frame(minWidth: 50)
+                                }
+                            }
                         }
                     }
 
                 case .levels:
-                    VStack(alignment: .leading, spacing: 8) {
-                        HStack {
-                            Text("Black Point:")
-                            Slider(value: $levelsValues.x, in: 0...1)
-                                .frame(minWidth: 200)
-                            Text("\(levelsValues.x, format: .number.precision(.fractionLength(2)))")
-                                .frame(width: 50)
+                    Form {
+                        LabeledContent("Black Point:") {
+                            HStack {
+                                Slider(value: $levelsValues.x, in: 0...1)
+                                Text(levelsValues.x, format: .number.precision(.fractionLength(2)))
+                                    .frame(minWidth: 50)
+                            }
                         }
-                        HStack {
-                            Text("White Point:")
-                            Slider(value: $levelsValues.y, in: 0...1)
-                                .frame(minWidth: 200)
-                            Text("\(levelsValues.y, format: .number.precision(.fractionLength(2)))")
-                                .frame(width: 50)
+                        LabeledContent("White Point:") {
+                            HStack {
+                                Slider(value: $levelsValues.y, in: 0...1)
+                                Text(levelsValues.y, format: .number.precision(.fractionLength(2)))
+                                    .frame(minWidth: 50)
+                            }
                         }
-                        HStack {
-                            Text("Gamma:")
-                            Slider(value: $levelsValues.z, in: 0.1...10)
-                                .frame(minWidth: 200)
-                            Text("\(levelsValues.z, format: .number.precision(.fractionLength(2)))")
-                                .frame(width: 50)
+                        LabeledContent("Gamma:") {
+                            HStack {
+                                Slider(value: $levelsValues.z, in: 0.1...10)
+                                Text(levelsValues.z, format: .number.precision(.fractionLength(2)))
+                                    .frame(minWidth: 50)
+                            }
                         }
-                        HStack {
-                            Text("Output Range:")
-                            Slider(value: $levelsValues.w, in: 0...1)
-                                .frame(minWidth: 200)
-                            Text("\(levelsValues.w, format: .number.precision(.fractionLength(2)))")
-                                .frame(width: 50)
+                        LabeledContent("Output Range:") {
+                            HStack {
+                                Slider(value: $levelsValues.w, in: 0...1)
+                                Text(levelsValues.w, format: .number.precision(.fractionLength(2)))
+                                    .frame(minWidth: 50)
+                            }
                         }
                     }
 
                 case .temperatureTint:
-                    VStack(alignment: .leading, spacing: 8) {
-                        HStack {
-                            Text("Temperature:")
-                            Slider(value: $temperatureTintValues.x, in: -1...1)
-                                .frame(minWidth: 200)
-                            Text("\(temperatureTintValues.x, format: .number.precision(.fractionLength(2)))")
-                                .frame(width: 50)
+                    Form {
+                        LabeledContent("Temperature:") {
+                            HStack {
+                                Slider(value: $temperatureTintValues.x, in: -1...1)
+                                Text(temperatureTintValues.x, format: .number.precision(.fractionLength(2)))
+                                    .frame(minWidth: 50)
+                            }
                         }
-                        HStack {
-                            Text("Tint:")
-                            Slider(value: $temperatureTintValues.y, in: -1...1)
-                                .frame(minWidth: 200)
-                            Text("\(temperatureTintValues.y, format: .number.precision(.fractionLength(2)))")
-                                .frame(width: 50)
+                        LabeledContent("Tint:") {
+                            HStack {
+                                Slider(value: $temperatureTintValues.y, in: -1...1)
+                                Text(temperatureTintValues.y, format: .number.precision(.fractionLength(2)))
+                                    .frame(minWidth: 50)
+                            }
                         }
                     }
 
                 case .threshold:
-                    VStack(alignment: .leading, spacing: 8) {
-                        HStack {
-                            Text("Threshold:")
-                            Slider(value: $thresholdValues.x, in: 0...1)
-                                .frame(minWidth: 200)
-                            Text("\(thresholdValues.x, format: .number.precision(.fractionLength(2)))")
-                                .frame(width: 50)
+                    Form {
+                        LabeledContent("Threshold:") {
+                            HStack {
+                                Slider(value: $thresholdValues.x, in: 0...1)
+                                Text(thresholdValues.x, format: .number.precision(.fractionLength(2)))
+                                    .frame(minWidth: 50)
+                            }
                         }
-                        HStack {
-                            Text("Smoothness:")
-                            Slider(value: $thresholdValues.y, in: 0...0.5)
-                                .frame(minWidth: 200)
-                            Text("\(thresholdValues.y, format: .number.precision(.fractionLength(2)))")
-                                .frame(width: 50)
+                        LabeledContent("Smoothness:") {
+                            HStack {
+                                Slider(value: $thresholdValues.y, in: 0...0.5)
+                                Text(thresholdValues.y, format: .number.precision(.fractionLength(2)))
+                                    .frame(minWidth: 50)
+                            }
                         }
                     }
 
                 case .vignette:
-                    VStack(alignment: .leading, spacing: 8) {
-                        HStack {
-                            Text("Center X:")
-                            Slider(value: $vignetteValues.x, in: 0...1)
-                                .frame(minWidth: 200)
-                            Text("\(vignetteValues.x, format: .number.precision(.fractionLength(2)))")
-                                .frame(width: 50)
+                    Form {
+                        LabeledContent("Center X:") {
+                            HStack {
+                                Slider(value: $vignetteValues.x, in: 0...1)
+                                Text(vignetteValues.x, format: .number.precision(.fractionLength(2)))
+                                    .frame(minWidth: 50)
+                            }
                         }
-                        HStack {
-                            Text("Center Y:")
-                            Slider(value: $vignetteValues.y, in: 0...1)
-                                .frame(minWidth: 200)
-                            Text("\(vignetteValues.y, format: .number.precision(.fractionLength(2)))")
-                                .frame(width: 50)
+                        LabeledContent("Center Y:") {
+                            HStack {
+                                Slider(value: $vignetteValues.y, in: 0...1)
+                                Text(vignetteValues.y, format: .number.precision(.fractionLength(2)))
+                                    .frame(minWidth: 50)
+                            }
                         }
-                        HStack {
-                            Text("Intensity:")
-                            Slider(value: $vignetteValues.z, in: 0...1)
-                                .frame(minWidth: 200)
-                            Text("\(vignetteValues.z, format: .number.precision(.fractionLength(2)))")
-                                .frame(width: 50)
+                        LabeledContent("Intensity:") {
+                            HStack {
+                                Slider(value: $vignetteValues.z, in: 0...1)
+                                Text(vignetteValues.z, format: .number.precision(.fractionLength(2)))
+                                    .frame(minWidth: 50)
+                            }
                         }
-                        HStack {
-                            Text("Radius:")
-                            Slider(value: $vignetteValues.w, in: 0.1...2)
-                                .frame(minWidth: 200)
-                            Text("\(vignetteValues.w, format: .number.precision(.fractionLength(2)))")
-                                .frame(width: 50)
+                        LabeledContent("Radius:") {
+                            HStack {
+                                Slider(value: $vignetteValues.w, in: 0.1...2)
+                                Text(vignetteValues.w, format: .number.precision(.fractionLength(2)))
+                                    .frame(minWidth: 50)
+                            }
                         }
                     }
                 }

@@ -95,61 +95,46 @@ public struct GrassDemoView: View {
                 .font(.caption)
                 .foregroundStyle(.secondary)
 
-                VStack(spacing: 8) {
-                    HStack {
-                        Text("Length")
-                            .frame(width: 60, alignment: .leading)
-                            .font(.caption)
-                        Slider(value: $grassLength, in: 0.05...10.0)
-                        Text(grassLength, format: .number.precision(.fractionLength(2)))
-                            .frame(width: 40, alignment: .trailing)
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
+                Form {
+                    LabeledContent("Length") {
+                        HStack {
+                            Slider(value: $grassLength, in: 0.05...10.0)
+                            Text(grassLength, format: .number.precision(.fractionLength(2)))
+                                .frame(minWidth: 40)
+                        }
                     }
 
-                    HStack {
-                        Text("Width")
-                            .frame(width: 60, alignment: .leading)
-                            .font(.caption)
-                        Slider(value: $bladeWidthMultiplier, in: 0.1...3.0)
-                        Text(bladeWidthMultiplier, format: .number.precision(.fractionLength(2)))
-                            .frame(width: 40, alignment: .trailing)
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
+                    LabeledContent("Width") {
+                        HStack {
+                            Slider(value: $bladeWidthMultiplier, in: 0.1...3.0)
+                            Text(bladeWidthMultiplier, format: .number.precision(.fractionLength(2)))
+                                .frame(minWidth: 40)
+                        }
                     }
 
-                    HStack {
-                        Text("Blades/Pt")
-                            .frame(width: 60, alignment: .leading)
-                            .font(.caption)
-                        Slider(value: $bladesPerPoint, in: 1...16, step: 1)
-                        Text(bladesPerPoint, format: .number.precision(.fractionLength(0)))
-                            .frame(width: 40, alignment: .trailing)
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
+                    LabeledContent("Blades/Pt") {
+                        HStack {
+                            Slider(value: $bladesPerPoint, in: 1...16, step: 1)
+                            Text(bladesPerPoint, format: .number.precision(.fractionLength(0)))
+                                .frame(minWidth: 40)
+                        }
                     }
 
-                    HStack {
-                        Text("Points")
-                            .frame(width: 60, alignment: .leading)
-                            .font(.caption)
-                        Slider(value: $grassDensity, in: 100...Double(maxGrassPoints), step: 100)
-                        Text(grassDensity, format: .number.precision(.fractionLength(0)))
-                            .frame(width: 40, alignment: .trailing)
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
+                    LabeledContent("Points") {
+                        HStack {
+                            Slider(value: $grassDensity, in: 100...Double(maxGrassPoints), step: 100)
+                            Text(grassDensity, format: .number.precision(.fractionLength(0)))
+                                .frame(minWidth: 40)
+                        }
                     }
 
-                    HStack {
-                        Text("Droop")
-                            .frame(width: 60, alignment: .leading)
-                            .font(.caption)
+                    LabeledContent("Droop") {
                         Toggle("", isOn: $droopEnabled)
                             .labelsHidden()
-                        Spacer()
-                            .frame(width: 40)
                     }
                 }
+                .font(.caption)
+                .foregroundStyle(.secondary)
             }
             .frame(maxWidth: 400)
             .padding()
