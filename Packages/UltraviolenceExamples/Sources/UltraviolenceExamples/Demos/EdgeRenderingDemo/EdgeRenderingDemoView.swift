@@ -207,13 +207,13 @@ public struct EdgeRenderingDemoView: View {
             Form {
                 LabeledContent("Line Width") {
                     Slider(value: $lineWidth, in: 1...100)
-                    Text(String(format: "%.1f", lineWidth))
+                    Text(lineWidth, format: .number.precision(.fractionLength(1)))
                         .monospacedDigit()
                 }
 
                 LabeledContent("Scale") {
                     Slider(value: $scale, in: 0.5...4.0)
-                    Text(String(format: "%.1f", scale))
+                    Text(scale, format: .number.precision(.fractionLength(1)))
                         .monospacedDigit()
                 }
 

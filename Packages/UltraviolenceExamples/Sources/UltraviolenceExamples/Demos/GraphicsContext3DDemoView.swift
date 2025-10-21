@@ -140,7 +140,7 @@ public struct GraphicsContext3DDemoView: View {
                     Text("Line Width Multiplier")
                         .font(.headline)
                     Slider(value: $lineWidthMultiplier, in: 0.1...20.0)
-                    Text(String(format: "%.2f", lineWidthMultiplier))
+                    Text(lineWidthMultiplier, format: .number.precision(.fractionLength(2)))
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }

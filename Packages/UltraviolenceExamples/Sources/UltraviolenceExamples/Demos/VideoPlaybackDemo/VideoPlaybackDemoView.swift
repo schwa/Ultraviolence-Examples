@@ -115,98 +115,98 @@ public struct VideoPlaybackDemoView: View {
                                 Slider(value: $vcrParameters.curvature, in: 0...10)
                                     .frame(width: 200)
                                     .help("CRT screen curvature distortion - warps the image edges")
-                                Text(String(format: "%.2f", vcrParameters.curvature))
+                                Text(vcrParameters.curvature, format: .number.precision(.fractionLength(2)))
                             }
                             HStack {
                                 Text("Tracking")
                                 Slider(value: $vcrParameters.skip, in: 0...1)
                                     .frame(width: 200)
                                     .help("VHS tracking error - horizontal image shifting/glitching")
-                                Text(String(format: "%.2f", vcrParameters.skip))
+                                Text(vcrParameters.skip, format: .number.precision(.fractionLength(2)))
                             }
                             HStack {
                                 Text("Flicker")
                                 Slider(value: $vcrParameters.imageFlicker, in: 0...2)
                                     .frame(width: 200)
                                     .help("Brightness pulsing - simulates unstable video signal")
-                                Text(String(format: "%.2f", vcrParameters.imageFlicker))
+                                Text(vcrParameters.imageFlicker, format: .number.precision(.fractionLength(2)))
                             }
                             HStack {
                                 Text("Scanlines")
                                 Slider(value: $vcrParameters.scanlinesOpacity, in: 0...2)
                                     .frame(width: 200)
                                     .help("CRT scanline visibility - horizontal lines across screen")
-                                Text(String(format: "%.2f", vcrParameters.scanlinesOpacity))
+                                Text(vcrParameters.scanlinesOpacity, format: .number.precision(.fractionLength(2)))
                             }
                             HStack {
                                 Text("Vignette")
                                 Slider(value: $vcrParameters.vignetteStrength, in: 0...2)
                                     .frame(width: 200)
                                     .help("Screen edge darkening - simulates CRT tube limitations")
-                                Text(String(format: "%.2f", vcrParameters.vignetteStrength))
+                                Text(vcrParameters.vignetteStrength, format: .number.precision(.fractionLength(2)))
                             }
                             HStack {
                                 Text("Noise")
                                 Slider(value: $vcrParameters.noiseAmount, in: 0...2)
                                     .frame(width: 200)
                                     .help("Video static/grain - animated noise overlay")
-                                Text(String(format: "%.2f", vcrParameters.noiseAmount))
+                                Text(vcrParameters.noiseAmount, format: .number.precision(.fractionLength(2)))
                             }
                             HStack {
                                 Text("Color Shift")
                                 Slider(value: $vcrParameters.chromaticAberration, in: 0...2)
                                     .frame(width: 200)
                                     .help("RGB channel separation - color fringing at edges")
-                                Text(String(format: "%.2f", vcrParameters.chromaticAberration))
+                                Text(vcrParameters.chromaticAberration, format: .number.precision(.fractionLength(2)))
                             }
                             HStack {
                                 Text("Vignette Pulse")
                                 Slider(value: $vcrParameters.vignetteFlickerSpeed, in: 0...2)
                                     .frame(width: 200)
                                     .help("Vignette brightness pulsing speed")
-                                Text(String(format: "%.2f", vcrParameters.vignetteFlickerSpeed))
+                                Text(vcrParameters.vignetteFlickerSpeed, format: .number.precision(.fractionLength(2)))
                             }
                             HStack {
                                 Text("Scanline Speed")
                                 Slider(value: $vcrParameters.scanlinesSpeed, in: 0...2)
                                     .frame(width: 200)
                                     .help("Scanline movement speed")
-                                Text(String(format: "%.2f", vcrParameters.scanlinesSpeed))
+                                Text(vcrParameters.scanlinesSpeed, format: .number.precision(.fractionLength(2)))
                             }
                             HStack {
                                 Text("Scanline Thickness")
                                 Slider(value: $vcrParameters.scanlineThickness, in: 0...1)
                                     .frame(width: 200)
                                     .help("Thickness of scanlines")
-                                Text(String(format: "%.2f", vcrParameters.scanlineThickness))
+                                Text(vcrParameters.scanlineThickness, format: .number.precision(.fractionLength(2)))
                             }
                             HStack {
                                 Text("Scanline Spacing")
                                 Slider(value: $vcrParameters.scanlinesSpacing, in: 0...2)
                                     .frame(width: 200)
                                     .help("Distance between scanlines")
-                                Text(String(format: "%.2f", vcrParameters.scanlinesSpacing))
+                                Text(vcrParameters.scanlinesSpacing, format: .number.precision(.fractionLength(2)))
                             }
                             HStack {
                                 Text("Fast Scanlines")
                                 Slider(value: $vcrParameters.smallScanlinesOpacity, in: 0...2)
                                     .frame(width: 200)
                                     .help("Small, fast-moving scanline opacity")
-                                Text(String(format: "%.2f", vcrParameters.smallScanlinesOpacity))
+                                Text(vcrParameters.smallScanlinesOpacity, format: .number.precision(.fractionLength(2)))
                             }
                             HStack {
                                 Text("Fast Scanline Speed")
                                 Slider(value: $vcrParameters.smallScanlinesSpeed, in: 0...2)
                                     .frame(width: 200)
                                     .help("Speed of small scanlines")
-                                Text(String(format: "%.2f", vcrParameters.smallScanlinesSpeed))
+                                Text(vcrParameters.smallScanlinesSpeed, format: .number.precision(.fractionLength(2)))
                             }
                             HStack {
                                 Text("Fast Scanline Density")
                                 Slider(value: $vcrParameters.smallScanlinesProximity, in: 0...2)
                                     .frame(width: 200)
                                     .help("Density of small scanlines")
-                                Text(String(format: "%.2f", vcrParameters.smallScanlinesProximity))
+                                Text(vcrParameters.smallScanlinesProximity, format: .number.precision(.fractionLength(2)))
                             }
                         }
                         .font(.caption)

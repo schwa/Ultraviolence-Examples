@@ -220,8 +220,8 @@ public struct HitTestDemoView: View {
                         Text("Geometry ID: \(result.geometryID)")
                         Text("Instance ID: \(result.instanceID)")
                         Text("Triangle ID: \(result.triangleID)")
-                        Text("Depth: \(String(format: "%.3f", result.depth))")
-                        Text("Barycentric: (\(String(format: "%.3f", result.triangleCoords.x)), \(String(format: "%.3f", result.triangleCoords.y)), \(String(format: "%.3f", result.triangleCoords.z)))")
+                        Text("Depth: \(result.depth, format: .number.precision(.fractionLength(3)))")
+                        Text("Barycentric: (\(result.triangleCoords.x, format: .number.precision(.fractionLength(3))), \(result.triangleCoords.y, format: .number.precision(.fractionLength(3))), \(result.triangleCoords.z, format: .number.precision(.fractionLength(3))))")
                     }
                 }
                 .frame(width: 250)
