@@ -269,3 +269,9 @@ custom_rules:
     regex: "(^|[^_])MTLCreateSystemDefaultDevice\\s*\\(\\)"
     message: "Prefer _MTLCreateSystemDefaultDevice() over MTLCreateSystemDefaultDevice()"
     severity: warning
+  string_format:
+    included: "Sources"
+    name: "String(format:) usage"
+    regex: "String\\s*\\(\\s*format:"
+    message: "Prefer value.format() or Text(value, format:) over String(format:)"
+    severity: warning
