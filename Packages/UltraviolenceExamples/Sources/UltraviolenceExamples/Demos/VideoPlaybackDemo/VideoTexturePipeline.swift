@@ -1,19 +1,19 @@
 import AVFoundation
-import Combine
 import CoreVideo
 import Metal
 import Ultraviolence
 import UltraviolenceSupport
 
 /// Pipeline that renders video frames to a Metal texture
-public class VideoTexturePipeline: ObservableObject, @unchecked Sendable {
+@Observable
+public class VideoTexturePipeline: @unchecked Sendable {
     private let device: MTLDevice
     private var player: AVPlayer?
     private var playerItem: AVPlayerItem?
     private var videoOutput: AVPlayerItemVideoOutput?
-    private var updateTimer: Timer?
+    private var updateTask: Task<Void, Never>?
 
-    @Published public private(set) var currentTexture: MTLTexture?
+    public private(set) var currentTexture: MTLTexture?
     private var textureCache: CVMetalTextureCache?
 
     public init(device: MTLDevice) {
@@ -61,25 +61,31 @@ public class VideoTexturePipeline: ObservableObject, @unchecked Sendable {
     private var loopEnd = CMTime.zero
 
     @objc private func playerItemDidReachEnd() {
-        player?.seek(to: loopStart)
+        Task { @MainActor in
+            await player?.seek(to: loopStart)
+        }
     }
 
     public func play() {
         player?.play()
 
-        // Set up timer for frame updates (60 fps)
-        updateTimer = Timer.scheduledTimer(withTimeInterval: 1.0 / 60.0, repeats: true) { _ in
-            self.updateFrame()
+        // Set up async task for frame updates (60 fps)
+        updateTask = Task {
+            while !Task.isCancelled {
+                await updateFrame()
+                try? await Task.sleep(for: .milliseconds(16)) // ~60 fps
+            }
         }
     }
 
     public func pause() {
         player?.pause()
-        updateTimer?.invalidate()
-        updateTimer = nil
+        updateTask?.cancel()
+        updateTask = nil
     }
 
-    private func updateFrame() {
+    @MainActor
+    private func updateFrame() async {
         guard let videoOutput, let player else {
             return
         }
@@ -88,7 +94,7 @@ public class VideoTexturePipeline: ObservableObject, @unchecked Sendable {
 
         // Check for loop point
         if currentTime >= loopEnd {
-            player.seek(to: loopStart)
+            await player.seek(to: loopStart)
             return
         }
 
@@ -126,7 +132,7 @@ public class VideoTexturePipeline: ObservableObject, @unchecked Sendable {
     }
 
     deinit {
-        updateTimer?.invalidate()
+        updateTask?.cancel()
         player?.pause()
     }
 }

@@ -1,20 +1,23 @@
 import Foundation
 import SwiftUI
 
+@Observable
 @MainActor
-final class DownloadManager: NSObject, ObservableObject {
-    @Published var downloadedBytes: Int64 = 0
-    @Published var totalBytes: Int64 = 0
-    @Published var isDownloading = false
+final class DownloadManager: NSObject {
+    var downloadedBytes: Int64 = 0
+    var totalBytes: Int64 = 0
+    var isDownloading = false
 
     private var downloadTask: URLSessionDownloadTask?
     private var continuation: CheckedContinuation<URL, Error>?
     private var downloadedLocation: URL?
+    private var urlSession: URLSession!
 
-    private lazy var urlSession: URLSession = {
+    override init() {
+        super.init()
         let configuration = URLSessionConfiguration.default
-        return URLSession(configuration: configuration, delegate: self, delegateQueue: nil)
-    }()
+        urlSession = URLSession(configuration: configuration, delegate: self, delegateQueue: nil)
+    }
 
     func download(from url: URL) async throws -> URL {
         isDownloading = true

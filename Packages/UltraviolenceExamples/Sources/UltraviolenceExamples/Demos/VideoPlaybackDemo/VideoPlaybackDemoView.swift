@@ -9,7 +9,7 @@ public struct VideoPlaybackDemoView: View {
     @State
     private var device = _MTLCreateSystemDefaultDevice()
 
-    @StateObject
+    @State
     private var videoPlayer = VideoTexturePipeline(device: _MTLCreateSystemDefaultDevice())
 
     @State

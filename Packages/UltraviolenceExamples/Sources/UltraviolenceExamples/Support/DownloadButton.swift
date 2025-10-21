@@ -7,7 +7,7 @@ public struct DownloadButton: View {
     let destinationName: String
     let onCompletion: ((URL) -> Void)?
 
-    @StateObject
+    @State
     private var downloadManager = DownloadManager()
 
     @State

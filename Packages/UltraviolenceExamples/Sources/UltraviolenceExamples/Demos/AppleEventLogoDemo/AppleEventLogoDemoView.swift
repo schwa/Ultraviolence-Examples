@@ -31,7 +31,7 @@ public struct AppleEventLogoDemoView: View {
     @State
     private var upscaledTexture: MTLTexture?
 
-    @StateObject
+    @State
     private var videoPlayer = VideoTexturePipeline(device: _MTLCreateSystemDefaultDevice())
 
     @State
