@@ -92,7 +92,7 @@ class SuperImportHelper {
         return bookmarksData.compactMap { bookmarkData -> URL? in
             var isStale = false
             guard let url = try? URL(resolvingBookmarkData: bookmarkData, options: .withSecurityScope, bookmarkDataIsStale: &isStale),
-                  !isStale else {
+                !isStale else {
                 return nil
             }
             // Store the bookmark data for later use
@@ -124,7 +124,9 @@ class SuperImportHelper {
     }
 
     private func findBundledFiles(for allowedContentTypes: [UTType]) -> [URL] {
-        guard let resourceURL = Bundle.main.resourceURL else { return [] }
+        guard let resourceURL = Bundle.main.resourceURL else {
+            return []
+        }
 
         let fileManager = FileManager.default
         guard let enumerator = fileManager.enumerator(at: resourceURL, includingPropertiesForKeys: [.contentTypeKey]) else {
@@ -134,8 +136,8 @@ class SuperImportHelper {
         var files: [URL] = []
         for case let url as URL in enumerator {
             guard let resourceValues = try? url.resourceValues(forKeys: [.contentTypeKey]),
-                  let contentType = resourceValues.contentType,
-                  allowedContentTypes.contains(where: { contentType.conforms(to: $0) }) else {
+                let contentType = resourceValues.contentType,
+                allowedContentTypes.contains(where: { contentType.conforms(to: $0) }) else {
                 continue
             }
             files.append(url)
@@ -155,7 +157,9 @@ class SuperImportHelper {
 
     #if os(macOS)
     func reveal() {
-        guard let url = storedURL() else { return }
+        guard let url = storedURL() else {
+            return
+        }
         NSWorkspace.shared.activateFileViewerSelecting([url])
     }
     #endif

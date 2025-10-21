@@ -11,7 +11,7 @@ final class DownloadManager: NSObject {
     private var downloadTask: URLSessionDownloadTask?
     private var continuation: CheckedContinuation<URL, Error>?
     private var downloadedLocation: URL?
-    private var urlSession: URLSession!
+    private var urlSession: URLSession?
 
     override init() {
         super.init()
@@ -30,6 +30,9 @@ final class DownloadManager: NSObject {
 
         return try await withCheckedThrowingContinuation { continuation in
             self.continuation = continuation
+            guard let urlSession else {
+                fatalError("URLSession not initialized")
+            }
             let task = urlSession.downloadTask(with: url)
             self.downloadTask = task
             task.resume()
