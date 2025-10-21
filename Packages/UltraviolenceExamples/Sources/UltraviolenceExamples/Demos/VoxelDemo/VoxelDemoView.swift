@@ -62,8 +62,6 @@ public struct VoxelDemoView: View {
             }
             do {
                 let model = try MagicaVoxelModel(contentsOf: magicaVoxelURL)
-                print(model.size)
-
                 let texture = try model.makeTexture()
                 voxelTexture = texture
                 voxelScale = SIMD3<Float>(0.01, 0.01, 0.01)
@@ -104,7 +102,6 @@ public struct VoxelDemoView: View {
     func generateDefaultVoxelTexture() {
         let device = _MTLCreateSystemDefaultDevice()
         do {
-            print("Generating voxel texture of size \(voxelSize)")
             voxelTexture = try makeSphereVoxelTexture(device: device, size: voxelSize)
             voxelScale = SIMD3<Float>(1, 1, 1)
         }

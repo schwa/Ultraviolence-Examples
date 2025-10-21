@@ -75,9 +75,6 @@ public struct BlinnPhongDemoView: View {
                 }
             }
         }
-        .onChange(of: cameraMatrix) {
-            print(cameraMatrix)
-        }
     }
 }
 

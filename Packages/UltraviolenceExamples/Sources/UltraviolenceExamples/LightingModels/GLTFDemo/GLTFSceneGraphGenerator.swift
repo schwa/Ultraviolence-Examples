@@ -97,19 +97,6 @@ class GLTGSceneGraphGenerator {
             throw Error.primitiveMissing
         }
 
-        let semantics: [SwiftGLTF.Mesh.Primitive.Semantic] = [
-            .POSITION,
-            .NORMAL,
-            .TANGENT,
-            .TEXCOORD_0,
-            .TEXCOORD_1,
-            .TEXCOORD_2,
-            .COLOR_0,
-            .JOINTS_0,
-            .WEIGHTS_0
-        ]
-        print(try semantics.filter { try primitive.attributes[$0]?.resolve(in: container.document) != nil })
-
         var trivialMesh = TrivialMesh()
         if let positions = try primitive.value(semantic: .POSITION, type: SIMD3<Float>.self, in: container) {
             trivialMesh.positions = positions

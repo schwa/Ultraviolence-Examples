@@ -42,7 +42,6 @@ class SuperImportHelper {
             let contents = try? FileManager.default.contentsOfDirectory(at: identifierDirectory, includingPropertiesForKeys: nil)
             return contents?.first
         } catch {
-            print("Failed to get stored URL: \(error)")
             return nil
         }
     }

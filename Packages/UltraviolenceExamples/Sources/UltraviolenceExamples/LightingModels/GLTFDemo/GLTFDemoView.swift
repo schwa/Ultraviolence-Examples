@@ -64,7 +64,7 @@ public struct GLTFDemoView: View {
                 sceneGraph = try GLTGSceneGraphGenerator(container: container).generateSceneGraph()
             }
             catch {
-                print("Failed to load GLTF: \(error)")
+                fatalError("Failed to load GLTF: \(error)")
             }
         }
         .onChange(of: downloadedPath) {
@@ -78,20 +78,10 @@ public struct GLTFDemoView: View {
     }
 
     private func loadAvailableFiles(from path: URL) {
-        print("Loading files from: \(path.path)")
-
         let fileManager = FileManager.default
 
-        // Check if the path exists and what's in it
-        if fileManager.fileExists(atPath: path.path) {
-            do {
-                let contents = try fileManager.contentsOfDirectory(at: path, includingPropertiesForKeys: nil)
-                print("Directory contents: \(contents.map(\.lastPathComponent))")
-            } catch {
-                print("Error listing directory: \(error)")
-            }
-        } else {
-            print("Path does not exist: \(path.path)")
+        guard fileManager.fileExists(atPath: path.path) else {
+            return
         }
 
         let enumerator = fileManager.enumerator(at: path, includingPropertiesForKeys: [.isRegularFileKey])
@@ -101,11 +91,9 @@ public struct GLTFDemoView: View {
             let pathExtension = fileURL.pathExtension.lowercased()
             if pathExtension == "gltf" || pathExtension == "glb" {
                 files.append(fileURL)
-                print("Found file: \(fileURL.lastPathComponent)")
             }
         }
 
-        print("Total files found: \(files.count)")
         availableFiles = files.sorted { $0.lastPathComponent < $1.lastPathComponent }
     }
 }

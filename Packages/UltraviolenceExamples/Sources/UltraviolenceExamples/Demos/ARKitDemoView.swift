@@ -79,9 +79,6 @@ public struct ARKitDemoView: View {
             }
             .metalDepthStencilPixelFormat(.depth32Float)
             .metalClearColor(.init(red: 0, green: 0, blue: 0, alpha: 0))
-            .onAppear {
-                print("RenderView.onAppear")
-            }
         }
         .navigationBarTitleDisplayMode(.inline)
         .ignoresSafeArea()
@@ -167,37 +164,35 @@ class ARKitDemoViewModel: NSObject {
 
 extension ARKitDemoViewModel: ARSessionObserver {
     func session(_ session: ARSession, didFailWithError error: any Error) {
-        print(#function)
+        // Error handling
     }
 
     func session(_ session: ARSession, cameraDidChangeTrackingState camera: ARCamera) {
-        print(#function)
         self.cameraTrackingState = camera.trackingState
     }
 
     func sessionWasInterrupted(_ session: ARSession) {
-        print(#function)
+        // Session interrupted
     }
 
     func sessionInterruptionEnded(_ session: ARSession) {
-        print(#function)
+        // Session resumed
     }
 
     func sessionShouldAttemptRelocalization(_ session: ARSession) -> Bool {
-        print(#function)
         return true
     }
 
     func session(_ session: ARSession, didOutputAudioSampleBuffer audioSampleBuffer: CMSampleBuffer) {
-        print(#function)
+        // Audio sample received
     }
 
     func session(_ session: ARSession, didOutputCollaborationData data: ARSession.CollaborationData) {
-        print(#function)
+        // Collaboration data received
     }
 
     func session(_ session: ARSession, didChange geoTrackingStatus: ARGeoTrackingStatus) {
-        print(#function)
+        // Geo tracking status changed
     }
 }
 
@@ -240,15 +235,15 @@ extension ARKitDemoViewModel: ARSessionDelegate {
     }
 
     func session(_ session: ARSession, didAdd anchors: [ARAnchor]) {
-        print("Add anchors")
+        // Anchors added
     }
 
     func session(_ session: ARSession, didUpdate anchors: [ARAnchor]) {
-        print("Update anchors")
+        // Anchors updated
     }
 
     func session(_ session: ARSession, didRemove anchors: [ARAnchor]) {
-        print(#function)
+        // Anchors removed
     }
 }
 

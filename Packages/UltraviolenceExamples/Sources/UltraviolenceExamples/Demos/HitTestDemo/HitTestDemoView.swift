@@ -318,16 +318,12 @@ public struct HitTestDemoView: View {
 
     func performFullGridHitTest() {
         guard let textures = hitTestTextures else {
-            print("No hit test textures available")
             return
         }
 
         let width = Int(textures.size.width)
         let height = Int(textures.size.height)
         let bytesPerRow = textures.bytesPerRow
-
-        print("Performing full grid hit test...")
-        print("Texture size: \(width)x\(height)")
 
         // Synchronize buffers on macOS
         #if os(macOS)
@@ -376,11 +372,6 @@ public struct HitTestDemoView: View {
             }
         }
 
-        print("Hit test complete: \(hitCount) hits out of \(width * height) pixels")
-        if hitCount > 0 {
-            print("Hit bounds: X[\(minX)...\(maxX)], Y[\(minY)...\(maxY)]")
-        }
-
         // Write PGM file
         writePGMFile(grid: hitGrid, width: width, height: height)
     }
@@ -408,23 +399,8 @@ public struct HitTestDemoView: View {
 
         do {
             try pgmContent.write(toFile: filePath, atomically: true, encoding: .utf8)
-            print("Wrote hit test grid to: \(filePath)")
-
-            // Also create a smaller debug version showing just a sample
-            if width > 100, height > 100 {
-                // Sample every 10th pixel for a quick overview
-                let sampleStep = 10
-                var debugOutput = "Debug sample (every \(sampleStep)th pixel):\n"
-                for y in stride(from: 0, to: min(height, 200), by: sampleStep) {
-                    for x in stride(from: 0, to: min(width, 200), by: sampleStep) {
-                        debugOutput += grid[y][x] ? "█" : "·"
-                    }
-                    debugOutput += "\n"
-                }
-                print(debugOutput)
-            }
         } catch {
-            print("Failed to write PGM file: \(error)")
+            fatalError("Failed to write PGM file: \(error)")
         }
     }
 }

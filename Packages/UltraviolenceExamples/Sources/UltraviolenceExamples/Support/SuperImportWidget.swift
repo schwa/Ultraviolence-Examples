@@ -64,7 +64,7 @@ struct SuperImportWidget: View {
                     try helper.storeImportedFile(at: url)
                 }
                 catch {
-                    print("Failed to store imported file: \(error)")
+                    fatalError("Failed to store imported file: \(error)")
                 }
             }
         }
@@ -78,7 +78,7 @@ struct SuperImportWidget: View {
             try helper.reset()
         }
         catch {
-            print("Failed to reset cached file: \(error)")
+            fatalError("Failed to reset cached file: \(error)")
         }
     }
 
@@ -87,7 +87,7 @@ struct SuperImportWidget: View {
             try helper.storeImportedFile(at: url, addToRecents: false)
         }
         catch {
-            print("Failed to load recent file: \(error)")
+            fatalError("Failed to load recent file: \(error)")
         }
     }
 
@@ -96,7 +96,7 @@ struct SuperImportWidget: View {
             try helper.storeImportedFile(at: url, addToRecents: true)
         }
         catch {
-            print("Failed to load bundled file: \(error)")
+            fatalError("Failed to load bundled file: \(error)")
         }
     }
 

@@ -62,9 +62,6 @@ public struct TriangleDemoView: View {
                     }
                     .vertexDescriptor(try vertexShader.inferredVertexDescriptor())
                 }
-                .onCommandBufferScheduled { _ in
-                    print("**** onCommandBufferScheduled")
-                }
                 .onCommandBufferCompleted { commandBuffer in
                     gpuTime = commandBuffer.gpuEndTime - commandBuffer.gpuStartTime
                     kernelTime = commandBuffer.kernelEndTime - commandBuffer.kernelStartTime

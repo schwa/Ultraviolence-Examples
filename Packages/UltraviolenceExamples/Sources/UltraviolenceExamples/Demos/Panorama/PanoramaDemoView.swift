@@ -146,7 +146,7 @@ public struct PanoramaDemoView: View {
                     panoramaTexture = texture
                 }
             } catch {
-                print("Failed to load panorama: \(error)")
+                fatalError("Failed to load panorama: \(error)")
             }
         }
     }
