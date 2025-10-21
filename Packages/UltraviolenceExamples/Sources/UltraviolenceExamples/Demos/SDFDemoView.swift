@@ -1,3 +1,4 @@
+import AsyncAlgorithms
 import GeometryLite3D
 import Interaction3D
 import MetalKit
@@ -45,9 +46,8 @@ public struct SDFDemoView: View {
                 .metalDepthStencilPixelFormat(.depth32Float)
                 .onDrawableSizeChange { drawableSize = $0 }
                 .task {
-                    while !Task.isCancelled {
+                    for await _ in AsyncTimerSequence(interval: .milliseconds(16), clock: .continuous) {
                         time += 0.016 // ~60 FPS
-                        try? await Task.sleep(for: .milliseconds(16))
                     }
                 }
             }

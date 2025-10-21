@@ -1,3 +1,4 @@
+import AsyncAlgorithms
 import AVFoundation
 import CoreVideo
 import Metal
@@ -71,9 +72,8 @@ public class VideoTexturePipeline: @unchecked Sendable {
 
         // Set up async task for frame updates (60 fps)
         updateTask = Task {
-            while !Task.isCancelled {
+            for await _ in AsyncTimerSequence(interval: .milliseconds(16), clock: .continuous) {
                 await updateFrame()
-                try? await Task.sleep(for: .milliseconds(16)) // ~60 fps
             }
         }
     }
