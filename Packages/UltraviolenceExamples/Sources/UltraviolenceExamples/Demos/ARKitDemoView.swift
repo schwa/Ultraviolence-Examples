@@ -180,7 +180,7 @@ extension ARKitDemoViewModel: ARSessionObserver {
     }
 
     func sessionShouldAttemptRelocalization(_ session: ARSession) -> Bool {
-        return true
+        true
     }
 
     func session(_ session: ARSession, didOutputAudioSampleBuffer audioSampleBuffer: CMSampleBuffer) {

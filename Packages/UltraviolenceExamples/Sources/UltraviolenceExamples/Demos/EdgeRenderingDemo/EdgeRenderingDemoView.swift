@@ -52,8 +52,8 @@ public struct EdgeRenderingDemoView: View {
 
         let mdlVertexDescriptor = MTKModelIOVertexDescriptorFromMetal(vertexDescriptor)
         guard let positionAttr = mdlVertexDescriptor.attributes[0] as? MDLVertexAttribute,
-            let normalAttr = mdlVertexDescriptor.attributes[1] as? MDLVertexAttribute,
-            let texCoordAttr = mdlVertexDescriptor.attributes[2] as? MDLVertexAttribute else {
+              let normalAttr = mdlVertexDescriptor.attributes[1] as? MDLVertexAttribute,
+              let texCoordAttr = mdlVertexDescriptor.attributes[2] as? MDLVertexAttribute else {
             fatalError("Failed to configure vertex descriptor attributes")
         }
         positionAttr.name = MDLVertexAttributePosition
@@ -348,8 +348,8 @@ struct EdgeRenderingElement: Element {
 
             return try Ultraviolence.Group {
                 if let vertexBuffer = meshWithEdges.mesh.vertexBuffers.first,
-                    let edgeDataBuffer,
-                    !meshWithEdges.uniqueEdges.isEmpty {
+                   let edgeDataBuffer,
+                   !meshWithEdges.uniqueEdges.isEmpty {
                     try MeshRenderPipeline(meshShader: meshShader, fragmentShader: fragmentShader) {
                         Draw { encoder in
                             encoder.label = "Edge Rendering"
