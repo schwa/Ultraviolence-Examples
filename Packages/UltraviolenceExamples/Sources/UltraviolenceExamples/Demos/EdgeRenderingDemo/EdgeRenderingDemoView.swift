@@ -206,7 +206,7 @@ public struct EdgeRenderingDemoView: View {
         .overlay(alignment: .topLeading) {
             Form {
                 LabeledContent("Line Width") {
-                    Slider(value: $lineWidth, in: 1...20)
+                    Slider(value: $lineWidth, in: 1...100)
                     Text(String(format: "%.1f", lineWidth))
                         .monospacedDigit()
                 }
