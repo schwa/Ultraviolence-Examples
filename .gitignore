@@ -31,5 +31,8 @@ playground.xcworkspace
 .swiftpm
 .build/
 AGENTS.md
-.beads/**
-!.beads/*.jsonl
+.beads/daemon.log
+.beads/daemon.pid
+.beads/*.db
+.beads/*.db-shm
+.beads/*.db-wal
