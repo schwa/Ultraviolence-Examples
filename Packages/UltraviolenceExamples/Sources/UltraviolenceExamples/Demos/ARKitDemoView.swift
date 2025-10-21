@@ -52,7 +52,7 @@ public struct ARKitDemoView: View {
                         let viewProjectionMatrix = projectionMatrix * viewMatrix
 
                         let displayTransform = currentFrame.displayTransform(for: interfaceOrientation, viewportSize: drawableSize).inverted()
-                        let texCoords: [CGPoint] = [CGPoint(x: 0, y: 1), CGPoint(x: 1, y: 1), CGPoint(x: 0, y: 0), CGPoint(x: 1, y: 0)]
+                        let texCoords: [CGPoint] = [CGPoint(x: 0, y: 1), CGPoint(x: 1, y: 1), CGPoint.zero, CGPoint(x: 1, y: 0)]
                         let transformedTexCoords = texCoords.map { coord in
                             let transformed = coord.applying(displayTransform)
                             return SIMD2<Float>(Float(transformed.x), Float(transformed.y))

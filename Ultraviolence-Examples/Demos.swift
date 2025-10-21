@@ -31,7 +31,8 @@ import UltraviolenceExamples
         GLTFDemoView.self,
         VoxelDemoView.self,
         GrassDemoView.self,
-        GraphicsContext3DDemoView.self
+        GraphicsContext3DDemoView.self,
+        EdgeRenderingDemoView.self
     ]
 
     #if os(macOS)
@@ -413,6 +414,17 @@ extension GraphicsContext3DDemoView: @retroactive DemoView {
             description: "SwiftUI.Canvas-style API for rendering 3D geometry with Path3D and stroke/fill operations",
             group: "Basic",
             keywords: ["3d", "path", "canvas"]
+        )
+    }
+}
+
+extension EdgeRenderingDemoView: @retroactive DemoView {
+    public static var metadata: DemoMetadata {
+        DemoMetadata(
+            name: "Edge Rendering",
+            description: "Screen-space edge rendering with rounded endcaps using mesh shaders. Each mesh edge is rendered as a screen-aligned line with adaptive tessellation.",
+            group: "Complex",
+            keywords: ["mesh-shaders", "wireframe", "edges", "animated"]
         )
     }
 }
