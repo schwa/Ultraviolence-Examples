@@ -53,17 +53,11 @@ public struct VoxelDemoView: View {
             }
         }
         .onChange(of: voxelSize, initial: true) {
-            let device = _MTLCreateSystemDefaultDevice()
-            do {
-                print("Generating voxel texture of size \(voxelSize)")
-                voxelTexture = try makeSphereVoxelTexture(device: device, size: voxelSize)
-            }
-            catch {
-                assertionFailure("Failed to create voxel texture: \(error)")
-            }
+            generateDefaultVoxelTexture()
         }
         .onChange(of: magicaVoxelURL, initial: true) {
             guard let magicaVoxelURL else {
+                generateDefaultVoxelTexture()
                 return
             }
             do {
@@ -103,7 +97,19 @@ public struct VoxelDemoView: View {
             .padding()
         }
         .toolbar {
-            CachingImportButton(url: $magicaVoxelURL, identifier: "magica-voxel", allowedContentTypes: [.magicaVoxel])
+            SuperImportWidget(url: $magicaVoxelURL, identifier: "magica-voxel", allowedContentTypes: [.magicaVoxel])
+        }
+    }
+
+    func generateDefaultVoxelTexture() {
+        let device = _MTLCreateSystemDefaultDevice()
+        do {
+            print("Generating voxel texture of size \(voxelSize)")
+            voxelTexture = try makeSphereVoxelTexture(device: device, size: voxelSize)
+            voxelScale = SIMD3<Float>(1, 1, 1)
+        }
+        catch {
+            assertionFailure("Failed to create voxel texture: \(error)")
         }
     }
 

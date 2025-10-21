@@ -30,7 +30,7 @@ public struct PanoramaDemoView: View {
     }
 
     public var body: some View {
-        CachingImportWell(url: $panoramaURL, identifier: "panorama", allowedContentTypes: [.image]) { _ in
+        SuperImportWell(url: $panoramaURL, identifier: "panorama", allowedContentTypes: [.image]) { _ in
             WorldView(projection: $projection, cameraMatrix: $cameraMatrix) {
                 if let panoramaTexture, let mesh {
                     RenderView { _, drawableSize in
@@ -119,7 +119,7 @@ public struct PanoramaDemoView: View {
 
             Toggle("Gamma Correction", isOn: $applyGammaCorrection)
 
-            CachingImportButton(url: $panoramaURL, identifier: "panorama", allowedContentTypes: [.image])
+            SuperImportWidget(url: $panoramaURL, identifier: "panorama", allowedContentTypes: [.image])
         }
         .onChange(of: panoramaURL, initial: true) {
             if let panoramaURL {
