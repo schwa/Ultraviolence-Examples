@@ -60,17 +60,6 @@ public struct ARKitDemoView: View {
 
                         try TextureBillboardPipeline(specifierA: .texture2D(textureY), specifierB: .texture2D(textureCbCr), textureCoordinatesArray: transformedTexCoords, colorTransformFunctionName: "colorTransformYCbCrToRGB")
 
-                        //                        try PBRShader {
-                        //                            Draw(mtkMesh: teapot)
-                        //                                .pbrUniforms(material: PBRMaterial.gold, modelTransform: .init(scale: [0.01, 0.01, 0.01]), cameraMatrix: cameraMatrix, projectionMatrix: projectionMatrix)
-                        //                                .pbrLighting(lights)
-                        //                                .pbrEnvironment(environmentTexture)
-                        //                                .parameter("frameUniforms", functionType: .vertex, value: context.frameUniforms)
-                        //                                .parameter("frameUniforms", functionType: .fragment, value: context.frameUniforms)
-                        //                        }
-                        //                        .vertexDescriptor(teapot.vertexDescriptor)
-                        //                        .depthCompare(function: .less, enabled: true)
-
                         try ARAnchorsRenderPipeline(viewProjectionMatrix: viewProjectionMatrix, anchors: currentFrame.anchors, showMeshes: showMeshes, showPlanes: showPlanes, limitAnchors: limitAnchors)
 
                         try AxisLinesRenderPipeline(mvpMatrix: viewProjectionMatrix, scale: 10_000.0)
@@ -138,8 +127,6 @@ class ARKitDemoViewModel: NSObject {
 
         session = .init()
         let configuration = ARWorldTrackingConfiguration()
-        //        configuration.environmentTexturing = .automatic
-        //        configuration.wantsHDREnvironmentTextures = true
         configuration.planeDetection = [.horizontal, .vertical]
         configuration.sceneReconstruction = .meshWithClassification
         self.configuration = configuration
@@ -246,14 +233,6 @@ extension ARKitDemoViewModel: ARSessionDelegate {
         // Anchors removed
     }
 }
-
-//
-// let coachingOverlay = ARCoachingOverlayView()
-// coachingOverlay.goal = .tracking
-// coachingOverlay.activityType = .play
-// coachingOverlay.feedback = .success
-//
-// view.addSubview(coachingOverlay)
 
 struct ARCoachingOverlayAdaptor: View {
     let session: ARSession

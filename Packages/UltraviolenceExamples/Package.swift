@@ -57,7 +57,6 @@ let package = Package(
             ],
             swiftSettings: [
                 .interoperabilityMode(.Cxx)
-//                .defaultIsolation(nil)
             ]
         ),
         .testTarget(
@@ -65,7 +64,6 @@ let package = Package(
             dependencies: ["UltraviolenceExamples"],
             swiftSettings: [
                 .interoperabilityMode(.Cxx)
-//                .defaultIsolation(nil)
             ]
         ),
         .target(

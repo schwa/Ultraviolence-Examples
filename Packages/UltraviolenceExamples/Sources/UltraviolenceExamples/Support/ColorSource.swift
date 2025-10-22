@@ -22,7 +22,7 @@ public enum ColorSource {
 public extension ColorSource {
     var texture2D: MTLTexture? {
         if case let .texture2D(texture, _) = self {
-            // TODO: #287 Assert value is correct.
+            // TODO: uv-eg-4 Assert value is correct.
             return texture
         }
         return nil
@@ -30,7 +30,7 @@ public extension ColorSource {
 
     var textureCube: MTLTexture? {
         if case let .textureCube(texture, _, _) = self {
-            // TODO: #287 Assert value is correct.
+            // TODO: uv-eg-4 Assert value is correct.
             return texture
         }
         return nil
@@ -38,7 +38,7 @@ public extension ColorSource {
 
     var depth2D: MTLTexture? {
         if case let .depth2D(texture, _) = self {
-            // TODO: #287 Assert value is correct.
+            // TODO: uv-eg-4 Assert value is correct.
             return texture
         }
         return nil
