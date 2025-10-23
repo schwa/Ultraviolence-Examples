@@ -3,9 +3,19 @@ import ImageIO
 import Metal
 import MetalKit
 import ModelIO
+internal import os
 import simd
 import SwiftUI
 import UniformTypeIdentifiers
+
+// MARK: - Logging
+
+internal let logger: Logger? = {
+    guard ProcessInfo.processInfo.environment["LOGGING"] != nil else {
+        return nil
+    }
+    return Logger(subsystem: "io.schwa.ultraviolence.examples", category: "default")
+}()
 
 #if canImport(AppKit)
 public extension URL {

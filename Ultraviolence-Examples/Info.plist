@@ -67,5 +67,11 @@
 			</dict>
 		</dict>
 	</array>
+	<key>NSBonjourServices</key>
+	<array>
+		<string>_ultraviolence._tcp</string>
+	</array>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>This app uses the local network to discover and connect to rendering services via Bonjour.</string>
 </dict>
 </plist>

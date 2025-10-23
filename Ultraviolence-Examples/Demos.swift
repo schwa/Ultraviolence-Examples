@@ -33,6 +33,7 @@ import UltraviolenceExamples
         GrassDemoView.self,
         GraphicsContext3DDemoView.self,
         EdgeLinesDemoView.self,
+        CaptureReceiverDemoView.self
     ]
 
     #if os(macOS)
@@ -43,7 +44,7 @@ import UltraviolenceExamples
 
     #if os(iOS)
     demos += [
-        ARKitDemoView.self
+        CaptureDemoView.self
     ]
     #endif
 
@@ -346,9 +347,9 @@ extension WireframeDemoView: @retroactive DemoView {
 }
 
 #if os(iOS)
-extension ARKitDemoView: @retroactive DemoView {
+extension CaptureDemoView: @retroactive DemoView {
     public static var metadata: DemoMetadata {
-        DemoMetadata(name: "ARKit Demo", description: "TODO", group: "WIP", keywords: [])
+        DemoMetadata(name: "Capture Demo", description: "ARKit camera capture with RoomPlan integration", group: "WIP", keywords: [])
     }
 }
 #endif
@@ -425,6 +426,17 @@ extension EdgeLinesDemoView: @retroactive DemoView {
             description: "Screen-space edge rendering with rounded endcaps using mesh shaders. Each mesh edge is rendered as a screen-aligned line with adaptive tessellation.",
             group: "Complex",
             keywords: ["mesh-shaders", "wireframe", "edges", "animated"]
+        )
+    }
+}
+
+extension CaptureReceiverDemoView: @retroactive DemoView {
+    public static var metadata: DemoMetadata {
+        DemoMetadata(
+            name: "Capture Receiver",
+            description: "Network receiver for AR capture data using Bonjour service discovery and structured concurrency",
+            group: "WIP",
+            keywords: ["network", "bonjour", "ar"]
         )
     }
 }
