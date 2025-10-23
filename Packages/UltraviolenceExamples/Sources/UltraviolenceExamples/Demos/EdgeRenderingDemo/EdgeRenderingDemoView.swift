@@ -10,114 +10,157 @@ import UltraviolenceExampleShaders
 import UltraviolenceSupport
 import UltraviolenceUI
 
-public struct EdgeRenderingDemoView: View {
-    // Helper struct for edge hashing - uses canonical ordering
-    struct Edge: Hashable {
-        let startIndex: UInt32
-        let endIndex: UInt32
-
-        init(_ a: UInt32, _ b: UInt32) {
-            // Canonical ordering: smaller index first
-            if a < b {
-                startIndex = a
-                endIndex = b
-            } else {
-                startIndex = b
-                endIndex = a
-            }
-        }
-    }
-
-    struct MeshWithEdges {
-        let mesh: MTKMesh
-        let uniqueEdges: [(startIndex: UInt32, endIndex: UInt32)]
-    }
-
-    private static func createMesh(type meshType: MeshType) -> MeshWithEdges {
+public struct EdgeLinesDemoView: View {
+    private static func createMesh(type meshType: MeshType) -> EdgeLinesRenderPass.MeshWithEdges {
         let device = _MTLCreateSystemDefaultDevice()
-        let allocator = MTKMeshBufferAllocator(device: device)
 
-        // Create our standard vertex descriptor: position (float3) + normal (float3) + texCoord (float2) = 32 bytes
-        let vertexDescriptor = MTLVertexDescriptor()
-        vertexDescriptor.attributes[0].format = .float3  // position
-        vertexDescriptor.attributes[0].offset = 0
-        vertexDescriptor.attributes[0].bufferIndex = 0
-        vertexDescriptor.attributes[1].format = .float3  // normal
-        vertexDescriptor.attributes[1].offset = 12
-        vertexDescriptor.attributes[1].bufferIndex = 0
-        vertexDescriptor.attributes[2].format = .float2  // texCoord
-        vertexDescriptor.attributes[2].offset = 24
-        vertexDescriptor.attributes[2].bufferIndex = 0
-        vertexDescriptor.layouts[0].stride = 32
-
-        let mdlVertexDescriptor = MTKModelIOVertexDescriptorFromMetal(vertexDescriptor)
-        guard let positionAttr = mdlVertexDescriptor.attributes[0] as? MDLVertexAttribute,
-            let normalAttr = mdlVertexDescriptor.attributes[1] as? MDLVertexAttribute,
-            let texCoordAttr = mdlVertexDescriptor.attributes[2] as? MDLVertexAttribute else {
-            fatalError("Failed to configure vertex descriptor attributes")
-        }
-        positionAttr.name = MDLVertexAttributePosition
-        normalAttr.name = MDLVertexAttributeNormal
-        texCoordAttr.name = MDLVertexAttributeTextureCoordinate
-
-        let mdlMesh: MDLMesh
+        // Create TrivialMesh based on mesh type
+        let trivialMesh: TrivialMesh
         switch meshType {
         case .plane:
-            mdlMesh = MDLMesh(planeWithExtent: [1, 1, 0], segments: [1, 1], geometryType: .triangles, allocator: allocator)
+            trivialMesh = TrivialMesh.quad()
         case .cube:
-            mdlMesh = MDLMesh(boxWithExtent: [1, 1, 1], segments: [1, 1, 1], inwardNormals: false, geometryType: .triangles, allocator: allocator)
+            trivialMesh = TrivialMesh.box()
         case .sphere:
-            mdlMesh = MDLMesh(sphereWithExtent: [1, 1, 1], segments: [20, 20], inwardNormals: false, geometryType: .triangles, allocator: allocator)
+            trivialMesh = TrivialMesh.sphere(latitudeSegments: 20, longitudeSegments: 20)
         case .teapot:
+            // For teapot, we still need to load from OBJ file using MDLAsset
+            // This is the only case that still requires ModelIO
+            let allocator = MTKMeshBufferAllocator(device: device)
+
+            let vertexDescriptor = MTLVertexDescriptor()
+            vertexDescriptor.attributes[0].format = .float3  // position
+            vertexDescriptor.attributes[0].offset = 0
+            vertexDescriptor.attributes[0].bufferIndex = 0
+            vertexDescriptor.attributes[1].format = .float3  // normal
+            vertexDescriptor.attributes[1].offset = 12
+            vertexDescriptor.attributes[1].bufferIndex = 0
+            vertexDescriptor.attributes[2].format = .float2  // texCoord
+            vertexDescriptor.attributes[2].offset = 24
+            vertexDescriptor.attributes[2].bufferIndex = 0
+            vertexDescriptor.layouts[0].stride = 32
+
+            let mdlVertexDescriptor = MTKModelIOVertexDescriptorFromMetal(vertexDescriptor)
+            guard let positionAttr = mdlVertexDescriptor.attributes[0] as? MDLVertexAttribute,
+                let normalAttr = mdlVertexDescriptor.attributes[1] as? MDLVertexAttribute,
+                let texCoordAttr = mdlVertexDescriptor.attributes[2] as? MDLVertexAttribute else {
+                fatalError("Failed to configure vertex descriptor attributes")
+            }
+            positionAttr.name = MDLVertexAttributePosition
+            normalAttr.name = MDLVertexAttributeNormal
+            texCoordAttr.name = MDLVertexAttributeTextureCoordinate
+
             guard let teapotURL = Bundle.module.url(forResource: "teapot", withExtension: "obj") else {
                 fatalError("Failed to find teapot.obj resource")
             }
             let asset = MDLAsset(url: teapotURL, vertexDescriptor: mdlVertexDescriptor, bufferAllocator: allocator)
-            guard let mesh = asset.object(at: 0) as? MDLMesh else {
+            guard let mdlMesh = asset.object(at: 0) as? MDLMesh else {
                 fatalError("Failed to load teapot mesh from asset")
             }
-            mdlMesh = mesh
-        }
 
-        mdlMesh.vertexDescriptor = mdlVertexDescriptor
+            mdlMesh.vertexDescriptor = mdlVertexDescriptor
 
-        // Convert all submeshes to use 32-bit indices
-        if let submeshes = mdlMesh.submeshes as? [MDLSubmesh] {
-            for (index, submesh) in submeshes.enumerated() where submesh.indexType != .uInt32 {
-                // Read existing indices
-                let indexCount = submesh.indexCount
-                let indexBuffer = submesh.indexBuffer
-                var indices32 = [UInt32]()
-                indices32.reserveCapacity(indexCount)
+            // Convert all submeshes to use 32-bit indices
+            if let submeshes = mdlMesh.submeshes as? [MDLSubmesh] {
+                for (index, submesh) in submeshes.enumerated() where submesh.indexType != .uInt32 {
+                    let indexCount = submesh.indexCount
+                    let indexBuffer = submesh.indexBuffer
+                    var indices32 = [UInt32]()
+                    indices32.reserveCapacity(indexCount)
 
-                if submesh.indexType == .uInt16 {
-                    let ptr = indexBuffer.map().bytes.assumingMemoryBound(to: UInt16.self)
-                    for i in 0..<indexCount {
-                        indices32.append(UInt32(ptr[i]))
+                    if submesh.indexType == .uInt16 {
+                        let ptr = indexBuffer.map().bytes.assumingMemoryBound(to: UInt16.self)
+                        for i in 0..<indexCount {
+                            indices32.append(UInt32(ptr[i]))
+                        }
+                    }
+
+                    let newIndexBuffer = allocator.newBuffer(with: Data(bytes: indices32, count: indexCount * MemoryLayout<UInt32>.stride), type: .index)
+                    let newSubmesh = MDLSubmesh(indexBuffer: newIndexBuffer, indexCount: indexCount, indexType: .uInt32, geometryType: submesh.geometryType, material: submesh.material)
+                    mdlMesh.submeshes?[index] = newSubmesh
+                }
+            }
+
+            guard let mtkMesh = try? MTKMesh(mesh: mdlMesh, device: device) else {
+                fatalError("Failed to create MTKMesh from MDLMesh")
+            }
+
+            // Extract unique edges using a hash set
+            var edgeSet = Set<EdgeLinesRenderPass.Edge>()
+            var uniqueEdges: [(startIndex: UInt32, endIndex: UInt32)] = []
+
+            for submesh in mtkMesh.submeshes {
+                let indexBuffer = submesh.indexBuffer.buffer
+                let offset = submesh.indexBuffer.offset
+                let ptr = indexBuffer.contents().advanced(by: offset).assumingMemoryBound(to: UInt32.self)
+
+                let triangleCount = submesh.indexCount / 3
+                for triangleIndex in 0..<triangleCount {
+                    let i0 = ptr[triangleIndex * 3 + 0]
+                    let i1 = ptr[triangleIndex * 3 + 1]
+                    let i2 = ptr[triangleIndex * 3 + 2]
+
+                    let edges = [
+                        EdgeLinesRenderPass.Edge(i0, i1),
+                        EdgeLinesRenderPass.Edge(i1, i2),
+                        EdgeLinesRenderPass.Edge(i2, i0)
+                    ]
+
+                    for edge in edges where edgeSet.insert(edge).inserted {
+                        uniqueEdges.append((edge.startIndex, edge.endIndex))
                     }
                 }
-
-                // Create new 32-bit index buffer
-                let newIndexBuffer = allocator.newBuffer(with: Data(bytes: indices32, count: indexCount * MemoryLayout<UInt32>.stride), type: .index)
-                let newSubmesh = MDLSubmesh(indexBuffer: newIndexBuffer, indexCount: indexCount, indexType: .uInt32, geometryType: submesh.geometryType, material: submesh.material)
-                mdlMesh.submeshes?[index] = newSubmesh
             }
+
+            // Convert MTKMesh to Mesh
+            let mesh = Mesh(
+                label: "Teapot",
+                submeshes: mtkMesh.submeshes.map { submesh in
+                    Mesh.Submesh(
+                        label: nil,
+                        primitiveType: submesh.primitiveType,
+                        indices: Mesh.Buffer(
+                            buffer: submesh.indexBuffer.buffer,
+                            count: submesh.indexCount,
+                            offset: submesh.indexBuffer.offset
+                        )
+                    )
+                },
+                vertexDescriptor: VertexDescriptor(
+                    attributes: [
+                        .init(semantic: .position, format: .float3, offset: 0, bufferIndex: 0),
+                        .init(semantic: .normal, format: .float3, offset: 12, bufferIndex: 0),
+                        .init(semantic: .texcoord, format: .float2, offset: 24, bufferIndex: 0)
+                    ],
+                    layouts: [
+                        .init(bufferIndex: 0, stride: 32, stepFunction: .perVertex, stepRate: 1)
+                    ]
+                ),
+                vertexBuffers: mtkMesh.vertexBuffers.map { buffer in
+                    Mesh.Buffer(
+                        buffer: buffer.buffer,
+                        count: buffer.length / 32,  // stride is 32 bytes
+                        offset: buffer.offset
+                    )
+                }
+            )
+
+            return EdgeLinesRenderPass.MeshWithEdges(mesh: mesh, uniqueEdges: uniqueEdges)
         }
 
-        guard let mtkMesh = try? MTKMesh(mesh: mdlMesh, device: device) else {
-            fatalError("Failed to create MTKMesh from MDLMesh")
-        }
+        // Convert TrivialMesh to Mesh
+        let mesh = Mesh(trivialMesh, device: device)
 
         // Extract unique edges using a hash set
-        var edgeSet = Set<Edge>()
+        var edgeSet = Set<EdgeLinesRenderPass.Edge>()
         var uniqueEdges: [(startIndex: UInt32, endIndex: UInt32)] = []
 
-        for submesh in mtkMesh.submeshes {
-            let indexBuffer = submesh.indexBuffer.buffer
-            let offset = submesh.indexBuffer.offset
+        for submesh in mesh.submeshes {
+            let indexBuffer = submesh.indices.buffer
+            let offset = submesh.indices.offset
             let ptr = indexBuffer.contents().advanced(by: offset).assumingMemoryBound(to: UInt32.self)
 
-            let triangleCount = submesh.indexCount / 3
+            let triangleCount = submesh.indices.count / 3
             for triangleIndex in 0..<triangleCount {
                 let i0 = ptr[triangleIndex * 3 + 0]
                 let i1 = ptr[triangleIndex * 3 + 1]
@@ -125,9 +168,9 @@ public struct EdgeRenderingDemoView: View {
 
                 // Three edges per triangle
                 let edges = [
-                    Edge(i0, i1),
-                    Edge(i1, i2),
-                    Edge(i2, i0)
+                    EdgeLinesRenderPass.Edge(i0, i1),
+                    EdgeLinesRenderPass.Edge(i1, i2),
+                    EdgeLinesRenderPass.Edge(i2, i0)
                 ]
 
                 for edge in edges where edgeSet.insert(edge).inserted {
@@ -136,7 +179,7 @@ public struct EdgeRenderingDemoView: View {
             }
         }
 
-        return MeshWithEdges(mesh: mtkMesh, uniqueEdges: uniqueEdges)
+        return EdgeLinesRenderPass.MeshWithEdges(mesh: mesh, uniqueEdges: uniqueEdges)
     }
 
     @State
@@ -170,7 +213,7 @@ public struct EdgeRenderingDemoView: View {
     private var debugMode: Bool = false
 
     @State
-    private var cachedMeshWithEdges: MeshWithEdges?
+    private var cachedMeshWithEdges: EdgeLinesRenderPass.MeshWithEdges?
 
     @State
     private var cachedMeshType: MeshType?
@@ -242,7 +285,7 @@ public struct EdgeRenderingDemoView: View {
 
     @ViewBuilder
     private func renderContent(animating: Bool) -> some View {
-        let meshWithEdges: MeshWithEdges = {
+        let meshWithEdges: EdgeLinesRenderPass.MeshWithEdges = {
             if cachedMeshType != meshType {
                 let newMesh = Self.createMesh(type: meshType)
                 DispatchQueue.main.async {
@@ -264,7 +307,7 @@ public struct EdgeRenderingDemoView: View {
             let colorVec = SIMD4<Float>(Float(resolved.red), Float(resolved.green), Float(resolved.blue), Float(resolved.opacity))
 
             try RenderPass {
-                try EdgeRenderingElement(
+                try EdgeLinesRenderPass(
                     meshWithEdges: meshWithEdges,
                     transforms: transforms,
                     lineWidth: lineWidth,
@@ -275,12 +318,33 @@ public struct EdgeRenderingDemoView: View {
                 )
             }
         }
-        .aspectRatio(1.0, contentMode: .fit)
         .metalDepthStencilPixelFormat(.depth32Float)
     }
 }
 
-struct EdgeRenderingElement: Element {
+struct EdgeLinesRenderPass: Element {
+    // Helper struct for edge hashing - uses canonical ordering
+    struct Edge: Hashable {
+        let startIndex: UInt32
+        let endIndex: UInt32
+
+        init(_ a: UInt32, _ b: UInt32) {
+            // Canonical ordering: smaller index first
+            if a < b {
+                startIndex = a
+                endIndex = b
+            } else {
+                startIndex = b
+                endIndex = a
+            }
+        }
+    }
+
+    struct MeshWithEdges {
+        let mesh: Mesh
+        let uniqueEdges: [(startIndex: UInt32, endIndex: UInt32)]
+    }
+
     @UVState
     var edgeDataBuffer: MTLBuffer?
 
@@ -293,7 +357,7 @@ struct EdgeRenderingElement: Element {
     @UVEnvironment(\.device)
     var device
 
-    var meshWithEdges: EdgeRenderingDemoView.MeshWithEdges
+    var meshWithEdges: MeshWithEdges
     var transforms: Transforms
     var lineWidth: Float
     var viewport: SIMD2<Float>
@@ -301,7 +365,7 @@ struct EdgeRenderingElement: Element {
     var edgeColor: SIMD4<Float>
     var debugMode: Bool
 
-    init(meshWithEdges: EdgeRenderingDemoView.MeshWithEdges, transforms: Transforms, lineWidth: Float, viewport: SIMD2<Float>, colorizeByTriangle: Bool, edgeColor: SIMD4<Float>, debugMode: Bool) throws {
+    init(meshWithEdges: MeshWithEdges, transforms: Transforms, lineWidth: Float, viewport: SIMD2<Float>, colorizeByTriangle: Bool, edgeColor: SIMD4<Float>, debugMode: Bool) throws {
         self.meshWithEdges = meshWithEdges
         self.transforms = transforms
         self.lineWidth = lineWidth

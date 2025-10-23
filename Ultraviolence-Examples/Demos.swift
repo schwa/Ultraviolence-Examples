@@ -418,7 +418,7 @@ extension GraphicsContext3DDemoView: @retroactive DemoView {
     }
 }
 
-extension EdgeRenderingDemoView: @retroactive DemoView {
+extension EdgeLinesDemoView: @retroactive DemoView {
     public static var metadata: DemoMetadata {
         DemoMetadata(
             name: "Edge Rendering",
