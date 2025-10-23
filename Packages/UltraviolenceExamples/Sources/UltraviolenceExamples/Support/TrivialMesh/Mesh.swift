@@ -58,7 +58,12 @@ extension Mesh.Buffer: Codable {
         // Recreate the buffer from the decoded data
         let device = _MTLCreateSystemDefaultDevice()
 
-        guard let recreatedBuffer = device.makeBuffer(bytes: (bufferData as NSData).bytes, length: bufferData.count, options: []) else {
+        guard let recreatedBuffer = bufferData.withUnsafeBytes({ bytes -> MTLBuffer? in
+            guard let baseAddress = bytes.baseAddress else {
+                return nil
+            }
+            return device.makeBuffer(bytes: baseAddress, length: bufferData.count, options: [])
+        }) else {
             throw DecodingError.dataCorrupted(
                 DecodingError.Context(
                     codingPath: decoder.codingPath,

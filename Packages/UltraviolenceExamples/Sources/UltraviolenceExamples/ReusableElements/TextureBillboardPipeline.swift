@@ -50,7 +50,7 @@ struct TextureBillboardPipeline: Element {
     init(specifierA: ColorSource, specifierB: ColorSource, positions: Quad = .clip, textureCoordinates: Quad = .unit, colorTransform: VisibleFunction? = nil) throws {
         let device = _MTLCreateSystemDefaultDevice()
         #if os(iOS)
-        assert(device.supportsFeatureSet(.iOS_GPUFamily4_v1)) // For argument buffers tier. TODO: Look this up.
+        assert(device.supportsFamily(.apple4)) // For argument buffers tier
         #endif
         assert(device.argumentBuffersSupport == .tier2)
         let shaderBundle = Bundle.ultraviolenceExampleShaders().orFatalError("Failed to load ultraviolence example shaders bundle")
@@ -109,7 +109,7 @@ extension TextureBillboardPipeline {
     init(specifierA: ColorSource, specifierB: ColorSource, positions: Quad = .clip, textureCoordinatesArray: [SIMD2<Float>], colorTransformFunctionName: String) throws {
         let device = _MTLCreateSystemDefaultDevice()
         #if os(iOS)
-        assert(device.supportsFeatureSet(.iOS_GPUFamily4_v1))
+        assert(device.supportsFamily(.apple4))
         #endif
         assert(device.argumentBuffersSupport == .tier2)
         let shaderBundle = Bundle.ultraviolenceExampleShaders().orFatalError("Failed to load ultraviolence example shaders bundle")
