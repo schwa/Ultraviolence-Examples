@@ -386,7 +386,7 @@ public struct ColorAdjustDemoView: View {
                         LabeledContent("Hue:") {
                             HStack {
                                 Slider(value: $hsvValues.x, in: -180...180)
-                                (Text(hsvValues.x, format: .number.precision(.fractionLength(0))) + Text("°"))
+                                Text("\(hsvValues.x, format: .number.precision(.fractionLength(0)))°")
                                     .frame(minWidth: 50)
                             }
                         }
