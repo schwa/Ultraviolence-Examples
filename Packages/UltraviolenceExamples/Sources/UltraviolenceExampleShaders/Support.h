@@ -63,3 +63,38 @@ inline float3x3 extractNormalMatrix(float4x4 modelMatrix) {
     return float3x3(modelMatrix[0].xyz, modelMatrix[1].xyz, modelMatrix[2].xyz);
 }
 #endif
+
+struct BufferDescriptor {
+    uint count;        // elements in the buffer
+    uint stride;       // bytes per element
+    uint valueOffset;  // byte offset of the value within each element
+};
+
+#if defined(__METAL_VERSION__)
+// Generic unaligned load: works for any T
+template <typename T>
+inline T load_at(device const uchar* base, constant BufferDescriptor& d, uint i) {
+    T out;
+    device const uchar* src = base + i * d.stride + d.valueOffset;
+    thread uchar* dst = reinterpret_cast<thread uchar*>(&out);
+    // tiny copy (no std::memcpy in MSL)
+    for (uint b = 0; b < sizeof(T); ++b) { dst[b] = src[b]; }
+    return out;
+}
+
+// Special-case float3 via packed_float3 to avoid alignment traps
+template <>
+inline float3 load_at<float3>(device const uchar* base, constant BufferDescriptor& d, uint i) {
+    packed_float3 p = load_at<packed_float3>(base, i, d);
+    return float3(p);
+}
+
+// Optional bounds-checked variant
+template <typename T>
+inline bool try_load(device const uchar* base, constant BufferDescriptor& d, uint i, thread T& out) {
+    if (i >= d.count) return false;
+    out = load_at<T>(base, i, d);
+    return true;
+}
+
+#endif

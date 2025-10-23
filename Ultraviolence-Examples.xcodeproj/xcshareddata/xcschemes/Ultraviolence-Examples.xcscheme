@@ -81,7 +81,7 @@
          <EnvironmentVariable
             key = "DEMOVIEW"
             value = "empty"
-            isEnabled = "NO">
+            isEnabled = "YES">
          </EnvironmentVariable>
       </EnvironmentVariables>
    </LaunchAction>
