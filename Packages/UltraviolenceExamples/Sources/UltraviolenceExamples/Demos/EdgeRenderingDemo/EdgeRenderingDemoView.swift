@@ -11,7 +11,7 @@ import UltraviolenceSupport
 import UltraviolenceUI
 
 public struct EdgeLinesDemoView: View {
-    private static func createMesh(type meshType: MeshType) -> EdgeLinesRenderPass.MeshWithEdges {
+    private static func createMesh(type meshType: MeshType) -> MeshWithEdges {
         let device = _MTLCreateSystemDefaultDevice()
 
         // Create TrivialMesh based on mesh type
@@ -86,7 +86,7 @@ public struct EdgeLinesDemoView: View {
             }
 
             // Extract unique edges using a hash set
-            var edgeSet = Set<EdgeLinesRenderPass.Edge>()
+            var edgeSet = Set<Edge>()
             var uniqueEdges: [(startIndex: UInt32, endIndex: UInt32)] = []
 
             for submesh in mtkMesh.submeshes {
@@ -101,9 +101,9 @@ public struct EdgeLinesDemoView: View {
                     let i2 = ptr[triangleIndex * 3 + 2]
 
                     let edges = [
-                        EdgeLinesRenderPass.Edge(i0, i1),
-                        EdgeLinesRenderPass.Edge(i1, i2),
-                        EdgeLinesRenderPass.Edge(i2, i0)
+                        Edge(i0, i1),
+                        Edge(i1, i2),
+                        Edge(i2, i0)
                     ]
 
                     for edge in edges where edgeSet.insert(edge).inserted {
@@ -145,14 +145,14 @@ public struct EdgeLinesDemoView: View {
                 }
             )
 
-            return EdgeLinesRenderPass.MeshWithEdges(mesh: mesh, uniqueEdges: uniqueEdges)
+            return MeshWithEdges(mesh: mesh, uniqueEdges: uniqueEdges)
         }
 
         // Convert TrivialMesh to Mesh
         let mesh = Mesh(trivialMesh, device: device)
 
         // Extract unique edges using a hash set
-        var edgeSet = Set<EdgeLinesRenderPass.Edge>()
+        var edgeSet = Set<Edge>()
         var uniqueEdges: [(startIndex: UInt32, endIndex: UInt32)] = []
 
         for submesh in mesh.submeshes {
@@ -168,9 +168,9 @@ public struct EdgeLinesDemoView: View {
 
                 // Three edges per triangle
                 let edges = [
-                    EdgeLinesRenderPass.Edge(i0, i1),
-                    EdgeLinesRenderPass.Edge(i1, i2),
-                    EdgeLinesRenderPass.Edge(i2, i0)
+                    Edge(i0, i1),
+                    Edge(i1, i2),
+                    Edge(i2, i0)
                 ]
 
                 for edge in edges where edgeSet.insert(edge).inserted {
@@ -179,7 +179,7 @@ public struct EdgeLinesDemoView: View {
             }
         }
 
-        return EdgeLinesRenderPass.MeshWithEdges(mesh: mesh, uniqueEdges: uniqueEdges)
+        return MeshWithEdges(mesh: mesh, uniqueEdges: uniqueEdges)
     }
 
     @State
@@ -213,7 +213,7 @@ public struct EdgeLinesDemoView: View {
     private var debugMode: Bool = false
 
     @State
-    private var cachedMeshWithEdges: EdgeLinesRenderPass.MeshWithEdges?
+    private var cachedMeshWithEdges: MeshWithEdges?
 
     @State
     private var cachedMeshType: MeshType?
@@ -285,7 +285,7 @@ public struct EdgeLinesDemoView: View {
 
     @ViewBuilder
     private func renderContent(animating: Bool) -> some View {
-        let meshWithEdges: EdgeLinesRenderPass.MeshWithEdges = {
+        let meshWithEdges: MeshWithEdges = {
             if cachedMeshType != meshType {
                 let newMesh = Self.createMesh(type: meshType)
                 DispatchQueue.main.async {
@@ -322,127 +322,3 @@ public struct EdgeLinesDemoView: View {
     }
 }
 
-struct EdgeLinesRenderPass: Element {
-    // Helper struct for edge hashing - uses canonical ordering
-    struct Edge: Hashable {
-        let startIndex: UInt32
-        let endIndex: UInt32
-
-        init(_ a: UInt32, _ b: UInt32) {
-            // Canonical ordering: smaller index first
-            if a < b {
-                startIndex = a
-                endIndex = b
-            } else {
-                startIndex = b
-                endIndex = a
-            }
-        }
-    }
-
-    struct MeshWithEdges {
-        let mesh: Mesh
-        let uniqueEdges: [(startIndex: UInt32, endIndex: UInt32)]
-    }
-
-    @UVState
-    var edgeDataBuffer: MTLBuffer?
-
-    @UVState
-    var meshShader: MeshShader
-
-    @UVState
-    var fragmentShader: FragmentShader
-
-    @UVEnvironment(\.device)
-    var device
-
-    var meshWithEdges: MeshWithEdges
-    var transforms: Transforms
-    var lineWidth: Float
-    var viewport: SIMD2<Float>
-    var colorizeByTriangle: Bool
-    var edgeColor: SIMD4<Float>
-    var debugMode: Bool
-
-    init(meshWithEdges: MeshWithEdges, transforms: Transforms, lineWidth: Float, viewport: SIMD2<Float>, colorizeByTriangle: Bool, edgeColor: SIMD4<Float>, debugMode: Bool) throws {
-        self.meshWithEdges = meshWithEdges
-        self.transforms = transforms
-        self.lineWidth = lineWidth
-        self.viewport = viewport
-        self.colorizeByTriangle = colorizeByTriangle
-        self.edgeColor = edgeColor
-        self.debugMode = debugMode
-
-        let library = try ShaderLibrary(bundle: .ultraviolenceExampleShaders(), namespace: "EdgeRendering")
-        meshShader = try library.function(named: "edgeRenderingMeshShader", type: MeshShader.self)
-        fragmentShader = try library.function(named: "edgeRenderingFragmentShader", type: FragmentShader.self)
-    }
-
-    var body: some Element {
-        get throws {
-            // Create edge data buffer with edge indices
-            struct EdgeData {
-                var startIndex: UInt32
-                var endIndex: UInt32
-            }
-
-            if let device {
-                let requiredLength = meshWithEdges.uniqueEdges.count * MemoryLayout<EdgeData>.stride
-                if edgeDataBuffer == nil || edgeDataBuffer?.length != requiredLength {
-                    edgeDataBuffer = device.makeBuffer(length: max(1, requiredLength), options: .storageModeShared)
-                    edgeDataBuffer?.label = "Edge Data Buffer"
-                }
-
-                if let buffer = edgeDataBuffer {
-                    let ptr = buffer.contents().assumingMemoryBound(to: EdgeData.self)
-                    for (i, edge) in meshWithEdges.uniqueEdges.enumerated() {
-                        ptr[i] = EdgeData(startIndex: edge.startIndex, endIndex: edge.endIndex)
-                    }
-                }
-            }
-
-            let uniforms = EdgeRenderingUniforms(
-                viewProjection: transforms.projectionMatrix * transforms.viewMatrix * transforms.modelMatrix,
-                viewport: viewport,
-                lineWidth: lineWidth,
-                colorizeByTriangle: colorizeByTriangle ? 1 : 0,
-                edgeColor: edgeColor
-            )
-
-            return try Ultraviolence.Group {
-                if let vertexBuffer = meshWithEdges.mesh.vertexBuffers.first,
-                    let edgeDataBuffer,
-                    !meshWithEdges.uniqueEdges.isEmpty {
-                    try MeshRenderPipeline(meshShader: meshShader, fragmentShader: fragmentShader) {
-                        Draw { encoder in
-                            encoder.label = "Edge Rendering"
-                            encoder.setCullMode(.none)
-                            if debugMode {
-                                encoder.setTriangleFillMode(.lines)
-                            }
-                            encoder.drawMeshThreadgroups(
-                                MTLSize(width: meshWithEdges.uniqueEdges.count, height: 1, depth: 1),
-                                threadsPerObjectThreadgroup: MTLSize(width: 1, height: 1, depth: 1),
-                                threadsPerMeshThreadgroup: MTLSize(width: 1, height: 1, depth: 1)
-                            )
-                        }
-                        .parameter("vertices", functionType: .mesh, buffer: vertexBuffer.buffer, offset: vertexBuffer.offset)
-                        .parameter("edgeData", functionType: .mesh, buffer: edgeDataBuffer, offset: 0)
-                        .parameter("uniforms", functionType: .mesh, value: uniforms)
-                    }
-                    .depthCompare(function: .less, enabled: true)
-                }
-            }
-        }
-    }
-}
-
-// Data structures matching the Metal shader
-struct EdgeRenderingUniforms {
-    var viewProjection: simd_float4x4
-    var viewport: SIMD2<Float>
-    var lineWidth: Float
-    var colorizeByTriangle: Int32
-    var edgeColor: SIMD4<Float>
-}

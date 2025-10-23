@@ -32,7 +32,7 @@ import UltraviolenceExamples
         VoxelDemoView.self,
         GrassDemoView.self,
         GraphicsContext3DDemoView.self,
-        EdgeRenderingDemoView.self
+        EdgeLinesDemoView.self,
     ]
 
     #if os(macOS)
