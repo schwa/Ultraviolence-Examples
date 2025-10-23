@@ -1,15 +1,10 @@
 #include <metal_stdlib>
 #include "EdgeRenderingShaders.h"
+#include "Support.h"
 
 using namespace metal;
 
 namespace EdgeRendering {
-
-    struct Vertex {
-        packed_float3 position;
-        packed_float3 normal;
-        float2 texCoord;
-    };
 
     struct VertexOut {
         float4 position [[position]];
@@ -51,16 +46,17 @@ namespace EdgeRendering {
     void edgeRenderingMeshShader(
         MeshType mesh_out,
         uint edgeID [[thread_position_in_grid]],
-        const device Vertex* vertices [[buffer(0)]],
+        const device uchar* vertices [[buffer(0)]],
         const device EdgeData* edgeData [[buffer(1)]],
-        const device EdgeRenderingUniforms& uniforms [[buffer(2)]]
+        constant BufferDescriptor& vertexDescriptor [[buffer(2)]],
+        const device EdgeRenderingUniforms& uniforms [[buffer(3)]]
     ) {
         EdgeData edge = edgeData[edgeID];
         uint startIdx = edge.startIndex;
         uint endIdx = edge.endIndex;
 
-        float3 startPoint = vertices[startIdx].position;
-        float3 endPoint = vertices[endIdx].position;
+        float3 startPoint = load_at<float3>(vertices, vertexDescriptor, startIdx);
+        float3 endPoint = load_at<float3>(vertices, vertexDescriptor, endIdx);
 
         // Determine edge color based on colorization mode
         float4 edgeColor;

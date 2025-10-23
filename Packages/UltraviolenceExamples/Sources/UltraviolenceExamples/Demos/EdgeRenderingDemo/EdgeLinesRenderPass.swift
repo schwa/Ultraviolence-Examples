@@ -38,32 +38,6 @@ struct EdgeLinesRenderPass: Element {
     var debugMode: Bool
 
     init(meshWithEdges: MeshWithEdges, transforms: Transforms, lineWidth: Float, viewport: SIMD2<Float>, colorizeByTriangle: Bool, edgeColor: SIMD4<Float>, debugMode: Bool) throws {
-        // Validate vertex descriptor compatibility
-        // The shader expects: struct Vertex { packed_float3 position; packed_float3 normal; float2 texCoord; }
-        // Total size: 12 + 12 + 8 = 32 bytes
-        // At minimum, we need a position attribute with format .float3 at offset 0 in buffer 0
-        let descriptor = meshWithEdges.mesh.vertexDescriptor
-        guard let positionAttr = descriptor.attributes.first(where: { $0.semantic == .position }) else {
-            fatalError("EdgeLinesRenderPass: Mesh vertex descriptor must have a position attribute")
-        }
-        guard positionAttr.format == .float3 else {
-            fatalError("EdgeLinesRenderPass: Position attribute must have format .float3, got \(positionAttr.format)")
-        }
-        guard positionAttr.offset == 0 else {
-            fatalError("EdgeLinesRenderPass: Position attribute must be at offset 0, got \(positionAttr.offset)")
-        }
-        guard positionAttr.bufferIndex == 0 else {
-            fatalError("EdgeLinesRenderPass: Position attribute must use buffer index 0, got \(positionAttr.bufferIndex)")
-        }
-
-        // Validate stride - shader expects 32 bytes (packed_float3 + packed_float3 + float2)
-        guard let layout = descriptor.layouts[0] else {
-            fatalError("EdgeLinesRenderPass: Mesh vertex descriptor must have a layout for buffer 0")
-        }
-        guard layout.stride == 32 else {
-            fatalError("EdgeLinesRenderPass: Vertex stride must be 32 bytes (packed_float3 position + packed_float3 normal + float2 texCoord), got \(layout.stride)")
-        }
-
         self.meshWithEdges = meshWithEdges
         self.transforms = transforms
         self.lineWidth = lineWidth
@@ -108,10 +82,32 @@ struct EdgeLinesRenderPass: Element {
                 edgeColor: edgeColor
             )
 
+            // Create BufferDescriptor for vertex buffer
+            let descriptor = meshWithEdges.mesh.vertexDescriptor
+            guard let positionAttr = descriptor.attributes.first(where: { $0.semantic == .position }) else {
+                fatalError("EdgeLinesRenderPass: Mesh vertex descriptor must have a position attribute")
+            }
+            guard let layout = descriptor.layouts[positionAttr.bufferIndex] else {
+                fatalError("EdgeLinesRenderPass: Mesh vertex descriptor must have a layout for buffer \(positionAttr.bufferIndex)")
+            }
+            guard let vertexBuffer = meshWithEdges.mesh.vertexBuffers.first else {
+                fatalError("EdgeLinesRenderPass: Mesh must have at least one vertex buffer")
+            }
+
+            // Calculate vertex count from buffer size / stride
+            let vertexCount = vertexBuffer.buffer.length / layout.stride
+
+            let bufferDescriptor = BufferDescriptor(
+                count: UInt32(vertexCount),
+                stride: UInt32(layout.stride),
+                valueOffset: UInt32(positionAttr.offset)
+            )
+
             return try Ultraviolence.Group {
                 if let vertexBuffer = meshWithEdges.mesh.vertexBuffers.first,
                     let edgeDataBuffer,
                     !meshWithEdges.uniqueEdges.isEmpty {
+
                     try MeshRenderPipeline(meshShader: meshShader, fragmentShader: fragmentShader) {
                         Draw { encoder in
                             encoder.label = "Edge Rendering"
@@ -127,6 +123,7 @@ struct EdgeLinesRenderPass: Element {
                         }
                         .parameter("vertices", functionType: .mesh, buffer: vertexBuffer.buffer, offset: vertexBuffer.offset)
                         .parameter("edgeData", functionType: .mesh, buffer: edgeDataBuffer, offset: 0)
+                        .parameter("vertexDescriptor", functionType: .mesh, value: bufferDescriptor)
                         .parameter("uniforms", functionType: .mesh, value: uniforms)
                     }
                     .depthCompare(function: .less, enabled: true)

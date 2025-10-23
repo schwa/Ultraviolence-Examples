@@ -85,7 +85,7 @@ inline T load_at(device const uchar* base, constant BufferDescriptor& d, uint i)
 // Special-case float3 via packed_float3 to avoid alignment traps
 template <>
 inline float3 load_at<float3>(device const uchar* base, constant BufferDescriptor& d, uint i) {
-    packed_float3 p = load_at<packed_float3>(base, i, d);
+    packed_float3 p = load_at<packed_float3>(base, d, i);
     return float3(p);
 }
 
@@ -93,7 +93,7 @@ inline float3 load_at<float3>(device const uchar* base, constant BufferDescripto
 template <typename T>
 inline bool try_load(device const uchar* base, constant BufferDescriptor& d, uint i, thread T& out) {
     if (i >= d.count) return false;
-    out = load_at<T>(base, i, d);
+    out = load_at<T>(base, d, i);
     return true;
 }
 
