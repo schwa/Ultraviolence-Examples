@@ -56,9 +56,11 @@ class SuperImportHelper {
 
         // Create bookmark immediately while we have access
         var bookmarkData: Data?
+        #if os(macOS)
         if shouldAddToRecents {
             bookmarkData = try? url.bookmarkData(options: [.withSecurityScope, .securityScopeAllowOnlyReadAccess])
         }
+        #endif
 
         let cachesDirectory = try ensureCachesDirectory()
         let identifierDirectory = cachesDirectory.appendingPathComponent(identifier)
@@ -84,6 +86,7 @@ class SuperImportHelper {
     }
 
     private func loadRecents() -> [URL] {
+        #if os(macOS)
         let key = "SuperImportHelper.recents.\(identifier)"
         guard let bookmarksData = UserDefaults.standard.array(forKey: key) as? [Data] else {
             return []
@@ -99,6 +102,9 @@ class SuperImportHelper {
             recentBookmarks[url] = bookmarkData
             return url
         }
+        #else
+        return []
+        #endif
     }
 
     private func saveRecents() {
