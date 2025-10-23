@@ -5,6 +5,7 @@
 #import "Boxes.h"
 #import "ColorSource.h"
 #import "DebugShaders.h"
+#import "EdgeRenderingShaders.h"
 #import "GraphicsContext3DShaders.h"
 #import "GrassShaders.h"
 #import "PBRShaders.h"
