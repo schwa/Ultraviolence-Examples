@@ -8,13 +8,13 @@ import Ultraviolence
 import UltraviolenceExampleShaders
 import UltraviolenceSupport
 
-//struct EdgeRenderingUniforms {
+// struct EdgeRenderingUniforms {
 //    var viewProjection: simd_float4x4
 //    var viewport: SIMD2<Float>
 //    var lineWidth: Float
 //    var colorizeByTriangle: Int32
 //    var edgeColor: SIMD4<Float>
-//}
+// }
 
 struct EdgeLinesRenderPass: Element {
     @UVState
@@ -105,9 +105,8 @@ struct EdgeLinesRenderPass: Element {
 
             return try Ultraviolence.Group {
                 if let vertexBuffer = meshWithEdges.mesh.vertexBuffers.first,
-                    let edgeDataBuffer,
-                    !meshWithEdges.uniqueEdges.isEmpty {
-
+                   let edgeDataBuffer,
+                   !meshWithEdges.uniqueEdges.isEmpty {
                     try MeshRenderPipeline(meshShader: meshShader, fragmentShader: fragmentShader) {
                         Draw { encoder in
                             encoder.label = "Edge Rendering"
