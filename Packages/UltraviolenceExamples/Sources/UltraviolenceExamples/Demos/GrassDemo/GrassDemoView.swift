@@ -188,7 +188,7 @@ public struct GrassDemoView: View {
 
     private func renderSphere(modelMatrix: float4x4, viewMatrix: float4x4, projectionMatrix: float4x4) throws -> some Element {
         try FlatShader(textureSpecifier: .color([0.15, 0.4, 0.2])) {
-            try Draw { encoder in
+            Draw { encoder in
                 encoder.setVertexBuffers(of: sphereMesh)
                 encoder.draw(mesh: sphereMesh)
             }
