@@ -78,12 +78,12 @@ public struct ParticleEffectsDemoView: View {
             .onAppear {
                 initializeParticles()
             }
-            .onChange(of: particleCount) { _, _ in
+            .onChange(of: particleCount) {
                 initializeParticles()
             }
-            .onChange(of: emitterType) { _, newType in
+            .onChange(of: emitterType) {
                 // Adjust gravity based on emitter type
-                switch newType {
+                switch emitterType {
                 case .magicPortal:
                     gravity = [0, -2, 0]  // Less gravity for portal
                 case .rain:

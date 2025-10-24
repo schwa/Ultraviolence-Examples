@@ -10,7 +10,7 @@ import SwiftUI
 // - GraphicsContext3DRenderPipeline: Renders all generated geometry as a single triangle list with depth testing
 // - StrokeStyle: Controls line width, cap style (.butt/.round/.square), join style (.miter/.round/.bevel), and miter limit
 
-public struct GraphicsContext3D: Equatable {
+struct GraphicsContext3D: Equatable {
     internal enum DrawCommand: Equatable {
         case stroke(path: Path3D, color: SIMD4<Float>, style: StrokeStyle)
         case fill(path: Path3D, color: SIMD4<Float>)
@@ -18,23 +18,23 @@ public struct GraphicsContext3D: Equatable {
 
     internal private(set) var commands: [DrawCommand] = []
 
-    public init() {
+    init() {
         // Empty initializer
     }
 
-    public init(_ builder: (inout Self) -> Void) {
+    init(_ builder: (inout Self) -> Void) {
         builder(&self)
     }
 
-    public mutating func stroke(_ path: Path3D, with color: Color, style: StrokeStyle) {
+    mutating func stroke(_ path: Path3D, with color: Color, style: StrokeStyle) {
         commands.append(.stroke(path: path, color: color.float4, style: style))
     }
 
-    public mutating func stroke(_ path: Path3D, with color: Color, lineWidth: Float) {
+    mutating func stroke(_ path: Path3D, with color: Color, lineWidth: Float) {
         commands.append(.stroke(path: path, color: color.float4, style: StrokeStyle(lineWidth: CGFloat(lineWidth))))
     }
 
-    public mutating func fill(_ path: Path3D, with color: Color) {
+    mutating func fill(_ path: Path3D, with color: Color) {
         commands.append(.fill(path: path, color: color.float4))
     }
 }

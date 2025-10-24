@@ -3,14 +3,14 @@ import Ultraviolence
 import UltraviolenceSupport
 
 /// Pipeline that blends thermal effect with video based on heat intensity
-public struct ThermalVideoBlendPipeline: Element {
+struct ThermalVideoBlendPipeline: Element {
     let thermalTexture: MTLTexture  // Colored thermal effect
     let videoTexture: MTLTexture?   // Video frame (optional)
     let heatTexture: MTLTexture     // Raw heat values
     let outputTexture: MTLTexture   // Final blended output
     let videoBlendAmount: Float
 
-    public init(
+    init(
         thermalTexture: MTLTexture,
         videoTexture: MTLTexture? = nil,
         heatTexture: MTLTexture,

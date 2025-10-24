@@ -30,11 +30,6 @@ extension Quad {
     static let clip = Quad(min: [-1, -1], max: [1, 1])
 }
 
-extension Quad {
-    var flippedY: Quad {
-        Quad(min: SIMD2<Float>(min.x, max.y), max: SIMD2<Float>(max.x, min.y))
-    }
-}
 
 struct TextureBillboardPipeline: Element {
     let vertexShader: VertexShader

@@ -12,9 +12,6 @@ struct SuperImportWell <Content>: View where Content: View {
     @State
     private var helper: SuperImportHelper
 
-    @State
-    private var isDropTargeted: Bool = false
-
     init(url: Binding<URL?>, identifier: String, allowedContentTypes: [UTType], content: @escaping (URL) -> Content) {
         self._url = url
         self.allowedContentTypes = allowedContentTypes

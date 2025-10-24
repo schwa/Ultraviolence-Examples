@@ -2,7 +2,7 @@ import Metal
 import Ultraviolence
 import UltraviolenceSupport
 
-public struct ColorAdjustComputePipeline <T>: Element {
+struct ColorAdjustComputePipeline<T>: Element {
     let inputSpecifier: ColorSource
     let inputParameters: T
     let outputTexture: MTLTexture

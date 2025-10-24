@@ -38,12 +38,6 @@ public extension MagicaVoxelModel {
         self = MagicaVoxelModel.instantiate(mainChunk: mainChunk)
     }
 
-    init(named name: String, bundle: Bundle = Bundle.main) throws {
-        guard let url = bundle.url(forResource: name, withExtension: "vox") else {
-            throw UndefinedError()
-        }
-        self = try .init(contentsOf: url)
-    }
 }
 
 public extension MagicaVoxelModel {
@@ -146,15 +140,6 @@ extension ChunkType: ExpressibleByStringLiteral {
 
 // MARK: -
 
-public extension VoxelChunk {
-    func dump(depth: Int = 0) {
-        let indent = String(repeatElement(" ", count: depth * 2))
-        print("\(indent)\(type)")
-        for child in children {
-            child.dump(depth: depth + 1)
-        }
-    }
-}
 
 // MARK: -
 

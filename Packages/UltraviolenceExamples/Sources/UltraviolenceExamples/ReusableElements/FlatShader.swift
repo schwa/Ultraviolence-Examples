@@ -7,7 +7,7 @@ import Ultraviolence
 import UltraviolenceExampleShaders
 import UltraviolenceSupport
 
-public struct FlatShader <Content>: Element where Content: Element {
+struct FlatShader <Content>: Element where Content: Element {
     var content: Content
 
     @UVState
@@ -19,7 +19,7 @@ public struct FlatShader <Content>: Element where Content: Element {
     var textureSpecifier: ColorSource
 
     // TODO: Remove texture specifier and use a parameter/element extension [FILE ME]
-    public init(textureSpecifier: ColorSource, @ElementBuilder content: () throws -> Content) throws {
+    init(textureSpecifier: ColorSource, @ElementBuilder content: () throws -> Content) throws {
         self.textureSpecifier = textureSpecifier
         self.content = try content()
         let shaderBundle = Bundle.ultraviolenceExampleShaders().orFatalError("Failed to load ultraviolence example shaders bundle")
@@ -28,7 +28,7 @@ public struct FlatShader <Content>: Element where Content: Element {
         self.fragmentShader = try shaderLibrary.fragment_main
     }
 
-    public var body: some Element {
+    var body: some Element {
         get throws {
             let textureSpecifierArgumentBuffer = textureSpecifier.toArgumentBuffer()
 

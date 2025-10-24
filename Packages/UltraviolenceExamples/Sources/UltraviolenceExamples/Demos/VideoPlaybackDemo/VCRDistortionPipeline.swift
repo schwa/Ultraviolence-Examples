@@ -6,42 +6,42 @@ import UltraviolenceUI
 
 // Parts based on: https://godotshaders.com/shader/vcr-analog-distortions/
 
-public struct VCRParameters {
+struct VCRParameters {
     // Image distortion
-    public var curvature: Float = 2.0
-    public var skip: Float = 0.3
-    public var imageFlicker: Float = 0.2
+    var curvature: Float = 2.0
+    var skip: Float = 0.3
+    var imageFlicker: Float = 0.2
 
     // Vignette
-    public var vignetteFlickerSpeed: Float = 0.5
-    public var vignetteStrength: Float = 0.8
+    var vignetteFlickerSpeed: Float = 0.5
+    var vignetteStrength: Float = 0.8
 
     // Scanlines
-    public var smallScanlinesSpeed: Float = 1.0
-    public var smallScanlinesProximity: Float = 0.5
-    public var smallScanlinesOpacity: Float = 0.3
-    public var scanlinesOpacity: Float = 0.4
-    public var scanlinesSpeed: Float = 0.8
-    public var scanlineThickness: Float = 0.5
-    public var scanlinesSpacing: Float = 1.0
+    var smallScanlinesSpeed: Float = 1.0
+    var smallScanlinesProximity: Float = 0.5
+    var smallScanlinesOpacity: Float = 0.3
+    var scanlinesOpacity: Float = 0.4
+    var scanlinesSpeed: Float = 0.8
+    var scanlineThickness: Float = 0.5
+    var scanlinesSpacing: Float = 1.0
 
     // Time-based effects
-    public var noiseAmount: Float = 0.5
-    public var chromaticAberration: Float = 0.7
+    var noiseAmount: Float = 0.5
+    var chromaticAberration: Float = 0.7
 
-    public init() {
+    init() {
         // This line intentionally left blank.
     }
 }
 
-public struct VCRDistortionPipeline: Element {
+struct VCRDistortionPipeline: Element {
     let inputTexture: MTLTexture
     let outputTexture: MTLTexture
     let noiseTexture: MTLTexture?
     var parameters: VCRParameters
     let frameUniforms: FrameUniforms
 
-    public init(inputTexture: MTLTexture, outputTexture: MTLTexture, noiseTexture: MTLTexture? = nil, parameters: VCRParameters = VCRParameters(), frameUniforms: FrameUniforms) throws {
+    init(inputTexture: MTLTexture, outputTexture: MTLTexture, noiseTexture: MTLTexture? = nil, parameters: VCRParameters = VCRParameters(), frameUniforms: FrameUniforms) throws {
         self.inputTexture = inputTexture
         self.outputTexture = outputTexture
         self.noiseTexture = noiseTexture ?? Self.createDefaultNoiseTexture(device: inputTexture.device)

@@ -6,7 +6,7 @@ import UltraviolenceExampleShaders
 import UltraviolenceSupport
 
 /// A Game of Life simulation element that runs entirely on the GPU
-public struct GameOfLife: Element {
+struct GameOfLife: Element {
     @UVEnvironment(\.device)
     var device
 
@@ -30,7 +30,7 @@ public struct GameOfLife: Element {
     @UVState
     private var lastPattern: InitialPattern = .clear
 
-    public enum InitialPattern: String, CaseIterable {
+    enum InitialPattern: String, CaseIterable {
         case glider = "Glider"
         case random = "Random"
         case clear = "Clear"
@@ -38,7 +38,7 @@ public struct GameOfLife: Element {
         case toad = "Toad"
     }
 
-    public init(
+    init(
         isRunning: Bool = true,
         pattern: InitialPattern = .random
     ) {

@@ -2,8 +2,8 @@ import Metal
 import simd
 import UltraviolenceSupport
 
-public enum GradientTextureGenerator {
-    public static func createThermalGradient(device: MTLDevice) throws -> MTLTexture {
+enum GradientTextureGenerator {
+    static func createThermalGradient(device: MTLDevice) throws -> MTLTexture {
         // Apple Event thermal palette colors
         let colors: [SIMD4<Float>] = [
             hexToRGBA("000000"), // Black
@@ -18,7 +18,7 @@ public enum GradientTextureGenerator {
         return try createGradientTexture(device: device, colors: colors, size: 256)
     }
 
-    public static func createGradientTexture(
+    static func createGradientTexture(
         device: MTLDevice,
         colors: [SIMD4<Float>],
         size: Int = 256

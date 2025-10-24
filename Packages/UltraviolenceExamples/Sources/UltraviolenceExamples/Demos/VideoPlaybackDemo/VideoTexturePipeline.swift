@@ -7,19 +7,16 @@ import UltraviolenceSupport
 
 /// Pipeline that renders video frames to a Metal texture
 @Observable
-public class VideoTexturePipeline: @unchecked Sendable {
-    private let device: MTLDevice
+class VideoTexturePipeline: @unchecked Sendable {
     private var player: AVPlayer?
     private var playerItem: AVPlayerItem?
     private var videoOutput: AVPlayerItemVideoOutput?
     private var updateTask: Task<Void, Never>?
 
-    public private(set) var currentTexture: MTLTexture?
+    private(set) var currentTexture: MTLTexture?
     private var textureCache: CVMetalTextureCache?
 
-    public init(device: MTLDevice) {
-        self.device = device
-
+    init(device: MTLDevice) {
         // Create texture cache for efficient video frame conversion
         var cache: CVMetalTextureCache?
         CVMetalTextureCacheCreate(nil, nil, device, nil, &cache)
@@ -27,7 +24,7 @@ public class VideoTexturePipeline: @unchecked Sendable {
     }
 
     @MainActor
-    public func loadVideo(url: URL, loopStart: TimeInterval = 2.95, loopEnd: TimeInterval = 11.95) throws {
+    func loadVideo(url: URL, loopStart: TimeInterval = 2.95, loopEnd: TimeInterval = 11.95) throws {
         // Create player item and player
         playerItem = AVPlayerItem(url: url)
         player = AVPlayer(playerItem: playerItem)
@@ -67,7 +64,7 @@ public class VideoTexturePipeline: @unchecked Sendable {
         }
     }
 
-    public func play() {
+    func play() {
         player?.play()
 
         // Set up async task for frame updates (60 fps)
@@ -78,7 +75,7 @@ public class VideoTexturePipeline: @unchecked Sendable {
         }
     }
 
-    public func pause() {
+    func pause() {
         player?.pause()
         updateTask?.cancel()
         updateTask = nil

@@ -4,7 +4,7 @@ import SwiftUI
 import Ultraviolence
 import UltraviolenceSupport
 
-public struct MixedExample: Element {
+struct MixedExample: Element {
     var transforms: Transforms
     var color: SIMD3<Float>
     var lightDirection: SIMD3<Float>
@@ -12,7 +12,7 @@ public struct MixedExample: Element {
     @UVEnvironment(\.renderPassDescriptor)
     var renderPassDescriptor
 
-    public init(transforms: Transforms, color: SIMD3<Float>, lightDirection: SIMD3<Float>) {
+    init(transforms: Transforms, color: SIMD3<Float>, lightDirection: SIMD3<Float>) {
         self.transforms = transforms
         self.color = color
         self.lightDirection = lightDirection

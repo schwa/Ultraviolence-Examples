@@ -16,7 +16,6 @@ public struct PBRDemoView: View {
     @State private var selectedMaterial = MaterialPreset.gold
     @State private var customMaterial = PBRMaterialNew()
     @State private var animateLights = true
-    @State private var showingInspector = true
     @State private var animationStartTime: Date?
     @State private var animationTime: Double = 0
     @State private var lighting: Lighting

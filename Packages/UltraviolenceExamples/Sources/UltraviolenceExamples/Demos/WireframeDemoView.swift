@@ -14,9 +14,6 @@ public struct WireframeDemoView: View {
     private var wireframeColor: SIMD4<Float> = [0, 1, 0, 1]
 
     @State
-    private var rotationAngle: Float = 0
-
-    @State
     private var projection: any ProjectionProtocol = PerspectiveProjection()
 
     @State

@@ -101,31 +101,6 @@ public struct ColorAdjustDemoView: View {
         )).orFatalError("Failed to load color adjust shader library")
     }
 
-    var currentParameter: Any {
-        switch selectedFunction {
-        case .multiply:
-            return multiplyValue
-        case .gamma:
-            return gammaValue
-        case .matrix:
-            return matrixValues
-        case .brightnessContrast:
-            return brightnessContrastValues
-        case .hsvAdjust:
-            return hsvValues
-        case .colorBalance:
-            return colorBalanceValues
-        case .levels:
-            return levelsValues
-        case .temperatureTint:
-            return temperatureTintValues
-        case .threshold:
-            return thresholdValues
-        case .vignette:
-            return vignetteValues
-        }
-    }
-
     public var body: some View {
         RenderView { _, _ in
             try ComputePass(label: "ColorAdjust") {

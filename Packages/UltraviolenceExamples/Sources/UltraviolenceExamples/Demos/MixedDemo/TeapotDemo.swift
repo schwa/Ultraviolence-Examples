@@ -11,14 +11,14 @@ import Ultraviolence
 import UltraviolenceSupport
 import UniformTypeIdentifiers
 
-public struct TeapotDemo: Element {
+struct TeapotDemo: Element {
     @UVState
     var mesh: MTKMesh
     var color: SIMD3<Float>
     var transforms: Transforms
     var lightDirection: SIMD3<Float>
 
-    public init(transforms: Transforms, color: SIMD3<Float>, lightDirection: SIMD3<Float>) throws {
+    init(transforms: Transforms, color: SIMD3<Float>, lightDirection: SIMD3<Float>) throws {
         mesh = MTKMesh.teapot()
         self.transforms = transforms
         self.color = color

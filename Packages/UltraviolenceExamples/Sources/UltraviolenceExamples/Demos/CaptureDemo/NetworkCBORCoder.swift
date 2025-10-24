@@ -4,43 +4,43 @@ import Network
 
 // MARK: - NetworkCBOREncoder
 
-public struct NetworkCBOREncoder: NetworkEncoder, Sendable {
-    public init() {
+struct NetworkCBOREncoder: NetworkEncoder, Sendable {
+    init() {
         // Default initializer
     }
 
-    public func encode<T>(_ value: T) throws -> Data where T: Encodable {
+    func encode<T>(_ value: T) throws -> Data where T: Encodable {
         try CBOREncoder().encode(value)
     }
 }
 
 // MARK: - NetworkCBORDecoder
 
-public struct NetworkCBORDecoder: NetworkDecoder, Sendable {
-    public init() {
+struct NetworkCBORDecoder: NetworkDecoder, Sendable {
+    init() {
         // Default initializer
     }
 
-    public func decode<T>(_ type: T.Type, from data: Data) throws -> T where T: Decodable {
+    func decode<T>(_ type: T.Type, from data: Data) throws -> T where T: Decodable {
         try CBORDecoder().decode(type, from: data)
     }
 }
 
 // MARK: - NetworkCBORCoder
 
-public struct NetworkCBORCoder: NetworkCoder, Sendable {
-    public typealias Encoder = NetworkCBOREncoder
-    public typealias Decoder = NetworkCBORDecoder
+struct NetworkCBORCoder: NetworkCoder, Sendable {
+    typealias Encoder = NetworkCBOREncoder
+    typealias Decoder = NetworkCBORDecoder
 
-    public init() {
+    init() {
         // Default initializer
     }
 
-    public func makeEncoder() -> NetworkCBOREncoder {
+    func makeEncoder() -> NetworkCBOREncoder {
         NetworkCBOREncoder()
     }
 
-    public func makeDecoder() -> NetworkCBORDecoder {
+    func makeDecoder() -> NetworkCBORDecoder {
         NetworkCBORDecoder()
     }
 }

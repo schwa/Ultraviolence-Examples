@@ -44,23 +44,7 @@ public extension ColorSource {
         return nil
     }
 
-    var sampler: MTLSamplerState? {
-        switch self {
-        case let .texture2D(_, sampler), let .textureCube(_, sampler, _), let .depth2D(_, sampler):
-            return sampler
-        default:
-            return nil
-        }
-    }
-
-    var slice: Int? {
-        if case let .textureCube(_, _, slice) = self {
-            return slice
-        }
-        return nil
-    }
-
-    var color: SIMD3<Float>? {
+    private var color: SIMD3<Float>? {
         if case let .color(color) = self {
             return color
         }

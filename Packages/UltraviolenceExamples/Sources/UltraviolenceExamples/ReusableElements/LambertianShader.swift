@@ -2,7 +2,7 @@ import CoreGraphics
 import simd
 import Ultraviolence
 
-public struct LambertianShader <Content>: Element where Content: Element {
+struct LambertianShader <Content>: Element where Content: Element {
     var transforms: Transforms
     var color: SIMD3<Float>
     var vertexShader: VertexShader
@@ -10,7 +10,7 @@ public struct LambertianShader <Content>: Element where Content: Element {
     var lightDirection: SIMD3<Float>
     var content: Content
 
-    public init(transforms: Transforms, color: SIMD3<Float>, lightDirection: SIMD3<Float>, @ElementBuilder content: () -> Content) throws {
+    init(transforms: Transforms, color: SIMD3<Float>, lightDirection: SIMD3<Float>, @ElementBuilder content: () -> Content) throws {
         self.transforms = transforms
         self.color = color
         self.lightDirection = lightDirection
@@ -20,7 +20,7 @@ public struct LambertianShader <Content>: Element where Content: Element {
         self.content = content()
     }
 
-    public var body: some Element {
+    var body: some Element {
         get throws {
             try RenderPipeline(vertexShader: vertexShader, fragmentShader: fragmentShader) {
                 content
@@ -35,7 +35,7 @@ public struct LambertianShader <Content>: Element where Content: Element {
     }
 }
 
-public struct LambertianShaderInstanced <Content>: Element where Content: Element {
+struct LambertianShaderInstanced <Content>: Element where Content: Element {
     var transforms: Transforms
     var colors: [SIMD3<Float>]
     var modelMatrices: [simd_float4x4]
@@ -44,7 +44,7 @@ public struct LambertianShaderInstanced <Content>: Element where Content: Elemen
     var lightDirection: SIMD3<Float>
     var content: Content
 
-    public init(transforms: Transforms, colors: [SIMD3<Float>], modelMatrices: [simd_float4x4], lightDirection: SIMD3<Float>, @ElementBuilder content: () -> Content) throws {
+    init(transforms: Transforms, colors: [SIMD3<Float>], modelMatrices: [simd_float4x4], lightDirection: SIMD3<Float>, @ElementBuilder content: () -> Content) throws {
         self.transforms = transforms
         self.colors = colors
         self.modelMatrices = modelMatrices
@@ -56,7 +56,7 @@ public struct LambertianShaderInstanced <Content>: Element where Content: Elemen
         self.content = content()
     }
 
-    public var body: some Element {
+    var body: some Element {
         get throws {
             try RenderPipeline(vertexShader: vertexShader, fragmentShader: fragmentShader) {
                 content

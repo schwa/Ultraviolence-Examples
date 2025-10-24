@@ -178,11 +178,6 @@ public struct AnchorData: Codable, Sendable {
         let vertices: [[Float]]
     }
 
-    public struct MeshBounds: Codable, Sendable, Hashable {
-        let center: [Float]
-        let extent: [Float]
-    }
-
     public struct MeshGeometry: Codable, Sendable, Hashable {
         let vertexData: Data
         let vertexCount: Int

@@ -150,9 +150,6 @@ public struct CaptureReceiverDemoView: View {
     private var latestCameraImage: CameraImageData?
 
     @State
-    private var cameraImageTexture: MTLTexture?
-
-    @State
     private var photoQuads: [(transform: float4x4, imageData: CameraImageData)] = []
 
     @State

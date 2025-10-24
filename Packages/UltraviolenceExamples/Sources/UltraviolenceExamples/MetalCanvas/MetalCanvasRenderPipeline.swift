@@ -4,7 +4,7 @@ import Ultraviolence
 import UltraviolenceExampleShaders
 import UltraviolenceSupport
 
-public struct MetalCanvasRenderPipeline: Element {
+struct MetalCanvasRenderPipeline: Element {
     let canvas: MetalCanvas
     let viewport: SIMD2<Float>
 
@@ -29,7 +29,7 @@ public struct MetalCanvasRenderPipeline: Element {
     @UVState
     var operationCount: Int = 0
 
-    public init(canvas: MetalCanvas, viewport: SIMD2<Float>, limits: MetalCanvasOperations.Limits = MetalCanvasOperations.Limits()) throws {
+    init(canvas: MetalCanvas, viewport: SIMD2<Float>, limits: MetalCanvasOperations.Limits = MetalCanvasOperations.Limits()) throws {
         self.canvas = canvas
         self.viewport = viewport
 

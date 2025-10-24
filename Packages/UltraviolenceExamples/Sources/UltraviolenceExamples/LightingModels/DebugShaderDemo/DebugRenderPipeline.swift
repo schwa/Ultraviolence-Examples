@@ -2,7 +2,7 @@ import Foundation
 import Ultraviolence
 import UltraviolenceExampleShaders
 
-public struct DebugRenderPipeline<Content>: Element where Content: Element {
+struct DebugRenderPipeline<Content>: Element where Content: Element {
     let modelMatrix: float4x4
     let normalMatrix: float3x3
     let debugMode: DebugShadersMode
@@ -18,7 +18,7 @@ public struct DebugRenderPipeline<Content>: Element where Content: Element {
     @UVState
     var fragmentShader: FragmentShader
 
-    public init(modelMatrix: float4x4, normalMatrix: float3x3, debugMode: DebugShadersMode, lightPosition: float3, cameraPosition: float3, viewProjectionMatrix: float4x4, @ElementBuilder content: () throws -> Content) throws {
+    init(modelMatrix: float4x4, normalMatrix: float3x3, debugMode: DebugShadersMode, lightPosition: float3, cameraPosition: float3, viewProjectionMatrix: float4x4, @ElementBuilder content: () throws -> Content) throws {
         self.modelMatrix = modelMatrix
         self.normalMatrix = normalMatrix
         self.debugMode = debugMode

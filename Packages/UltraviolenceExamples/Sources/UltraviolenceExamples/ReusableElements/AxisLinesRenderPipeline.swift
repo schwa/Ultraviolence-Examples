@@ -3,7 +3,7 @@ import simd
 import Ultraviolence
 import UltraviolenceExampleShaders
 
-public struct AxisLinesRenderPipeline: Element {
+struct AxisLinesRenderPipeline: Element {
     let vertexShader: VertexShader
     let fragmentShader: FragmentShader
     let mvpMatrix: float4x4
@@ -16,7 +16,7 @@ public struct AxisLinesRenderPipeline: Element {
     let yAxisColor: SIMD4<Float>
     let zAxisColor: SIMD4<Float>
 
-    public init(
+    init(
         mvpMatrix: float4x4,
         viewMatrix: float4x4,
         projectionMatrix: float4x4,

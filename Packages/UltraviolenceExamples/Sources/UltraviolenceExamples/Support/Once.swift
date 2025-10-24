@@ -1,8 +1,7 @@
 internal import os
 
-private let onceKeys = OSAllocatedUnfairLock(initialState: Set<String>())
-
 public func once(key: String, _ body: () -> Void) {
+    let onceKeys = OSAllocatedUnfairLock(initialState: Set<String>())
     let run = onceKeys.withLockUnchecked { keys in
         guard keys.contains(key) == false else {
             return false

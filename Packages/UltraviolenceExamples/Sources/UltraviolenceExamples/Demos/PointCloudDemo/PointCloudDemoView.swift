@@ -146,13 +146,18 @@ public struct PointCloudDemoView: View {
 
 // Point vertex structure matching Metal shader
 private struct PointVertex {
+    // periphery:ignore - used in Metal shader
     let position: SIMD3<Float>
+    // periphery:ignore - used in Metal shader
     let color: SIMD3<Float>
 }
 
 private struct Uniforms {
+    // periphery:ignore - used in Metal shader
     let viewMatrix: simd_float4x4
+    // periphery:ignore - used in Metal shader
     let projectionMatrix: simd_float4x4
+    // periphery:ignore - used in Metal shader
     let pointSize: Float
 }
 

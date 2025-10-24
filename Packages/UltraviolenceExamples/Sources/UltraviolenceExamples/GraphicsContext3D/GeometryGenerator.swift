@@ -4,7 +4,9 @@ import simd
 import UltraviolenceExampleShaders
 
 internal struct Vertex {
+    // periphery:ignore - used in Metal shader
     var position: SIMD3<Float>
+    // periphery:ignore - used in Metal shader
     var color: SIMD4<Float>
 }
 

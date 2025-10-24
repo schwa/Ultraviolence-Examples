@@ -44,12 +44,6 @@ struct Camera {
 }
 
 extension SceneGraph {
-    func visit(_ visitor: (Node) throws -> Void) rethrows {
-        try visit(worldTransform: .identity) { node, _ in
-            try visitor(node)
-        }
-    }
-
     func visit(worldTransform initialTransform: float4x4 = .identity, _ visitor: (Node, float4x4) throws -> Void) rethrows {
         func _visitor(_ node: Node, parentTransform: float4x4) throws {
             let worldTransform = parentTransform * node.transform
@@ -59,15 +53,5 @@ extension SceneGraph {
             }
         }
         try _visitor(root, parentTransform: initialTransform)
-    }
-
-    func filter(_ isIncluded: (Node) throws -> Bool) rethrows -> [Node] {
-        var result: [Node] = []
-        try visit { node in
-            if try isIncluded(node) {
-                result.append(node)
-            }
-        }
-        return result
     }
 }

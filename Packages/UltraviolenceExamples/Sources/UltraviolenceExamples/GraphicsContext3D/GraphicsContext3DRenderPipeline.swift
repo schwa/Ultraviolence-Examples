@@ -4,7 +4,7 @@ import Ultraviolence
 import UltraviolenceExampleShaders
 import UltraviolenceSupport
 
-public struct GraphicsContext3DRenderPipeline: Element {
+struct GraphicsContext3DRenderPipeline: Element {
     let context: GraphicsContext3D
     let viewProjection: float4x4
     let viewport: SIMD2<Float>
@@ -52,7 +52,7 @@ public struct GraphicsContext3DRenderPipeline: Element {
     @UVEnvironment(\.device)
     var device
 
-    public init(context: GraphicsContext3D, viewProjection: float4x4, viewport: SIMD2<Float>, debugWireframe: Bool = false) throws {
+    init(context: GraphicsContext3D, viewProjection: float4x4, viewport: SIMD2<Float>, debugWireframe: Bool = false) throws {
         self.context = context
         self.viewProjection = viewProjection
         self.viewport = viewport

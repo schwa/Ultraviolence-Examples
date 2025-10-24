@@ -3,14 +3,14 @@ import simd
 import Ultraviolence
 import UltraviolenceExampleShaders
 
-public struct AxisAlignedWireframeBoxesRenderPipeline: Element {
+struct AxisAlignedWireframeBoxesRenderPipeline: Element {
     let vertexShader: VertexShader
     let fragmentShader: FragmentShader
     let mvpMatrix: float4x4
     let boxes: [BoxInstance]
     let nudge: SIMD3<Float>
 
-    public init(mvpMatrix: float4x4, boxes: [BoxInstance], nudge: SIMD3<Float> = .zero) throws {
+    init(mvpMatrix: float4x4, boxes: [BoxInstance], nudge: SIMD3<Float> = .zero) throws {
         let library = try ShaderLibrary(bundle: .ultraviolenceExampleShaders(), namespace: "Boxes")
         vertexShader = try library.vertex_main
         fragmentShader = try library.fragment_main

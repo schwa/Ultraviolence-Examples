@@ -16,67 +16,67 @@ public extension TimingFunction {
 
 // https://easings.net/#
 
-public struct LinearTimingFunction: TimingFunction {
-    public init() {
+struct LinearTimingFunction: TimingFunction {
+    init() {
         // This line intentionally left blank.
     }
 
-    public func solve(_ x: Float) -> Float {
+    func solve(_ x: Float) -> Float {
         x
     }
 }
 
-public struct SinusoidalTimingFunction: TimingFunction {
-    public init() {
+struct SinusoidalTimingFunction: TimingFunction {
+    init() {
         // This line intentionally left blank.
     }
 
-    public func solve(_ x: Float) -> Float {
+    func solve(_ x: Float) -> Float {
         0.5 * (1 + sin(.pi * x - .pi / 2))
     }
 }
 
-public struct EaseInOutTimingFunction: TimingFunction {
-    public init() {
+struct EaseInOutTimingFunction: TimingFunction {
+    init() {
         // This line intentionally left blank.
     }
 
-    public func solve(_ x: Float) -> Float {
+    func solve(_ x: Float) -> Float {
         let r = CubicBezier(p1x: 0.65, p1y: 0, p2x: 0.35, p2y: 1).solve(for: Double(x)) ?? 0
         return Float(r)
     }
 }
 
-public struct EaseInOutTimingFunction2: TimingFunction {
-    public init() {
+struct EaseInOutTimingFunction2: TimingFunction {
+    init() {
         // This line intentionally left blank.
     }
 
-    public func solve(_ x: Float) -> Float {
+    func solve(_ x: Float) -> Float {
         x < 0.5 ? 4 * x * x * x : 1 - pow(-2 * x + 2, 3) / 2
     }
 }
 
-public struct ReversedTimingFunction<T>: TimingFunction where T: TimingFunction {
+struct ReversedTimingFunction<T>: TimingFunction where T: TimingFunction {
     let other: T
 
-    public init(_ other: T) {
+    init(_ other: T) {
         self.other = other
     }
 
-    public func solve(_ x: Float) -> Float {
+    func solve(_ x: Float) -> Float {
         other.solve(1 - x)
     }
 }
 
-public struct ForwardAndReverseTimingFunction<T>: TimingFunction where T: TimingFunction {
+struct ForwardAndReverseTimingFunction<T>: TimingFunction where T: TimingFunction {
     let other: T
 
-    public init(_ other: T) {
+    init(_ other: T) {
         self.other = other
     }
 
-    public func solve(_ x: Float) -> Float {
+    func solve(_ x: Float) -> Float {
         if x < 0.5 {
             return other.solve(2 * x)
         }

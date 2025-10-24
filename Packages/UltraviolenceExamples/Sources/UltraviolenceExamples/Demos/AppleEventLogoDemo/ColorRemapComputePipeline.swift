@@ -2,7 +2,7 @@ import Metal
 import Ultraviolence
 import UltraviolenceSupport
 
-public struct ColorRemapComputePipeline: Element {
+struct ColorRemapComputePipeline: Element {
     let inputTexture: MTLTexture
     let outputTexture: MTLTexture
     let gradientTexture: MTLTexture
@@ -10,7 +10,7 @@ public struct ColorRemapComputePipeline: Element {
     let videoTexture: MTLTexture
     let power: Float
 
-    public init(
+    init(
         inputTexture: MTLTexture,
         outputTexture: MTLTexture,
         gradientTexture: MTLTexture,

@@ -5,12 +5,12 @@ import simd
 import Ultraviolence
 import UniformTypeIdentifiers
 
-public struct RedTriangle: Element {
-    public init() {
+struct RedTriangle: Element {
+    init() {
         // This line intentionally left blank.
     }
 
-    public var body: some Element {
+    var body: some Element {
         get throws {
             let library = try ShaderLibrary(bundle: .ultraviolenceExampleShaders(), namespace: "RedTriangle")
             let vertexShader: VertexShader = try library.vertex_main

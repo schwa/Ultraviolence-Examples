@@ -2,7 +2,7 @@ import SwiftUI
 import UniformTypeIdentifiers
 import ZIPFoundation
 
-public struct DownloadButton: View {
+struct DownloadButton: View {
     let url: URL
     let destinationName: String
     let onCompletion: ((URL) -> Void)?
@@ -16,13 +16,13 @@ public struct DownloadButton: View {
     @State
     private var alreadyDownloaded = false
 
-    public init(url: URL, destinationName: String, onCompletion: ((URL) -> Void)? = nil) {
+    init(url: URL, destinationName: String, onCompletion: ((URL) -> Void)? = nil) {
         self.url = url
         self.destinationName = destinationName
         self.onCompletion = onCompletion
     }
 
-    public var body: some View {
+    var body: some View {
         Group {
             if alreadyDownloaded {
                 HStack {

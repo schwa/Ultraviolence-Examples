@@ -311,14 +311,6 @@ extension Array {
     }
 }
 
-extension SIMD where Scalar == Float {
-    func within(min: Self, max: Self) -> Bool {
-        for n in 0 ..< scalarCount where (min[n] ... max[n]).contains(self[n]) == false {
-            return false
-        }
-        return true
-    }
-}
 
 extension MTLTexture {
     func redChannel() -> MTLTexture {

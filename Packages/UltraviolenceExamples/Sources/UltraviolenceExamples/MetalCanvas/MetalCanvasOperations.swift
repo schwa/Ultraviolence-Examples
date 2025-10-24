@@ -2,13 +2,13 @@ import Metal
 import SwiftUI
 import UltraviolenceExampleShaders
 
-public struct MetalCanvasOperations {
-    public struct Limits {
-        public let maxDrawOperations: Int
-        public let maxSegments: Int
-        public let maxSegmentsPerOperation: Int
+struct MetalCanvasOperations {
+    struct Limits {
+        let maxDrawOperations: Int
+        let maxSegments: Int
+        let maxSegmentsPerOperation: Int
 
-        public init(maxDrawOperations: Int = 1_024, maxSegments: Int = 16 * 1_024, maxSegmentsPerOperation: Int = 1_024) {
+        init(maxDrawOperations: Int = 1_024, maxSegments: Int = 16 * 1_024, maxSegmentsPerOperation: Int = 1_024) {
             self.maxDrawOperations = maxDrawOperations
             self.maxSegments = maxSegments
             self.maxSegmentsPerOperation = maxSegmentsPerOperation
@@ -30,7 +30,7 @@ public struct MetalCanvasOperations {
     let segmentsBuffer: MTLBuffer
     let limits: Limits
 
-    public init(device: MTLDevice, limits: Limits = Limits()) throws {
+    init(device: MTLDevice, limits: Limits = Limits()) throws {
         self.limits = limits
 
         let drawOperationsBufferSize = limits.maxDrawOperations * MemoryLayout<MetalCanvasDrawOperation>.stride

@@ -63,10 +63,3 @@ struct LightingVisualizer: Element {
     }
 }
 
-struct LightingEditorView: View {
-    @State
-    private var lighting: Lighting
-
-    var body: some View {
-    }
-}

@@ -1,12 +1,12 @@
 import Metal
 import Ultraviolence
 
-public struct EdgeDetectionKernel: Element {
+struct EdgeDetectionKernel: Element {
     var kernel: ComputeKernel
     var depthTexture: MTLTexture
     var colorTexture: MTLTexture
 
-    public init(depthTexture: MTLTexture, colorTexture: MTLTexture) throws {
+    init(depthTexture: MTLTexture, colorTexture: MTLTexture) throws {
         kernel = try ShaderLibrary(bundle: .ultraviolenceExampleShaders()).EdgeDetectionKernel
         self.depthTexture = depthTexture
         self.colorTexture = colorTexture

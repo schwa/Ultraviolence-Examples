@@ -3,13 +3,13 @@ import Ultraviolence
 import UltraviolenceExampleShaders
 import UltraviolenceSupport
 
-public struct BlinnPhongShader<Content>: Element where Content: Element {
+struct BlinnPhongShader<Content>: Element where Content: Element {
     var vertexShader: VertexShader
     var fragmentShader: FragmentShader
 
     var content: Content
 
-    public init(@ElementBuilder content: () throws -> Content) throws {
+    init(@ElementBuilder content: () throws -> Content) throws {
         let device = _MTLCreateSystemDefaultDevice()
         assert(device.argumentBuffersSupport == .tier2)
         let shaderBundle = Bundle.ultraviolenceExampleShaders().orFatalError("Failed to load ultraviolence example shaders bundle")

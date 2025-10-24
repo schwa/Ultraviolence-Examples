@@ -39,12 +39,6 @@ public struct GrassDemoView: View {
     private var showSphere: Bool = true
 
     @State
-    private var showGrassLengthSlider: Bool = false
-
-    @State
-    private var showBladeWidthSlider: Bool = false
-
-    @State
     private var droopEnabled: Bool = false
 
     @State
@@ -261,19 +255,31 @@ public struct GrassDemoView: View {
 }
 
 struct GrassPointData {
+    // periphery:ignore - used in Metal shader
     var position: SIMD3<Float>
+    // periphery:ignore - used in Metal shader
     var normal: SIMD3<Float>
+    // periphery:ignore - used in Metal shader
     var tangent: SIMD3<Float>
+    // periphery:ignore - used in Metal shader
     var bitangent: SIMD3<Float>
+    // periphery:ignore - used in Metal shader
     var bladeLength: Float
+    // periphery:ignore - used in Metal shader
     var droopEnabled: Int32
+    // periphery:ignore - used in Metal shader
     var bladeWidthMultiplier: Float
+    // periphery:ignore - used in Metal shader
     var bladesPerPoint: Int32
 }
 
 struct GrassUniforms {
+    // periphery:ignore - used in Metal shader
     var modelViewProjection: float4x4
+    // periphery:ignore - used in Metal shader
     var modelMatrix: float4x4
+    // periphery:ignore - used in Metal shader
     var viewMatrix: float4x4
+    // periphery:ignore - used in Metal shader
     var projectionMatrix: float4x4
 }
