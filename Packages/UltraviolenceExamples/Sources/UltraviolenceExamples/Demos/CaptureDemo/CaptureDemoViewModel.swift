@@ -66,7 +66,9 @@ class CaptureDemoViewModel: NSObject {
     // MARK: - RoomPlan
 
     func startRoomCapture() {
-        guard !isRoomCaptureActive else { return }
+        guard !isRoomCaptureActive else {
+            return
+        }
 
         let captureSession = RoomCaptureSession(arSession: session)
         roomCaptureSession = captureSession
@@ -79,7 +81,9 @@ class CaptureDemoViewModel: NSObject {
     }
 
     func stopRoomCapture() {
-        guard isRoomCaptureActive else { return }
+        guard isRoomCaptureActive else {
+            return
+        }
 
         roomCaptureSession?.stop()
         isRoomCaptureActive = false
@@ -192,16 +196,20 @@ extension CaptureDemoViewModel: ARSessionDelegate {
             defer { CVPixelBufferUnlockBaseAddress(pixelBuffer, .readOnly) }
 
             // Copy Y plane data
-            let planeYBaseAddress = CVPixelBufferGetBaseAddressOfPlane(pixelBuffer, 0)
+            guard let planeYBaseAddress = CVPixelBufferGetBaseAddressOfPlane(pixelBuffer, 0) else {
+                return
+            }
             let planeYBytesPerRow = CVPixelBufferGetBytesPerRowOfPlane(pixelBuffer, 0)
             let planeYHeight = CVPixelBufferGetHeightOfPlane(pixelBuffer, 0)
-            let planeYData = Data(bytes: planeYBaseAddress!, count: planeYBytesPerRow * planeYHeight)
+            let planeYData = Data(bytes: planeYBaseAddress, count: planeYBytesPerRow * planeYHeight)
 
             // Copy CbCr plane data
-            let planeCbCrBaseAddress = CVPixelBufferGetBaseAddressOfPlane(pixelBuffer, 1)
+            guard let planeCbCrBaseAddress = CVPixelBufferGetBaseAddressOfPlane(pixelBuffer, 1) else {
+                return
+            }
             let planeCbCrBytesPerRow = CVPixelBufferGetBytesPerRowOfPlane(pixelBuffer, 1)
             let planeCbCrHeight = CVPixelBufferGetHeightOfPlane(pixelBuffer, 1)
-            let planeCbCrData = Data(bytes: planeCbCrBaseAddress!, count: planeCbCrBytesPerRow * planeCbCrHeight)
+            let planeCbCrData = Data(bytes: planeCbCrBaseAddress, count: planeCbCrBytesPerRow * planeCbCrHeight)
 
             let cameraImage = CameraImageData(
                 widthY: widthY,

@@ -40,7 +40,7 @@ public struct MetalCanvasRenderPipeline: Element {
         meshShader = try library.function(named: "metalCanvasMeshShader", type: MeshShader.self)
         fragmentShader = try library.function(named: "metalCanvasFragmentShader", type: FragmentShader.self)
 
-        operations = MetalCanvasOperations(device: device, limits: limits)
+        operations = try MetalCanvasOperations(device: device, limits: limits)
     }
 
     public var body: some Element {

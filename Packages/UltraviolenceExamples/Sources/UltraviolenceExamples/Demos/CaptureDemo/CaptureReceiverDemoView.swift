@@ -277,10 +277,14 @@ public struct CaptureReceiverDemoView: View {
                     if showCameraTrail {
                         VStack(alignment: .leading) {
                             Text("Trail Length: \(maxTrailLength)")
-                            Slider(value: Binding(
-                                get: { Double(maxTrailLength) },
-                                set: { maxTrailLength = Int($0) }
-                            ), in: 10...500, step: 10)
+                            Slider(
+                                value: Binding(
+                                    get: { Double(maxTrailLength) },
+                                    set: { maxTrailLength = Int($0) }
+                                ),
+                                in: 10...500,
+                                step: 10
+                            )
                         }
                         Button("Clear Trail") {
                             cameraTrail.removeAll()
@@ -490,9 +494,13 @@ public struct CaptureReceiverDemoView: View {
         ) { result in
             switch result {
             case .success(let urls):
-                guard let url = urls.first else { return }
+                guard let url = urls.first else {
+                    return
+                }
 
-                guard url.startAccessingSecurityScopedResource() else { return }
+                guard url.startAccessingSecurityScopedResource() else {
+                    return
+                }
 
                 defer {
                     url.stopAccessingSecurityScopedResource()
@@ -1139,8 +1147,11 @@ public struct CaptureReceiverDemoView: View {
         }
 
         imageData.planeYData.withUnsafeBytes { bytes in
+            guard let baseAddress = bytes.baseAddress else {
+                return
+            }
             let region = MTLRegionMake2D(0, 0, imageData.widthY, imageData.heightY)
-            textureY.replace(region: region, mipmapLevel: 0, withBytes: bytes.baseAddress!, bytesPerRow: imageData.widthY)
+            textureY.replace(region: region, mipmapLevel: 0, withBytes: baseAddress, bytesPerRow: imageData.widthY)
         }
 
         // Create CbCr plane texture
@@ -1157,8 +1168,11 @@ public struct CaptureReceiverDemoView: View {
         }
 
         imageData.planeCbCrData.withUnsafeBytes { bytes in
+            guard let baseAddress = bytes.baseAddress else {
+                return
+            }
             let region = MTLRegionMake2D(0, 0, imageData.widthCbCr, imageData.heightCbCr)
-            textureCbCr.replace(region: region, mipmapLevel: 0, withBytes: bytes.baseAddress!, bytesPerRow: imageData.widthCbCr * 2)
+            textureCbCr.replace(region: region, mipmapLevel: 0, withBytes: baseAddress, bytesPerRow: imageData.widthCbCr * 2)
         }
 
         textureY.label = "Photo Quad Y"

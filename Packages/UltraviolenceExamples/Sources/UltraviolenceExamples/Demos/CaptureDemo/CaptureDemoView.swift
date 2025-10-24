@@ -200,7 +200,9 @@ public struct CaptureDemoView: View {
     }
 
     private func connectClient() {
-        guard client == nil else { return }
+        guard client == nil else {
+            return
+        }
 
         Task {
             do {
@@ -229,7 +231,9 @@ public struct CaptureDemoView: View {
     }
 
     private func disconnectClient() {
-        guard client != nil else { return }
+        guard client != nil else {
+            return
+        }
 
         Task {
             await client?.disconnect()
@@ -260,6 +264,7 @@ private struct ARStatsView: View {
                         HStack(spacing: 4) {
                             Image(systemName: isClientConnected ? "network" : "network.slash")
                                 .foregroundStyle(isClientConnected ? .green : .red)
+                                .accessibilityLabel(isClientConnected ? "Network connected" : "Network disconnected")
                             Text(isClientConnected ? "Connected" : "Disconnected")
                                 .foregroundStyle(isClientConnected ? .green : .red)
                         }

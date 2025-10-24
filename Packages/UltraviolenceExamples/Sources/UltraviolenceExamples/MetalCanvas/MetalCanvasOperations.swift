@@ -21,22 +21,35 @@ public struct MetalCanvasOperations {
         case tooManySegmentsPerOperation(count: Int, limit: Int)
     }
 
+    enum BufferCreationError: Error {
+        case failedToCreateBuffer(String)
+    }
+
     let drawOperationsBuffer: MTLBuffer
     let segmentOffsetsBuffer: MTLBuffer
     let segmentsBuffer: MTLBuffer
     let limits: Limits
 
-    public init(device: MTLDevice, limits: Limits = Limits()) {
+    public init(device: MTLDevice, limits: Limits = Limits()) throws {
         self.limits = limits
 
         let drawOperationsBufferSize = limits.maxDrawOperations * MemoryLayout<MetalCanvasDrawOperation>.stride
-        drawOperationsBuffer = device.makeBuffer(length: drawOperationsBufferSize, options: .storageModeShared)!
+        guard let drawOpsBuffer = device.makeBuffer(length: drawOperationsBufferSize, options: .storageModeShared) else {
+            throw BufferCreationError.failedToCreateBuffer("draw operations buffer")
+        }
+        drawOperationsBuffer = drawOpsBuffer
 
         let segmentOffsetsBufferSize = limits.maxSegments * MemoryLayout<UInt32>.stride
-        segmentOffsetsBuffer = device.makeBuffer(length: segmentOffsetsBufferSize, options: .storageModeShared)!
+        guard let segOffsetsBuffer = device.makeBuffer(length: segmentOffsetsBufferSize, options: .storageModeShared) else {
+            throw BufferCreationError.failedToCreateBuffer("segment offsets buffer")
+        }
+        segmentOffsetsBuffer = segOffsetsBuffer
 
         let segmentsBufferSize = 16 * 1_024 * 1_024
-        segmentsBuffer = device.makeBuffer(length: segmentsBufferSize, options: .storageModeShared)!
+        guard let segsBuffer = device.makeBuffer(length: segmentsBufferSize, options: .storageModeShared) else {
+            throw BufferCreationError.failedToCreateBuffer("segments buffer")
+        }
+        segmentsBuffer = segsBuffer
 
         drawOperationsBuffer.label = "MetalCanvas Draw Operations Buffer"
         segmentOffsetsBuffer.label = "MetalCanvas Segment Offsets Buffer"
