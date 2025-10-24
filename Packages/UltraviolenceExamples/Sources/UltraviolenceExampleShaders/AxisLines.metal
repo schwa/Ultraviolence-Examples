@@ -37,6 +37,22 @@ namespace AxisLines {
             break;
         }
 
+        // Calculate view direction in world space
+        // The view matrix transforms from world to view space, so the camera forward is the inverse Z axis
+        float3 viewForward = normalize(float3(uniforms.viewMatrix[0][2], uniforms.viewMatrix[1][2], uniforms.viewMatrix[2][2]));
+
+        // Calculate how aligned the view direction is with the axis
+        // If looking directly along the axis, dot product will be close to 1
+        float alignment = abs(dot(viewForward, axisDir));
+
+        // Threshold for hiding the axis (when alignment > threshold, hide it)
+        float hideThreshold = 0.999; // ~2.6 degrees
+
+        // Make axis transparent if looking along it
+        if (alignment > hideThreshold) {
+            color.a = 0.0;
+        }
+
         // Origin in world space (with nudge)
         float3 origin = uniforms.nudge;
 
@@ -100,6 +116,9 @@ namespace AxisLines {
     }
 
     fragment float4 fragment_main(VertexOut in [[stage_in]]) {
+        if (in.color.a == 0.0) {
+            discard_fragment();
+        }
         return in.color;
     }
 
