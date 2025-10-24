@@ -316,7 +316,12 @@ public struct TrivialMeshDemoView: View {
                             .depthCompare(function: .less, enabled: true)
                         }
 
-                        try AxisLinesRenderPipeline(mvpMatrix: viewProjectionMatrix, scale: 10_000.0)
+                        try AxisLinesRenderPipeline(
+                            mvpMatrix: viewProjectionMatrix,
+                            viewMatrix: viewMatrix,
+                            projectionMatrix: projectionMatrix,
+                            viewportSize: SIMD2<Float>(Float(drawableSize.width), Float(drawableSize.height))
+                        )
                     }
                 }
                 .metalDepthStencilPixelFormat(.depth32Float)

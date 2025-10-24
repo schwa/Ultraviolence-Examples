@@ -49,7 +49,12 @@ public struct PBRDemoView: View {
                     let viewProjectionMatrix = projectionMatrix * viewMatrix
 
                     try RenderPass {
-                        try AxisLinesRenderPipeline(mvpMatrix: viewProjectionMatrix, scale: 10_000.0)
+                        try AxisLinesRenderPipeline(
+                            mvpMatrix: viewProjectionMatrix,
+                            viewMatrix: viewMatrix,
+                            projectionMatrix: projectionMatrix,
+                            viewportSize: SIMD2<Float>(Float(drawableSize.width), Float(drawableSize.height))
+                        )
                         try AxisAlignedWireframeBoxesRenderPipeline(mvpMatrix: viewProjectionMatrix, boxes: [.init(min: [-10, -10, -10], max: [10, 10, 10], color: [1, 1, 1, 1])])
                         LightingVisualizer(cameraMatrix: cameraMatrix, projectionMatrix: projectionMatrix, lighting: lighting)
                         try PBRShader {

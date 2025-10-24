@@ -62,7 +62,12 @@ public struct ARKitDemoView: View {
 
                         try ARAnchorsRenderPipeline(viewProjectionMatrix: viewProjectionMatrix, anchors: currentFrame.anchors, showMeshes: showMeshes, showPlanes: showPlanes, limitAnchors: limitAnchors)
 
-                        try AxisLinesRenderPipeline(mvpMatrix: viewProjectionMatrix, scale: 10_000.0)
+                        try AxisLinesRenderPipeline(
+                            mvpMatrix: viewProjectionMatrix,
+                            viewMatrix: viewMatrix,
+                            projectionMatrix: projectionMatrix,
+                            viewportSize: SIMD2<Float>(Float(drawableSize.width), Float(drawableSize.height))
+                        )
                     }
                 }
             }

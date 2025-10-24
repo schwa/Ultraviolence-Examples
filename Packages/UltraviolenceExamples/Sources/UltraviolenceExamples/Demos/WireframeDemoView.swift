@@ -38,7 +38,13 @@ public struct WireframeDemoView: View {
 
                 try RenderPass {
                     try GridShader(projectionMatrix: projectionMatrix, cameraMatrix: cameraMatrix)
-                    try AxisLinesRenderPipeline(mvpMatrix: projectionMatrix * viewMatrix, scale: 10_000.0)
+                    try AxisLinesRenderPipeline(
+                        mvpMatrix: projectionMatrix * viewMatrix,
+                        viewMatrix: viewMatrix,
+                        projectionMatrix: projectionMatrix,
+                        viewportSize: SIMD2<Float>(Float(drawableSize.width), Float(drawableSize.height)),
+                        lineWidth: 2.0
+                    )
                     try WireframeRenderPipeline(mvpMatrix: mvpMatrix, wireframeColor: wireframeColor, mesh: teapotMesh)
                 }
             }

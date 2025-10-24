@@ -9,41 +9,91 @@ namespace AxisLines {
         float4 color;
     };
 
+    // Generate infinite axis lines in screen space
+    // Each axis uses 6 vertices (2 triangles) to create a thick line quad
     vertex VertexOut vertex_main(uint vertexID [[vertex_id]], constant AxisLinesUniforms &uniforms [[buffer(0)]]) {
         VertexOut out;
 
-        float3 position;
+        // Determine which axis (0=X, 1=Y, 2=Z) and which vertex in the quad (0-5)
+        uint axisID = vertexID / 6;
+        uint quadVertexID = vertexID % 6;
+
+        // Define axis directions in world space
+        float3 axisDir;
         float4 color;
 
-        switch (vertexID) {
-        case 0: // X axis start
-            position = float3(-uniforms.scale, 0, 0);
-            color = float4(1, 0, 0, 1); // Red
+        switch (axisID) {
+        case 0: // X axis
+            axisDir = float3(1, 0, 0);
+            color = uniforms.xAxisColor;
             break;
-        case 1: // X axis end
-            position = float3(uniforms.scale, 0, 0);
-            color = float4(1, 0, 0, 1); // Red
+        case 1: // Y axis
+            axisDir = float3(0, 1, 0);
+            color = uniforms.yAxisColor;
             break;
-        case 2: // Y axis start
-            position = float3(0, -uniforms.scale, 0);
-            color = float4(0, 1, 0, 1); // Green
-            break;
-        case 3: // Y axis end
-            position = float3(0, uniforms.scale, 0);
-            color = float4(0, 1, 0, 1); // Green
-            break;
-        case 4: // Z axis start
-            position = float3(0, 0, -uniforms.scale);
-            color = float4(0, 0, 1, 1); // Blue
-            break;
-        case 5: // Z axis end
-            position = float3(0, 0, uniforms.scale);
-            color = float4(0, 0, 1, 1); // Blue
+        case 2: // Z axis
+            axisDir = float3(0, 0, 1);
+            color = uniforms.zAxisColor;
             break;
         }
 
-        out.position = uniforms.mvpMatrix * float4(position, 1.0);
-        out.position.xyz += uniforms.nudge;
+        // Origin in world space (with nudge)
+        float3 origin = uniforms.nudge;
+
+        // Transform origin to clip space
+        float4 originClip = uniforms.mvpMatrix * float4(origin, 1.0);
+
+        // Transform to clip space for direction
+        float4 axisDirClip = uniforms.mvpMatrix * float4(origin + axisDir, 1.0);
+
+        // Calculate screen-space direction
+        float2 originNDC = originClip.xy / originClip.w;
+        float2 axisDirNDC = axisDirClip.xy / axisDirClip.w;
+        float2 lineDir = normalize(axisDirNDC - originNDC);
+
+        // Perpendicular direction in screen space
+        float2 perpDir = float2(-lineDir.y, lineDir.x);
+
+        // Convert line width from pixels to NDC
+        float2 lineWidthNDC = (uniforms.lineWidth / uniforms.viewportSize) * 2.0;
+        float2 offset = perpDir * lineWidthNDC * 0.5;
+
+        // Extend line to screen edges (use large value for "infinite")
+        float extensionFactor = 1000.0;
+
+        // Generate quad vertices (2 triangles)
+        float2 positionNDC;
+        float alongAxis; // -1 to +1 along axis
+
+        switch (quadVertexID) {
+        case 0: // Bottom-left
+            positionNDC = originNDC - lineDir * extensionFactor - offset;
+            alongAxis = -1.0;
+            break;
+        case 1: // Bottom-right
+            positionNDC = originNDC - lineDir * extensionFactor + offset;
+            alongAxis = -1.0;
+            break;
+        case 2: // Top-right
+            positionNDC = originNDC + lineDir * extensionFactor + offset;
+            alongAxis = 1.0;
+            break;
+        case 3: // Top-left (for second triangle)
+            positionNDC = originNDC - lineDir * extensionFactor - offset;
+            alongAxis = -1.0;
+            break;
+        case 4: // Top-right (for second triangle)
+            positionNDC = originNDC + lineDir * extensionFactor + offset;
+            alongAxis = 1.0;
+            break;
+        case 5: // Top-left far
+            positionNDC = originNDC + lineDir * extensionFactor - offset;
+            alongAxis = 1.0;
+            break;
+        }
+
+        // Use origin's depth for all vertices
+        out.position = float4(positionNDC * originClip.w, originClip.z, originClip.w);
         out.color = color;
 
         return out;
