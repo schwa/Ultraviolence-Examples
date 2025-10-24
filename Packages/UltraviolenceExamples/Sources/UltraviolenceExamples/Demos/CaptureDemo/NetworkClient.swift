@@ -67,8 +67,7 @@ public actor NetworkClient {
         }
         let channel = AsyncChannel<NetworkMessage>()
         let task = Task {
-
-            let throttle = name == "frame" ? 1000.0 / 60.0 : 1000.0
+            let throttle = name == "frame" ? 1_000.0 / 60.0 : 1_000.0
 
             for await message in channel._throttle(for: .milliseconds(throttle), latest: true) {
                 do {

@@ -8,7 +8,7 @@ public struct MetalCanvasOperations {
         public let maxSegments: Int
         public let maxSegmentsPerOperation: Int
 
-        public init(maxDrawOperations: Int = 1024, maxSegments: Int = 16 * 1024, maxSegmentsPerOperation: Int = 1024) {
+        public init(maxDrawOperations: Int = 1_024, maxSegments: Int = 16 * 1_024, maxSegmentsPerOperation: Int = 1_024) {
             self.maxDrawOperations = maxDrawOperations
             self.maxSegments = maxSegments
             self.maxSegmentsPerOperation = maxSegmentsPerOperation
@@ -35,7 +35,7 @@ public struct MetalCanvasOperations {
         let segmentOffsetsBufferSize = limits.maxSegments * MemoryLayout<UInt32>.stride
         segmentOffsetsBuffer = device.makeBuffer(length: segmentOffsetsBufferSize, options: .storageModeShared)!
 
-        let segmentsBufferSize = 16 * 1024 * 1024
+        let segmentsBufferSize = 16 * 1_024 * 1_024
         segmentsBuffer = device.makeBuffer(length: segmentsBufferSize, options: .storageModeShared)!
 
         drawOperationsBuffer.label = "MetalCanvas Draw Operations Buffer"

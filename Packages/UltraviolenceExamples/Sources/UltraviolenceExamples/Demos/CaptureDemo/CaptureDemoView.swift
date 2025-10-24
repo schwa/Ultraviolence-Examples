@@ -71,7 +71,7 @@ public struct CaptureDemoView: View {
     }
 
     public var body: some View {
-        let _ = {
+        _ = {
             viewModel.sendFrameData = sendFrameData
             viewModel.sendAnchors = sendAnchors
             viewModel.sendRoomData = sendRoomData

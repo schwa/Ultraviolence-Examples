@@ -228,7 +228,7 @@ public struct CaptureReceiverDemoView: View {
                     }
 
                     // Render photo quads with textures
-                    if showPhotoQuads && renderPhotoTextures {
+                    if showPhotoQuads, renderPhotoTextures {
                         try renderPhotoQuadTextures(viewProjection: viewProjection)
                     }
                 }
@@ -293,7 +293,7 @@ public struct CaptureReceiverDemoView: View {
                         Toggle("Zoom Photo Quads (2x)", isOn: $zoomPhotoQuads)
                             .disabled(photoQuads.isEmpty)
                     }
-                    if showPhotoQuads && !photoQuads.isEmpty {
+                    if showPhotoQuads, !photoQuads.isEmpty {
                         Button("Clear Photos (\(photoQuads.count))") {
                             photoQuads.removeAll()
                             photoQuadTextures.removeAll()
@@ -683,7 +683,7 @@ public struct CaptureReceiverDemoView: View {
                                 } else {
                                     print("⚠️ No frameData available when camera image received")
                                 }
-                                // TODO: Create texture from YCbCr data
+                            // TODO: Create texture from YCbCr data
                             }
                         }
                     }
@@ -779,7 +779,7 @@ public struct CaptureReceiverDemoView: View {
     }
 
     private func calculateQuadTexCoords() -> [SIMD2<Float>] {
-        return [
+        [
             SIMD2<Float>(0, 1),
             SIMD2<Float>(1, 1),
             SIMD2<Float>(0, 0),
@@ -855,7 +855,7 @@ public struct CaptureReceiverDemoView: View {
     private func buildVisualization(frameData: FrameData, anchors: [String: AnchorData], roomData: RoomData?) -> GraphicsContext3D {
         GraphicsContext3D { context in
             // Draw camera trail with orientation markers
-            if showCameraTrail && cameraTrail.count > 1 {
+            if showCameraTrail, cameraTrail.count > 1 {
                 // Draw trail line connecting positions
                 let trailPath = Path3D { path in
                     let pos0 = SIMD3<Float>(cameraTrail[0].columns.3.x, cameraTrail[0].columns.3.y, cameraTrail[0].columns.3.z)

@@ -1,6 +1,6 @@
-import Ultraviolence
-import SwiftUI
 import Metal
+import SwiftUI
+import Ultraviolence
 import UltraviolenceExampleShaders
 import UltraviolenceSupport
 

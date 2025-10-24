@@ -1,5 +1,5 @@
-import SwiftUI
 import Metal
+import SwiftUI
 import UltraviolenceExampleShaders
 
 public struct MetalCanvas: Equatable {

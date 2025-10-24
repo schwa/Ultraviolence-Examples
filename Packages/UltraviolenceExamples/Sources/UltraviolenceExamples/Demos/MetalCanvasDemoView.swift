@@ -12,10 +12,10 @@ public struct MetalCanvasDemoView: View {
     }
 
     @State
-    var lineWidth: Float = 2.0
+    private var lineWidth: Float = 2.0
 
     @State
-    var selectedDemo: DemoType = .randomLines
+    private var selectedDemo: DemoType = .randomLines
 
     public init() {
         // This line intentionally left blank.
@@ -28,7 +28,7 @@ public struct MetalCanvasDemoView: View {
                 let viewport = SIMD2<Float>(Float(drawableSize.width), Float(drawableSize.height))
 
                 try RenderPass {
-                    try MetalCanvasRenderPipeline(canvas: canvas, viewport: viewport, limits: .init(maxDrawOperations: 16384))
+                    try MetalCanvasRenderPipeline(canvas: canvas, viewport: viewport, limits: .init(maxDrawOperations: 16_384))
                 }
             }
 
@@ -76,12 +76,12 @@ public struct MetalCanvasDemoView: View {
 
         case .randomLines:
             let canvas = MetalCanvas { context in
-                for i in 0..<8192 {
+                for i in 0..<8_192 {
                     var path = Path()
-                    let x1 = CGFloat.random(in: 50...2000)
-                    let y1 = CGFloat.random(in: 50...2000)
-                    let x2 = CGFloat.random(in: 50...2000)
-                    let y2 = CGFloat.random(in: 50...2000)
+                    let x1 = CGFloat.random(in: 50...2_000)
+                    let y1 = CGFloat.random(in: 50...2_000)
+                    let x2 = CGFloat.random(in: 50...2_000)
+                    let y2 = CGFloat.random(in: 50...2_000)
                     path.move(to: CGPoint(x: x1, y: y1))
                     path.addLine(to: CGPoint(x: x2, y: y2))
                     // Use fixed white color to make them visible
@@ -92,5 +92,4 @@ public struct MetalCanvasDemoView: View {
             return canvas
         }
     }
-
 }

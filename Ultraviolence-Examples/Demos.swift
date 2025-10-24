@@ -34,7 +34,7 @@ import UltraviolenceExamples
         GraphicsContext3DDemoView.self,
         EdgeLinesDemoView.self,
         CaptureReceiverDemoView.self,
-        MetalCanvasDemoView.self,
+        MetalCanvasDemoView.self
     ]
 
     #if os(macOS)
