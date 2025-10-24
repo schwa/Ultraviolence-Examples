@@ -24,7 +24,8 @@ let package = Package(
         .package(url: "https://github.com/schwa/SwiftGLTF", branch: "main"),
         .package(url: "https://github.com/schwa/Panels", branch: "main"),
         .package(url: "https://github.com/weichsel/ZIPFoundation", from: "0.9.0"),
-        .package(url: "https://github.com/schwa/earcut-swift", branch: "main")
+        .package(url: "https://github.com/schwa/earcut-swift", branch: "main"),
+        .package(url: "https://github.com/SomeRandomiOSDev/CBORCoding", from: "1.0.0")
     ],
     targets: [
         .target(
@@ -43,6 +44,7 @@ let package = Package(
                 .product(name: "ZIPFoundation", package: "ZIPFoundation"),
                 .product(name: "Everything", package: "Everything"),
                 .product(name: "earcut", package: "earcut-swift"),
+                .product(name: "CBORCoding", package: "CBORCoding"),
             ],
             resources: [
                 .copy("Resources/AppleEventVideo.mp4"),

@@ -1,4 +1,5 @@
 import AsyncAlgorithms
+import CBORCoding
 import Foundation
 import Network
 import simd
@@ -13,20 +14,16 @@ public struct NetworkMessage: Codable, Sendable {
     }
 
     let channel: String?
-    let payloadData: Data
+    let payload: Payload
 
     public init(channel: String, payload: Payload) {
         self.channel = channel
-        self.payloadData = try! JSONEncoder().encode(payload)
-    }
-
-    var payload: Payload {
-        try! JSONDecoder().decode(Payload.self, from: payloadData)
+        self.payload = payload
     }
 }
 
 public actor NetworkClient {
-    private var connection: NetworkConnection<Coder<NetworkMessage, NetworkMessage, NetworkJSONCoder>>?
+    private var connection: NetworkConnection<Coder<NetworkMessage, NetworkMessage, NetworkCBORCoder>>?
     private var isConnected = false
     private var channels: [String?: (AsyncChannel<NetworkMessage>, Task<Void, Never>)] = [:]
 
@@ -48,7 +45,7 @@ public actor NetworkClient {
             }
 
             self.connection = NetworkConnection(to: endpoint) {
-                Coder(NetworkMessage.self, using: .json) {
+                Coder(NetworkMessage.self, using: NetworkCBORCoder()) {
                     TCP()
                 }
             }

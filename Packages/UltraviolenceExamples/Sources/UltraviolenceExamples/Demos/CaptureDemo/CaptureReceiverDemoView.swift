@@ -1,3 +1,4 @@
+import CBORCoding
 import Combine
 import CoreTransferable
 import GeometryLite3D
@@ -584,7 +585,7 @@ public struct CaptureReceiverDemoView: View {
 
         do {
             try await NetworkListener(for: .bonjour(name: serviceName, type: serviceType)) {
-                Coder(NetworkMessage.self, using: .json) {
+                Coder(NetworkMessage.self, using: NetworkCBORCoder()) {
                     TCP()
                 }
             }
@@ -608,7 +609,7 @@ public struct CaptureReceiverDemoView: View {
                         await MainActor.run {
                             messagesReceived += 1
                             messagesInWindow += 1
-                            let messageBytes = (try? JSONEncoder().encode(message))?.count ?? 0
+                            let messageBytes = (try? CBOREncoder().encode(message))?.count ?? 0
                             bytesReceived += messageBytes
                             totalBytesReceived += messageBytes
                             let now = Date()
